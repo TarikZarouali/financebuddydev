@@ -1,0 +1,85 @@
+<mxfile host="Electron" modified="2024-01-29T11:39:38.996Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="YDtc_Cur6-8ho7ugHeXK" version="23.0.2" type="device">
+  <diagram name="Page-1" id="hMTirONWyd7_EQb-LZ46">
+    <mxGraphModel dx="1674" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-1" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="130" y="190" width="310" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-2" value="Homepage&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="120" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-3" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="320" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-4" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="400" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-5" value="Welcome to your personal finance app!" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="170" y="200" width="250" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-6" value="account 1" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="320" width="70" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-7" value="$200" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="355" width="30" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-8" value="account 2" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="225" y="400" width="70" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-9" value="$200" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="440" width="30" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-10" value="+create a new account" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="305" y="270" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-11" value="create page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="585" y="130" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-12" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="490" y="195" width="310" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-13" value="create form" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="210" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-14" value="account name" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="300" width="120" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-19" value="type your account name here...." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="323" width="180" height="17" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-20" value="balance" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="350" width="120" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-21" value="type your current balance here..." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="380" width="180" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-22" value="accountType" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="420" width="120" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-23" value="choose the type of you account..." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="450" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-27" value="" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="130" y="570" width="310" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-28" value="account page" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="505" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-29" value="your account name" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="165" y="590" width="240" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-30" value="your balance here" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="640" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-32" value="income and expenses history here" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="720" width="270" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="ZIhWbJKDO1HvU_4yhjmU-33" value="+add transaction" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="305" y="640" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
