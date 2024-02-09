@@ -36,6 +36,8 @@ class Core
                 // unset($url[1]);
             }
         }
+        
+        
         // Check if the current controller is not an instance of Landingpage
         if (!($this->currentController instanceof landingpage) && $this->currentMethod !== 'login' && $this->currentMethod !== 'register') {
             session_start();
@@ -58,7 +60,7 @@ class Core
 
         // 20230224 - forgive me, but PHP + apache mod_rewrite is just no fun...
         // especially on a Friday! 
-        $incoming = str_replace("/dev/", "", $incoming);
+        $incoming = str_replace("/financebuddydev/", "", $incoming);
         if (isset($incoming)) {
             //remove the backslash from the front of the url
             $incoming = trim($incoming, "/");

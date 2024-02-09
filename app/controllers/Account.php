@@ -12,20 +12,19 @@ class Account extends Controller
         $this->accountModel = $this->model('accountModel');
     }
 
-   public function overview($accountId)
-   {
-   
+    public function overview($accountId)
+    {
+
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-            
+
             $getAccountById = $this->accountModel->getAccountById($accountId);
             $data = [
                 'account' => $getAccountById,
             ];
         }
         $this->view('account/overview', $data);
-    
-   }
+    }
     public function update($accountId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -40,11 +39,11 @@ class Account extends Controller
 
                 // Check the success key in the result
                 if ($result) {
-                   
+
                     header('Location:' . URLROOT . 'account/update/' . $accountId);
                 } else {
                     header('Location:' . URLROOT . 'account/update/' . $accountId);
-                    }
+                }
             } else {
                 // Handle the case where $post is not an array
                 // You may want to log an error or display an error message
@@ -79,11 +78,22 @@ class Account extends Controller
     {
         $screenId = helper::generateRandomString(15);
         $imageUploaderResult = $this->imageUploader($screenId);
-        if ($imageUploaderResult['status'] === 200 && strpos($imageUploaderResult['message'], 'Image uploaded Successfully') !== false) {
-            header('Location:' . URLROOT . 'account/update/' . $accountId);
+        if ($imageUploaderResult['status'] === 200 && strpos($imageUploaderResult['message'], 'Image uploaded successfully') !== false) {
+            $this->screenModel->insertScreenImages($screenId, $accountId);
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
         } else {
             Helper::log('error', $imageUploaderResult);
-            header('Location:' . URLROOT . 'account/update/' . $accountId);
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
+        }
+    }
+
+    public function deleteImage($accountId)
+    {
+        // Call the deleteScreen method from the model
+        if ($this->screenModel->deleteScreen($accountId)) {
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
+        } else {
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
         }
     }
 
@@ -93,6 +103,7 @@ class Account extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Handle the form submission
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
 
             $userId = isset($_SESSION['user']->userId) ? $_SESSION['user']->userId : null;
 
@@ -108,7 +119,7 @@ class Account extends Controller
         session_write_close();
     }
 
- 
+
 
     public function delete($accountId)
     {
@@ -121,9 +132,4 @@ class Account extends Controller
             helper::log('error', 'Could not delete account on user');
         }
     }
-
-   
-
-
-    
 }

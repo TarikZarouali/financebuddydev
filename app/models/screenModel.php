@@ -126,7 +126,7 @@ class ScreenModel
         }
     }
 
-    public function insertScreenImages($screenId, $entityId, $entity, $scope = NULL)
+    public function insertScreenImages($screenId, $entityId)
     {
         global $var;
         // Check if a screen with the given entityId already exists
@@ -138,15 +138,11 @@ class ScreenModel
         // Insert the new screen
         $this->db->query("INSERT INTO screens (screenId,
                                                screenEntityId,
-                                               screenEntity,
-                                               screenScope,
                                                screenCreateDate,
                                                screenIsActive)
-                           VALUES (:screenId, :screenEntityId, :screenEntity, :screenScope, :screenCreateDate, 1)");
+                           VALUES (:screenId, :screenEntityId, :screenCreateDate, 1)");
         $this->db->bind(':screenId', $screenId);
         $this->db->bind(':screenEntityId', $entityId);
-        $this->db->bind(':screenEntity', $entity);
-        $this->db->bind(':screenScope', $scope);
         $this->db->bind(':screenCreateDate', $var['timestamp']);
         $this->db->execute();
     }
