@@ -36,11 +36,12 @@ class Core
                 // unset($url[1]);
             }
         }
-        if ($this->currentMethod !== 'login' && $this->currentMethod !== 'register' && $this->currentMethod !== 'landingpage') {
+        // Check if the current controller is not an instance of Landingpage
+        if (!($this->currentController instanceof landingpage) && $this->currentMethod !== 'login' && $this->currentMethod !== 'register') {
             session_start();
             if (!isset($_SESSION['user'])) {
                 header('Location: ' . URLROOT . 'user/login');
-
+                exit; // It's good practice to exit after a redirect to prevent further code execution
             }
             session_write_close();
         }
