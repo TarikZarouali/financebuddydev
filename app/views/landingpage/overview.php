@@ -63,7 +63,7 @@
       <div class="grid gap-lg items-center@md">
         <div class="col-6@md">
           <div class="text-component margin-bottom-sm">
-            <h1>Manage your finances with financebuddy!</h1>
+            <h1>Manage your finances with Finance Buddy!</h1>
             <p class="opacity-60% line-height-lg">The buddy we all need.</p>
           </div>
           <ul class="flex flex-wrap gap-md items-center opacity-30%">
@@ -171,7 +171,7 @@
 
   <section id="product" class="position-relative z-index-1 padding-top-xl padding-bottom-lg">
     <div class="container max-width-sm margin-bottom-xl">
-      <h1 class="text-center">Benefits with financebuddy</h1>
+      <h1 class="text-center">Benefits with Finance Buddy</h1>
     </div>
 
     <div class="container max-width-adaptive-lg">
@@ -228,8 +228,8 @@
           </figure>
 
           <div class="text-component line-height-lg text-center">
-            <h4>Animations</h4>
-            <p class="color-contrast-low">We care about our user experience!</p>
+            <h4>Saving goals</h4>
+            <p class="color-contrast-low">You will be able to add a saving goal on each account to help you out with your needs.</p>
 
           </div>
         </li>
@@ -247,8 +247,8 @@
           </figure>
 
           <div class="text-component line-height-lg text-center">
-            <h4>Controls</h4>
-            <p class="color-contrast-low">We care about our user experience!</p>
+            <h4>Budgets</h4>
+            <p class="color-contrast-low">While you are saving it will help alot to have budgets for each category expense!</p>
 
           </div>
         </li>
