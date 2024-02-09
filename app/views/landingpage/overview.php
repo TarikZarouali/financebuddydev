@@ -189,8 +189,8 @@
 
           <div class="text-component line-height-lg text-center">
             <h4>Infinite accounts</h4>
-            <p class="color-contrast-low">Here on financebuddy you will be able to add an infinite amount of
-              accounts to manage your finances</p>
+            <p class="color-contrast-low">Add an infinite amount of
+              accounts to manage your finances wether it's personal or business related</p>
           </div>
         </li>
 
@@ -212,7 +212,7 @@
 
           <div class="text-component line-height-lg text-center">
             <h4>User friendly</h4>
-            <p class="color-contrast-low">We care about our user experience!</p>
+            <p class="color-contrast-low">We care about our users experience and make it easier to access the things you want and need.</p>
           </div>
         </li>
 
@@ -229,7 +229,7 @@
 
           <div class="text-component line-height-lg text-center">
             <h4>Saving goals</h4>
-            <p class="color-contrast-low">You will be able to add a saving goal on each account to help you out with your needs.</p>
+            <p class="color-contrast-low">You will be able to add a saving goal on each account to help you out. There will also be a progress bar to encourage you with reaching you're desired goal</p>
 
           </div>
         </li>
@@ -248,7 +248,7 @@
 
           <div class="text-component line-height-lg text-center">
             <h4>Budgets</h4>
-            <p class="color-contrast-low">While you are saving it will help alot to have budgets for each category expense!</p>
+            <p class="color-contrast-low">While you are saving it will help alot to have budgets for each category expense! This will be shown with diagrams to give you a clear look of how much of the budget you have left.</p>
 
           </div>
         </li>
@@ -267,7 +267,7 @@
         </svg>
       </div>
 
-      <nav class="footer-v3__nav">
+      <nav class="footer-v5__nav">
       </nav>
 
       <div class="footer-v3__socials">
