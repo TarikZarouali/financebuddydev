@@ -1,0 +1,43 @@
+@use '../base' as *;
+@use '_1_switch.scss' as *;
+
+/* -------------------------------- 
+
+File#: _2_switch-card
+Title: Switch Card
+Descr: Card element with an ON/OFF switch
+Usage: codyhouse.co/license
+
+-------------------------------- */
+
+.switch-card {
+  --switch-card-figure-size: 56px;
+
+  /* switch */
+  --switch-width: 54px;
+  --switch-height: 28px;
+
+  background-color: var(--color-bg);
+}
+
+.switch-card--on { /* card style when switcher = on */
+  background-color: var(--color-bg-light);
+
+  .switch-card__figure {
+    filter: grayscale(0%);
+  }
+}
+
+.switch-card__figure {
+  width: var(--switch-card-figure-size);
+  height: var(--switch-card-figure-size);
+  position: relative;
+  filter: grayscale(100%);
+}
+
+.switch-card__img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}

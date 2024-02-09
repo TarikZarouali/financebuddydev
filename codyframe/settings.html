@@ -7,520 +7,455 @@
   <!-- favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
   <!-- font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
-  <script src="assets/js/dark-mode.js"></script>
-  <title>Settings | Dashboard UI by CodyHouse</title>
+  <script src="assets/js/color-theme.js"></script>
+  <title>Profile Settings | CMS template by CodyHouse</title>
 </head>
 <body>
-  <div class="app-ui js-app-ui">
-    <!-- header -->
-    <header class="app-ui__header shadow-xs padding-x-md padding-x-0@md">
-      <div class="app-ui__logo-wrapper padding-x-sm@md">
-        <a href="index.html" class="app-ui__logo">
-          <svg width="104" height="30" viewBox="0 0 104 30" fill="var(--color-contrast-higher)">
-            <title>Go to homepage</title>
-            <circle cx="15" cy="15" r="15" fill="var(--color-contrast-lower)"  opacity="0.5" />
-            <path d="M36.184,6.145h4.551l4.807,11.727h.2L50.553,6.145H55.1V23.6H51.525V12.239h-.146L46.862,23.514H44.425L39.908,12.2h-.145V23.6H36.184Z" />
-            <path d="M61.8,23.846c-3.556,0-4.347-2.234-4.347-3.9a3.405,3.405,0,0,1,2.5-3.524c1.371-.521,3.771-.56,4.854-.866.485-.136.732-.377.732-.869,0-.555-.191-1.695-1.942-1.695A2.187,2.187,0,0,0,61.274,14.5l-3.357-.273c.249-1.193,1.349-3.886,5.7-3.886,2.913,0,4.257,1.246,4.778,1.9a3.944,3.944,0,0,1,.779,2.536V23.6H65.731V21.784h-.1A3.986,3.986,0,0,1,61.8,23.846Zm1.04-2.5a2.543,2.543,0,0,0,2.727-2.42v-1.39a8.013,8.013,0,0,1-2.523.589c-.637.079-2.122.351-2.122,1.7C60.925,21.035,62.059,21.341,62.843,21.341Z" />
-            <path d="M72,23.6V10.509h3.52v2.284h.136a3.513,3.513,0,0,1,1.2-1.845,3.867,3.867,0,0,1,3.084-.5v3.222c-.169-.057-2.266-.7-3.523.558a2.657,2.657,0,0,0-.789,1.964V23.6Z" />
-            <path d="M89.425,10.509v2.726H86.962v6.342a1.307,1.307,0,0,0,.341,1.014,2.092,2.092,0,0,0,1.789.145l.571,2.7c-.182.057-3.132,1-5.143-.515a3.348,3.348,0,0,1-1.189-2.869V13.235h-1.79V10.509h1.79V7.372h3.631v3.137Z" />
-            <path d="M97.615,23.855A6,6,0,0,1,91.9,20.7a7.7,7.7,0,0,1-.783-3.583c0-2.22,1-6.776,6.349-6.776,5.7,0,6.153,5.165,6.153,6.647v1H94.709v.008a2.864,2.864,0,0,0,2.966,3.154,2.41,2.41,0,0,0,2.513-1.517l3.359.221C103.291,21.065,102.094,23.855,97.615,23.855Zm-2.906-8.122h5.5a2.576,2.576,0,0,0-2.677-2.685A2.772,2.772,0,0,0,94.709,15.733Z" />
-            <path d="M25.607,4.393,4.393,25.607A15,15,0,0,0,25.607,4.393Z" />
-          </svg>
-        </a>
-      </div>
-  
-      <!-- (mobile-only) menu button -->
-      <button class="reset app-ui__menu-btn hide@md js-app-ui__menu-btn js-tab-focus" aria-label="Toggle menu" aria-controls="app-ui-navigation">
-        <svg class="icon" viewBox="0 0 24 24">
-          <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-            <path d="M1 6h22" />
-            <path d="M1 12h22" />
-            <path d="M1 18h22" />
-          </g>
-        </svg>
-      </button>
-  
-      <!-- (desktop-only) header menu -->
-      <div class="display@md flex flex-grow height-100% items-center justify-between padding-x-sm">
-        <form class="expandable-search text-sm@md js-expandable-search">
-          <label class="sr-only" for="expandable-search">Search</label>
-          <input class="reset expandable-search__input js-expandable-search__input" type="search" name="expandable-search" id="expandable-search" placeholder="Search...">
-          <button class="reset expandable-search__btn">
-            <svg class="icon" viewBox="0 0 20 20">
-              <title>Search</title>
-              <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
-                <circle cx="8" cy="8" r="6" />
-                <line x1="12.243" y1="12.243" x2="18" y2="18" />
-              </g>
-            </svg>
-          </button>
-        </form>
-  
-        <div class="flex gap-xxxxs">
-          <button class="reset app-ui__header-btn js-tab-focus" aria-controls="notifications-popover">
-            <svg class="icon" viewBox="0 0 20 20">
-              <title>Notifications</title>
-              <path d="M16,12V7a6,6,0,0,0-6-6h0A6,6,0,0,0,4,7v5L2,16H18Z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" />
-              <path d="M7.184,18a2.982,2.982,0,0,0,5.632,0Z" />
-            </svg>
+  <!-- start mobile header -->
+  <header class="position-sticky top-0 z-index-header bg shadow-xs padding-x-component padding-y-sm flex items-center justify-between hide@md">
+    <a class="block size-32 hover:reduce-opacity" href="index.html">
+      <svg class="block" viewBox="0 0 40 40">
+        <circle fill="var(--color-contrast-higher)" cx="20" cy="20" r="20"/>
+        <path d="M12.64,20.564a6.437,6.437,0,0,0-4.4,1.388S10,24.2,12.133,24.475a6.486,6.486,0,0,0,3.625-.846S14.455,20.8,12.64,20.564Z" fill="var(--color-bg)"/>
+        <path d="M22.036,13.407a7.041,7.041,0,0,0-1.111-3.88s-3,1.562-3.152,3.54a6.978,6.978,0,0,0,1.739,4.688S21.851,15.73,22.036,13.407Z" fill="var(--color-bg)"/>
+        <path d="M29.048,26.433a7.624,7.624,0,0,0-.321-4.122c-1.052-2.448-4.326-3.784-4.326-3.784a7.973,7.973,0,0,0-.164,5.713A3.294,3.294,0,0,0,25.451,25.6,16.016,16.016,0,0,1,14.758,10.527v-1h-2v1A17.988,17.988,0,0,0,21.19,25.746a5.859,5.859,0,0,0-2.433-.151,8.093,8.093,0,0,0-4,2.352s2.6,2.883,4.846,2.49a7.889,7.889,0,0,0,4.627-3.153,17.885,17.885,0,0,0,6.527,1.243h1v-2h-1A16.094,16.094,0,0,1,29.048,26.433Z" fill="var(--color-bg)"/>
+      </svg>
+    </a>
 
-            <span class="app-ui__notification-indicator"><i class="sr-only">You have 6 notifications</i></span>
+    <button class="btn btn--subtle" aria-controls="cms-main-sidebar">Menu</button>
+  </header>
+  <!-- end mobile header -->
+  
+  <div class="flex@md">
+    <aside id="cms-main-sidebar" class="sidebar sidebar--static@md js-sidebar" data-static-class="position-relative z-index-2 bg-dark width-100% max-width-xxxxs flex flex-column">
+      <div class="sidebar__panel flex-grow flex flex-column">
+        <!-- start sidebar (mobile) header -->
+        <header class="sidebar__header bg padding-y-sm padding-left-md padding-right-sm border-bottom z-index-2">
+          <h1 class="text-md text-truncate" id="sidebar-title">Menu</h1>
+    
+          <button class="reset sidebar__close-btn js-sidebar__close-btn js-tab-focus">
+            <svg class="icon icon--xs" viewBox="0 0 16 16"><title>Close panel</title><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"><line x1="13.5" y1="2.5" x2="2.5" y2="13.5"></line><line x1="2.5" y1="2.5" x2="13.5" y2="13.5"></line></g></svg>
           </button>
-  
-          <a class="app-ui__header-btn js-tab-focus" href="settings.html">
-            <svg class="icon" viewBox="0 0 20 20">
-              <title>Settings</title>
-              <g fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-                <line x1="3" y1="10" x2="2" y2="10" />
-                <line x1="18" y1="10" x2="7" y2="10" />
-                <line x1="7" y1="12" x2="7" y2="8" />
-                <line x1="17" y1="4" x2="18" y2="4" />
-                <line x1="2" y1="4" x2="13" y2="4" />
-                <line x1="13" y1="2" x2="13" y2="6" />
-                <line x1="17" y1="16" x2="18" y2="16" />
-                <line x1="2" y1="16" x2="13" y2="16" />
-                <line x1="13" y1="14" x2="13" y2="18" />
-              </g>
-            </svg>
-          </a>
-  
-          <div class="dropdown inline-block js-dropdown">
-            <div class="dropdown__wrapper">
-              <a class="app-ui__user-btn js-dropdown__trigger js-tab-focus" href="settings.html">
-                <img src="assets/img/author-img-1.jpg" alt="Author picture">
-              </a>
-  
-              <ul class="dropdown__menu js-dropdown__menu" aria-label="dropdown">
-                <li>
-                  <a class="dropdown__item" href="settings.html">Settings</a>
-                </li>
-  
-                <li>
-                  <a class="dropdown__item" href="settings-password.html">Password</a>
-                </li>
+        </header>
+        <!-- end sidebar (mobile) header -->
 
-                <li>
-                  <a class="dropdown__item" href="settings-notifications.html">Notifications</a>
-                </li>
+        <!-- start sidebar (desktop) header -->
+        <header class="display@md padding-x-xs margin-bottom-lg">
+          <div class="flex items-center justify-between height-60 padding-right-xs padding-left-xxxs">
+            <a class="block size-40 hover:reduce-opacity" href="index.html">
+              <svg class="block" viewBox="0 0 40 40">
+                <circle fill="var(--color-contrast-higher)" cx="20" cy="20" r="20"/>
+                <path d="M12.64,20.564a6.437,6.437,0,0,0-4.4,1.388S10,24.2,12.133,24.475a6.486,6.486,0,0,0,3.625-.846S14.455,20.8,12.64,20.564Z" fill="var(--color-bg)"/>
+                <path d="M22.036,13.407a7.041,7.041,0,0,0-1.111-3.88s-3,1.562-3.152,3.54a6.978,6.978,0,0,0,1.739,4.688S21.851,15.73,22.036,13.407Z" fill="var(--color-bg)"/>
+                <path d="M29.048,26.433a7.624,7.624,0,0,0-.321-4.122c-1.052-2.448-4.326-3.784-4.326-3.784a7.973,7.973,0,0,0-.164,5.713A3.294,3.294,0,0,0,25.451,25.6,16.016,16.016,0,0,1,14.758,10.527v-1h-2v1A17.988,17.988,0,0,0,21.19,25.746a5.859,5.859,0,0,0-2.433-.151,8.093,8.093,0,0,0-4,2.352s2.6,2.883,4.846,2.49a7.889,7.889,0,0,0,4.627-3.153,17.885,17.885,0,0,0,6.527,1.243h1v-2h-1A16.094,16.094,0,0,1,29.048,26.433Z" fill="var(--color-bg)"/>
+              </svg>
+            </a>
   
-                <hr class="dropdown__separator" role="separator">
-  
-                <li>
-                  <a class="dropdown__item" href="#0">Log Out</a>
-                </li>
-              </ul>
-            </div>
+            <a class="inline-flex color-contrast-high hover:reduce-opacity js-tooltip-trigger" title="Launch website" href="https://codyhouse.co/template/nettuno" target="_blank">
+              <svg class="icon icon--xs" viewBox="0 0 16 16">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path d="M15,12v1.5A1.5,1.5,0,0,1,13.5,15H2.5A1.5,1.5,0,0,1,1,13.5V2.5A1.5,1.5,0,0,1,2.5,1H4" />
+                  <polyline points="8 1 15 1 15 8" />
+                  <line x1="15" y1="1" x2="7" y2="9" />
+                </g>
+              </svg>
+            </a>
           </div>
-        </div>
-      </div>
-    </header>
+        </header>
+        <!-- end sidebar (desktop) header -->
   
-    <!-- navigation -->
-    <div class="app-ui__nav js-app-ui__nav" id="app-ui-navigation">
-      <div class="flex flex-column height-100%">
-        <div class="flex-grow overflow-auto momentum-scrolling">
-          <!-- (mobile-only) search -->
-          <div class="padding-x-md padding-top-md hide@md">
-            <div class="search-input search-input--icon-right">
-              <input class="form-control width-100% height-100%" type="search" name="searchInputX" id="searchInputX" placeholder="Search..." aria-label="Search">
-              <button class="search-input__btn">
-                <svg class="icon" viewBox="0 0 24 24">
-                  <title>Submit</title>
-                  <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10">
-                    <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
-                    <circle cx="10" cy="10" r="8"></circle>
-                  </g>
-                </svg>
-              </button>
-            </div>
-          </div>
-      
-          <!-- side navigation -->
-          <nav class="sidenav padding-y-sm js-sidenav">
-            <div class="sidenav__label margin-bottom-xxxs">
-              <span class="text-sm color-contrast-medium text-xs@md">Main</span>
-            </div>
-      
-            <ul class="sidenav__list">
-              <li class="sidenav__item">
-                <a href="index.html" class="sidenav__link">
-                  <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16">
-                    <g>
-                      <path d="M6,0H1C0.4,0,0,0.4,0,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1V1C7,0.4,6.6,0,6,0z M5,5H2V2h3V5z"></path>
-                      <path d="M15,0h-5C9.4,0,9,0.4,9,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1V1C16,0.4,15.6,0,15,0z M14,5h-3V2h3V5z"></path>
-                      <path d="M6,9H1c-0.6,0-1,0.4-1,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1v-5C7,9.4,6.6,9,6,9z M5,14H2v-3h3V14z"></path>
-                      <path d="M15,9h-5c-0.6,0-1,0.4-1,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1v-5C16,9.4,15.6,9,15,9z M14,14h-3v-3h3V14z"></path>
+        <!-- start sidenav content -->
+        <div class="position-relative z-index-1">
+          <nav class="sidenav-v4 padding-x-xs padding-bottom-xs js-sidenav-v4">
+            <ul>
+              <li class="sidenav-v4__item">
+                <a class="sidenav-v4__link js-sidenav-v4__link" href="index.html">
+                  <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
+                    <g fill="currentColor">
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12v7H4v-7"></path>
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 10l9-9 9 9"></path>
+                      <path d="M10 14a2 2 0 0 1 2 2v2H8v-2a2 2 0 0 1 2-2z"></path>
                     </g>
                   </svg>
-                  <span class="sidenav__text text-sm@md">Dashboard</span>
-      
-                  <span class="sidenav__counter">12 <i class="sr-only">notifications</i></span>
+  
+                  <span>Overview</span>
                 </a>
               </li>
-      
-              <li class="sidenav__item">
-                <a href="components.html" class="sidenav__link">
-                  <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><circle cx="13" cy="5" r="3"></circle><rect x="3" y="8" width="7" height="7" rx="1" ry="1"></rect><polygon points="4 0 0 6 8 6 4 0"></polygon></g></svg>
-                  <span class="sidenav__text text-sm@md">Components</span>
+  
+              <li class="sidenav-v4__item">
+                <a class="sidenav-v4__link js-sidenav-v4__link" href="notifications.html">
+                  <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
+                    <g fill="currentColor">
+                      <path d="M10 20a2 2 0 0 1-2-2h4a2 2 0 0 1-2 2z"></path>
+                      <path d="M19 15a3 3 0 0 1-3-3V7a6 6 0 0 0-6-6 6 6 0 0 0-6 6v5a3 3 0 0 1-3 3h18z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </g>
+                  </svg>
+  
+                  <span>Notifications</span>
+                  
+                  <span class="sidenav-v4__notification-marker">8 <i class="sr-only">notifications</i></span>
                 </a>
-      
-                <button class="reset sidenav__sublist-control js-sidenav__sublist-control js-tab-focus" aria-label="Toggle sub navigation">
-                  <svg class="icon" viewBox="0 0 12 12"><polygon points="4 3 8 6 4 9 4 3" /></svg>
-                </button>
-      
-                <ul class="sidenav__list">
-                  <li class="sidenav__item">
-                    <a href="components-charts.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Charts</span>
-                    </a>
-                  </li>
-      
-                  <li class="sidenav__item">
-                    <a href="components-tables.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Tables</span>
-                    </a>
-                  </li>
+              </li>
+  
+              <li class="sidenav-v4__item">
+                <a class="sidenav-v4__link js-sidenav-v4__link" href="articles.html">
+                  <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
+                    <g fill="currentColor">
+                      <path d="M3 1h10l5 5v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 1l5 5h-5V1z"></path>
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 6h2"></path>
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 10h8"></path>
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14h8"></path>
+                    </g>
+                  </svg>
+  
+                  <span>Articles</span>
     
-                  <li class="sidenav__item">
-                    <a href="components-cards.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Cards</span>
-                    </a>
+                  <svg class="sidenav-v4__arrow-icon icon margin-left-auto" viewBox="0 0 20 20">
+                    <g class="icon__group" fill="none" stroke="currentColor" stroke-width="2px" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="3" y1="3" x2="17" y2="17" />
+                      <line x1="17" y1="3" x2="3" y2="17" />
+                    </g>
+                  </svg>
+                </a>
+          
+                <ul class="sidenav-v4__sub-list">
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="articles.html">All Articles</a>
                   </li>
-    
-                  <li class="sidenav__item">
-                    <a href="components-buttons.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Buttons</span>
-                    </a>
+                  
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="new-article.html">Add New</a>
                   </li>
-    
-                  <li class="sidenav__item">
-                    <a href="components-forms.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Forms</span>
-                    </a>
+                  
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="categories.html">Categories</a>
                   </li>
                 </ul>
               </li>
-      
-              <li class="sidenav__item sidenav__item--expanded">
-                <a href="pages.html" class="sidenav__link">
-                  <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,0H2C1.4,0,1,0.4,1,1v14c0,0.6,0.4,1,1,1h12c0.6,0,1-0.4,1-1V1C15,0.4,14.6,0,14,0z M13,14H3V2h10V14z"></path><rect x="4" y="3" width="4" height="4"></rect><rect x="9" y="4" width="3" height="1"></rect><rect x="9" y="6" width="3" height="1"></rect><rect x="4" y="8" width="8" height="1"></rect> <rect x="4" y="10" width="8" height="1"></rect><rect x="4" y="12" width="5" height="1"></rect></g></svg>
-    
-                  <span class="sidenav__text text-sm@md">Pages</span>
+
+              <li class="sidenav-v4__item">
+                <a class="sidenav-v4__link js-sidenav-v4__link" href="reports.html">
+                  <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
+                    <g fill="currentColor">
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.231 11L7 5l6 5 6-8"></path>
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 18l1.385-3"></path>
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 11h4l8 6 6-5"></path>
+                    </g>
+                  </svg>
+  
+                  <span>Reports</span>
                 </a>
+              </li>
+  
+              <li class="sidenav-v4__separator" role="presentation"><span></span></li>
+  
+              <li class="sidenav-v4__item">
+                <a class="sidenav-v4__link js-sidenav-v4__link" href="assets.html">
+                  <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
+                    <g fill="currentColor">
+                      <rect x="2" y="2" width="16" height="16" rx="2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></rect>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 14l6-6 2 6H6z"></path><circle cx="6.5" cy="6.5" r="1.5"></circle>
+                    </g>
+                  </svg>
+  
+                  <span>Assets</span>
     
-                <button class="reset sidenav__sublist-control js-sidenav__sublist-control js-tab-focus" aria-label="Toggle sub navigation">
-                  <svg class="icon" viewBox="0 0 12 12"><polygon points="4 3 8 6 4 9 4 3" /></svg>
-                </button>
-    
-                <ul class="sidenav__list">
-                  <li class="sidenav__item">
-                    <a href="settings.html" class="sidenav__link"  aria-current="page">
-                      <span class="sidenav__text text-sm@md">Settings</span>
-                    </a>
+                  <svg class="sidenav-v4__arrow-icon icon margin-left-auto" viewBox="0 0 20 20">
+                    <g class="icon__group" fill="none" stroke="currentColor" stroke-width="2px" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="3" y1="3" x2="17" y2="17" />
+                      <line x1="17" y1="3" x2="3" y2="17" />
+                    </g>
+                  </svg>
+                </a>
+          
+                <ul class="sidenav-v4__sub-list">
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="assets.html">All Assets</a>
                   </li>
-
-                  <li class="sidenav__item">
-                    <a href="notifications.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Notifications</span>
-                    </a>
-                  </li>
-    
-                  <li class="sidenav__item">
-                    <a href="customer.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Customer</span>
-                    </a>
-                  </li>
-
-                  <li class="sidenav__item">
-                    <a href="customers.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Customers</span>
-                    </a>
-                  </li>
-      
-                  <li class="sidenav__item">
-                    <a href="timeline.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Timeline</span>
-                    </a>
-                  </li>
-    
-                  <li class="sidenav__item">
-                    <a href="log-in.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Login</span>
-                    </a>
-                  </li>
-    
-                  <li class="sidenav__item">
-                    <a href="sign-up.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Sign Up</span>
-                    </a>
-                  </li>
-    
-                  <li class="sidenav__item">
-                    <a href="password-reset.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">Password Reset</span>
-                    </a>
-                  </li>
-    
-                  <li class="sidenav__item">
-                    <a href="404.html" class="sidenav__link">
-                      <span class="sidenav__text text-sm@md">404</span>
-                    </a>
+                  
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="new-asset.html">Upload</a>
                   </li>
                 </ul>
               </li>
-            </ul>
-      
-            <div class="sidenav__divider margin-y-xs" role="presentation"></div>
-      
-            <div class="sidenav__label margin-bottom-xxxs">
-              <span class="text-sm color-contrast-medium text-xs@md">Other</span>
-            </div>
-      
-            <ul class="sidenav__list">
-              <li class="sidenav__item">
-                <a href="settings.html" class="sidenav__link">
-                  <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16">
-                    <g>
-                      <circle cx="6" cy="8" r="2"></circle>
-                      <path d="M10,2H6C2.7,2,0,4.7,0,8s2.7,6,6,6h4c3.3,0,6-2.7,6-6S13.3,2,10,2z M10,12H6c-2.2,0-4-1.8-4-4s1.8-4,4-4h4 c2.2,0,4,1.8,4,4S12.2,12,10,12z"></path>
+  
+              <li class="sidenav-v4__item">
+                <a class="sidenav-v4__link js-sidenav-v4__link" href="users.html">
+                  <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
+                    <g fill="currentColor">
+                      <circle cx="10" cy="4" r="3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle>
+                      <path d="M10 11a8 8 0 0 0-7.562 5.383A2 2 0 0 0 4.347 19h11.306a2 2 0 0 0 1.909-2.617A8 8 0 0 0 10 11z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
                     </g>
                   </svg>
-                  <span class="sidenav__text text-sm@md">Settings</span>
-                </a>
-              </li>
-      
-              <li class="sidenav__item">
-                <a href="notifications.html" class="sidenav__link">
-                  <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M10,14H6c0,1.1,0.9,2,2,2S10,15.1,10,14z"></path> <path d="M15,11h-0.5C13.8,10.3,13,9.3,13,8V5c0-2.8-2.2-5-5-5S3,2.2,3,5v3c0,1.3-0.8,2.3-1.5,3H1c-0.6,0-1,0.4-1,1 s0.4,1,1,1h14c0.6,0,1-0.4,1-1S15.6,11,15,11z"></path></g></svg>
+  
+                  <span>Users</span>
     
-                  <span class="sidenav__text text-sm@md">Notifications</span>
-                  <span class="sidenav__counter">23 <i class="sr-only">notifications</i></span>
+                  <svg class="sidenav-v4__arrow-icon icon margin-left-auto" viewBox="0 0 20 20">
+                    <g class="icon__group" fill="none" stroke="currentColor" stroke-width="2px" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="3" y1="3" x2="17" y2="17" />
+                      <line x1="17" y1="3" x2="3" y2="17" />
+                    </g>
+                  </svg>
                 </a>
+          
+                <ul class="sidenav-v4__sub-list">
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="users.html">All Users</a>
+                  </li>
+                  
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="new-user.html">Add New</a>
+                  </li>
+                </ul>
+              </li>
+  
+              <li class="sidenav-v4__item sidenav-v4__item--current">
+                <a class="sidenav-v4__link js-sidenav-v4__link" href="settings.html">
+                  <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
+                    <g fill="currentColor">
+                      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2H6l-5 8 5 8h8l5-8-5-8z"></path>
+                      <circle cx="10" cy="10" r="3" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle>
+                    </g>
+                  </svg>
+  
+                  <span>Settings</span>
+
+                  <svg class="sidenav-v4__arrow-icon icon margin-left-auto" viewBox="0 0 20 20">
+                    <g class="icon__group" fill="none" stroke="currentColor" stroke-width="2px" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="3" y1="3" x2="17" y2="17" />
+                      <line x1="17" y1="3" x2="3" y2="17" />
+                    </g>
+                  </svg>
+                </a>
+
+                <ul class="sidenav-v4__sub-list">
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="settings.html" aria-current="page">Profile</a>
+                  </li>
+                  
+                  <li>
+                    <a class="sidenav-v4__sub-link" href="password.html">Password</a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </nav>
-        </div>
-        
-        <!-- light/dark mode toggle -->
-        <div class="padding-md padding-sm@md margin-top-auto flex-shrink-0 border-top border-alpha">
-          <div class="flex items-center justify-between@md">
-            <p class="text-sm@md">Dark Mode</p>
-  
-            <div class="switch dark-mode-switch margin-left-xxs">
-              <input class="switch__input" type="checkbox" id="switch-light-dark">
-              <label aria-hidden="true" class="switch__label" for="switch-light-dark">On</label>
-              <div aria-hidden="true" class="switch__marker"></div>
+
+          <!-- mobile search -->
+          <div class="padding-x-xs padding-bottom-sm hide@md">
+            <div class="padding-x-sm">
+              <div class="search-input search-input--icon-left text-md">
+                <input class="search-input__input form-control" type="search" name="search-input" id="search-input" placeholder="Search..." aria-label="Search">
+                <button class="search-input__btn">
+                  <svg class="icon" viewBox="0 0 20 20"><title>Submit</title><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="8" cy="8" r="6"/><line x1="12.242" y1="12.242" x2="18" y2="18"/></g></svg>
+                </button>
+              </div>
             </div>
           </div>
+          <!-- end mobile search -->
         </div>
-      </div>
-    </div>
+        <!-- end sidenav content -->
+
+        <!-- start sidenav footer -->
+        <footer class="sidebar__footer border-top border-alpha padding-xs margin-top-auto position-sticky bottom-0 z-index-1">
+          <div class="padding-x-xs flex items-center justify-between">
+            <label class="" for="select-theme">Theme:</label>
   
-    <!-- main content -->
-    <main class="app-ui__body padding-md js-app-ui__body">
-      <div class="margin-bottom-md">
-        <h1 class="text-lg">Settings</h1>
-      </div>
-
-      <div class="margin-bottom-md">
-        <nav class="s-tabs">
-          <ul class="s-tabs__list">
-            <li><a class="s-tabs__link s-tabs__link--current" href="settings.html">Profile</a></li>
-            <li><a class="s-tabs__link" href="settings-password.html">Password</a></li>
-            <li><a class="s-tabs__link" href="settings-notifications.html">Notifications</a></li>
-          </ul>
-        </nav>
-      </div>
-
-      <div class="bg radius-md shadow-xs">
-        <form>
-          <div class="padding-md">
-            <!-- basic form controls -->
-            <fieldset class="margin-bottom-xl">
-              <legend class="form-legend margin-bottom-md">Profile Settings</legend>
-          
-              <!-- input text -->
-              <div class="margin-bottom-sm">
-                <div class="grid gap-xxs">
-                  <div class="col-3@lg">
-                    <label class="inline-block text-sm padding-top-xs@lg" for="input-name">Name</label>
-                  </div>
-
-                  <div class="col-6@lg">
-                    <input class="form-control width-100%" type="text" name="input-name" id="input-name" value="Marta Rossi" required>
-                  </div>
-                </div>
-              </div>
-
-              <!-- input email -->
-              <div class="margin-bottom-sm">
-                <div class="grid gap-xxs">
-                  <div class="col-3@lg">
-                    <label class="inline-block text-sm padding-top-xs@lg" for="input-email">Email</label>
-                  </div>
-
-                  <div class="col-6@lg">
-                    <input class="form-control width-100%" type="email" name="input-email" id="input-email" value="marta@myemail.com">
-                  </div>
-                </div>
-              </div>
-
-              <!-- textarea -->
-              <div class="margin-bottom-sm">
-                <div class="grid gap-xxs">
-                  <div class="col-3@lg">
-                    <label class="inline-block text-sm padding-top-xs@lg" for="short-bio">Bio</label>
-                  </div>
-
-                  <div class="col-6@lg">
-                    <textarea class="form-control width-100%" name="short-bio" id="short-bio"></textarea>
-                    <p class="text-xs color-contrast-medium margin-top-xxs">Use helper text to provide additional information.</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- custom select -->
-              <div class="margin-bottom-sm">
-                <div class="grid gap-xxs">
-                  <div class="col-3@lg">
-                    <label class="inline-block text-sm padding-top-xs@lg" for="custom-select">Available for work</label>
-                  </div>
-
-                  <div class="col-6@lg">
-                    <div class="select">
-                      <select class="select__input form-control" name="custom-select" id="custom-select">
-                        <option value="0">Yes</option>
-                        <option value="1">No</option>
-                      </select>
-                      
-                      <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16"><polyline points="1 5 8 12 15 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          
-            <!-- choice tags -->
-            <fieldset class="margin-bottom-md">
-              <legend class="form-legend margin-bottom-md">Contact Options</legend>
-
-              <div>
-                <div class="grid gap-xxs">
-                  <div class="col-3@lg">
-                    <p class="inline-block text-sm padding-top-sm@lg">Select options</p>
-                  </div>
-
-                  <div class="col-6@lg">
-                    <ul class="choice-tags flex flex-wrap gap-xxs js-choice-tags">
-                      <li>
-                        <label class="choice-tag choice-tag--checkbox text-sm js-choice-tag" for="checkbox-tag-phone-call">
-                          <input class="sr-only" type="checkbox" id="checkbox-tag-phone-call" checked>
-                    
-                          <svg class="choice-tag__icon icon margin-right-xxs" viewBox="0 0 16 16" aria-hidden="true"><g class="choice-tag__icon-group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"><line x1="-6" y1="8" x2="8" y2="8" /><line x1="8" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="8" y2="14"/></g></svg>
-                    
-                          <span>Phone Call</span>
-                        </label>
-                      </li>
-        
-                      <li>
-                        <label class="choice-tag choice-tag--checkbox text-sm js-choice-tag" for="checkbox-tag-video-call">
-                          <input class="sr-only" type="checkbox" id="checkbox-tag-video-call">
-                    
-                          <svg class="choice-tag__icon icon margin-right-xxs" viewBox="0 0 16 16" aria-hidden="true"><g class="choice-tag__icon-group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"><line x1="-6" y1="8" x2="8" y2="8"/><line x1="8" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="8" y2="14"/></g></svg>
-                    
-                          <span>Video Call</span>
-                        </label>
-                      </li>
-        
-                      <li>
-                        <label class="choice-tag choice-tag--checkbox text-sm js-choice-tag" for="checkbox-tag-message">
-                          <input class="sr-only" type="checkbox" id="checkbox-tag-message">
-                    
-                          <svg class="choice-tag__icon icon margin-right-xxs" viewBox="0 0 16 16" aria-hidden="true"><g class="choice-tag__icon-group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"><line x1="-6" y1="8" x2="8" y2="8"/><line x1="8" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="8" y2="14"/></g></svg>
-                    
-                          <span>Phone Message</span>
-                        </label>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
+            <div class="select text-sm" style="--select-icon-right-margin: var(--space-xxs); --select-icon-size: 12px;">
+              <select class="select__input btn btn--subtle padding-x-xxs padding-y-xxxs" name="select-theme" id="select-theme">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="floral">Floral</option>
+                <option value="woody">Woody</option>
+                <option value="water">Water</option>
+              </select>
+              
+              <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12"><polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+            </div>
           </div>
-        
-          <div class="border-top border-alpha padding-md text-right">
-            <button class="btn btn--primary btn--md">Save</button>
-          </div>
-        </form>
+        </footer>
+        <!-- end sidenav footer -->
       </div>
+    </aside>
+    
+    <main class="position-relative z-index-1 flex-grow min-height-100vh position-sticky@md top-0@md height-100vh@md overflow-auto@md sidebar-loaded:show">
+      <!-- start main content -->
+
+      <!-- start desktop main header -->
+      <header class="position-sticky top-0 z-index-header bg bg-opacity-80% border-bottom border-alpha backdrop-blur-10 display@md">
+        <div class="height-60 flex items-center justify-between padding-x-component">
+          <div class="search-input search-input--icon-left position-relative width-100% max-width-xxxxs autocomplete js-autocomplete" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
+            <form action="search-results.html">
+              <input autocomplete="off" class="search-input__input form-control js-autocomplete__input js-search-input" type="search" name="search-input" id="search-input" placeholder="Search..." aria-label="Search">
+            
+              <button class="search-input__btn">
+                <svg class="icon" viewBox="0 0 16 16">
+                  <title>Submit</title>
+                  <circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><line x1="14" y1="14" x2="10" y2="10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                </svg>
+              </button>
+            </form>
+
+            <span class="search-input__shortcut" aria-hidden="true">/</span>
+
+            <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-xxs height-100% flex items-center" aria-hidden="true">
+              <div class="circle-loader circle-loader--v1">
+                <div class="circle-loader__circle"></div>
+              </div>
+            </div>
+
+            <div class="autocomplete__results js-autocomplete__results">
+              <ul id="autocomplete1" class="autocomplete__list js-autocomplete__list">
+                <li class="autocomplete__item js-autocomplete__item is-hidden">
+                  <a data-autocomplete-url class="text-decoration-none color-contrast-higher block padding-y-xs padding-x-sm autocomplete__link">
+                    <span class="block" data-autocomplete-label></span>
+                    <span class="block text-xs color-contrast-medium margin-top-xxxxs" data-autocomplete-category></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <p class="sr-only" aria-live="polite" aria-atomic="true"><span class="js-autocomplete__aria-results">0</span> results found.</p>
+          </div>
+
+          <button class="reset user-menu-control" aria-controls="user-menu" aria-label="Toggle user menu">
+            <figure class="user-menu-control__img-wrapper radius-50%">
+              <img class="user-menu-control__img" src="assets/img/author-img-1.jpg" alt="User picture">
+            </figure>
+          
+            <div class="margin-x-xs user-menu__meta">
+              <p class="user-menu__meta-title text-sm line-height-1 padding-y-xxxxs font-semibold color-contrast-higher text-truncate">Emily Ewing</p>
+              <p class="text-xs color-contrast-medium line-height-1 padding-bottom-xxxxs">Admin</p>
+            </div>
+          
+            <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
+              <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            </svg>
+          </button>
+          
+          <menu id="user-menu" class="menu js-menu">
+            <li role="menuitem">
+              <a class="menu__content js-menu__content" href="settings.html">
+                <svg class="icon menu__icon" aria-hidden="true" viewBox="0 0 16 16"><g fill="currentColor"><path d="M15.135,6.784c-1.303-0.326-1.921-1.818-1.23-2.969c0.322-0.536,0.225-0.998-0.094-1.316l-0.31-0.31 c-0.318-0.318-0.78-0.415-1.316-0.094c-1.152,0.691-2.644,0.073-2.969-1.23C9.065,0.258,8.669,0,8.219,0H7.781 c-0.45,0-0.845,0.258-0.997,0.865c-0.326,1.303-1.818,1.921-2.969,1.23C3.279,1.773,2.816,1.87,2.498,2.188l-0.31,0.31 C1.87,2.816,1.773,3.279,2.095,3.815c0.691,1.152,0.073,2.644-1.23,2.969C0.26,6.935,0,7.33,0,7.781v0.438 c0,0.45,0.258,0.845,0.865,0.997c1.303,0.326,1.921,1.818,1.23,2.969c-0.322,0.536-0.225,0.998,0.094,1.316l0.31,0.31 c0.319,0.319,0.782,0.415,1.316,0.094c1.152-0.691,2.644-0.073,2.969,1.23C6.935,15.742,7.331,16,7.781,16h0.438 c0.45,0,0.845-0.258,0.997-0.865c0.326-1.303,1.818-1.921,2.969-1.23c0.535,0.321,0.997,0.225,1.316-0.094l0.31-0.31 c0.318-0.318,0.415-0.78,0.094-1.316c-0.691-1.152-0.073-2.644,1.23-2.969C15.742,9.065,16,8.669,16,8.219V7.781 C16,7.33,15.74,6.935,15.135,6.784z M8,11c-1.657,0-3-1.343-3-3s1.343-3,3-3s3,1.343,3,3S9.657,11,8,11z"></path></g></svg>
+                <span>Settings</span>
+              </a>
+            </li>
+          
+            <li role="menuitem">
+              <a class="menu__content js-menu__content" href="users.html">
+                <svg class="icon menu__icon" aria-hidden="true" viewBox="0 0 16 16"><circle cx="10.5" cy="2.5" r="2.5"/><circle cx="5.5" cy="6.5" r="2.5"/><path d="M15.826,10.124A5.455,5.455,0,0,0,9.46,6.107,3.932,3.932,0,0,1,9.5,6.5,3.97,3.97,0,0,1,8.452,9.176,6.963,6.963,0,0,1,11.539,12h2.829a1.5,1.5,0,0,0,1.458-1.876Z"/><path d="M10.826,14.124a5.5,5.5,0,0,0-10.652,0A1.5,1.5,0,0,0,1.632,16H9.368a1.5,1.5,0,0,0,1.458-1.876Z"/></svg>
+                <span>Users</span>
+              </a>
+            </li>
+          
+            <li class="menu__separator" role="separator"></li>
+          
+            <li role="menuitem">
+              <a class="menu__content js-menu__content" href="login.html">Logout</a>
+            </li>
+          </menu>
+        </div>
+      </header>
+      <!-- end desktop main header -->
+
+      <!-- start container -->
+      <div class="container max-width-sm padding-y-lg">
+        <header class="margin-bottom-md">
+          <h1 class="text-lg">Edit Profile</h1>
+        </header>
+        
+        <ul class="grid gap-sm">
+          <li>
+            <div class="flex flex-wrap items-center gap-xs">
+              <figure class="size-60 radius-50% overflow-hidden flex-shrink-0">
+                <img class="block width-100% height-100% object-cover" src="assets/img/author-img-1.jpg" alt="User picture">
+              </figure>
+              
+              <div class="file-upload inline-block">
+                <label for="upload1" class="file-upload__label btn btn--subtle text-sm padding-y-xxxs padding-x-xxs">
+                  <span class="file-upload__text file-upload__text--has-max-width">Upload new picture</span>
+                </label>
+                
+                <input type="file" class="file-upload__input" name="upload1" id="upload1">
+              </div>
+              
+              <button class="reset link text-sm color-accent cursor-pointer">Delete</button>
+            </div>
+          </li>
+
+          <li>
+            <label class="form-label margin-bottom-xxs" for="user-name">Full Name</label>
+            <input class="form-control width-100%" type="text" name="user-name" id="user-name" value="Emily Ewing" required>
+          </li>
+
+          <li>
+            <label class="form-label margin-bottom-xxs" for="user-slug">Slug</label>
+            <input class="form-control width-100%" type="text" name="user-slug" id="user-slug" value="emily-ew" required>
+            <p class="text-xs color-contrast-medium margin-top-xxs">URL-friendly version of the name</p>
+          </li>
+
+          <li>
+            <label class="form-label margin-bottom-xxs" for="user-email">Email</label>
+            <input class="form-control width-100%" type="text" name="user-email" id="user-email" value="emily@email.com" required>
+          </li>
+
+          <li>
+            <label class="form-label margin-bottom-xxs" for="user-bio">Bio</label>
+            <textarea class="form-control width-100%" name="user-bio" id="user-bio" rows="4"></textarea>
+          </li>
+
+          <li>
+            <p class="form-label margin-bottom-xs">Notification options</p>
+          
+            <ul class="choice-tags flex flex-wrap gap-xxs js-choice-tags">
+              <li>
+                <label class="choice-tag choice-tag--checkbox text-sm js-choice-tag" for="checkbox-tag-phone-call">
+                  <input class="sr-only" type="checkbox" id="checkbox-tag-phone-call" checked>
+            
+                  <svg class="choice-tag__icon icon margin-right-xxs" viewBox="0 0 16 16" aria-hidden="true"><g class="choice-tag__icon-group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"><line x1="-6" y1="8" x2="8" y2="8" /><line x1="8" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="8" y2="14"/></g></svg>
+            
+                  <span>Phone Call</span>
+                </label>
+              </li>
+          
+              <li>
+                <label class="choice-tag choice-tag--checkbox text-sm js-choice-tag" for="checkbox-tag-message">
+                  <input class="sr-only" type="checkbox" id="checkbox-tag-message">
+            
+                  <svg class="choice-tag__icon icon margin-right-xxs" viewBox="0 0 16 16" aria-hidden="true"><g class="choice-tag__icon-group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"><line x1="-6" y1="8" x2="8" y2="8"/><line x1="8" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="8" y2="14"/></g></svg>
+            
+                  <span>Phone Message</span>
+                </label>
+              </li>
+          
+              <li>
+                <label class="choice-tag choice-tag--checkbox text-sm js-choice-tag" for="checkbox-tag-email">
+                  <input class="sr-only" type="checkbox" id="checkbox-tag-email">
+            
+                  <svg class="choice-tag__icon icon margin-right-xxs" viewBox="0 0 16 16" aria-hidden="true"><g class="choice-tag__icon-group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"><line x1="-6" y1="8" x2="8" y2="8"/><line x1="8" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="8" y2="14"/></g></svg>
+            
+                  <span>Email</span>
+                </label>
+              </li>
+            </ul>
+          </li>
+
+          <li class="border-top margin-y-xs" role="presentation"></li>
+
+          <li class="text-right">
+            <button class="btn btn--primary padding-x-md">Save</button>
+          </li>
+        </ul>
+      </div>
+      <!-- end container -->
+
+      <!-- end main content -->
     </main>
-  </div>
-
-  <!-- notification popover -->
-  <div id="notifications-popover" class="popover notif-popover bg radius-md shadow-md js-popover" role="dialog">
-    <header class="bg bg-opacity-90% backdrop-blur-10 text-sm padding-sm shadow-xs position-sticky top-0 z-index-2">
-      <div class="flex justify-between items-baseline">
-        <h1 class="text-md">Notifications</h1>
-        <a href="notifications.html" class="js-tab-focus">View all</a>
-      </div>
-    </header>
-  
-    <ul class="notif text-sm">
-      <li class="notif__item ">
-        <a class="notif__link flex padding-sm" href="#0">
-          <figure class="notif__figure margin-right-xs color-primary" aria-hidden="true">
-            <img src="assets/img/table-v2-img-1.jpg" alt="user picture">
-          </figure>
-  
-          <div class="flex-grow margin-right-xs">
-            <div>
-              <p><i class="font-semibold">Olivia Saturday</i> commented on your <i class="font-semibold">"This is all it takes to improve..."</i> post.</p>
-              <p class="text-sm color-contrast-medium margin-top-xxxs"><time>1 hour ago</time></p>
-            </div>
-          </div>
-  
-          <div class="notif__dot margin-left-auto" aria-hidden="true"></div>
-        </a>
-      </li>
-  
-      <li class="notif__item ">
-        <a class="notif__link flex padding-sm" href="#0">
-          <figure class="notif__figure margin-right-xs color-accent" aria-hidden="true">
-            <img src="assets/img/table-v2-img-2.jpg" alt="user picture">
-          </figure>
-  
-          <div class="flex-grow margin-right-xs">
-            <div>
-              <p>It's <i class="font-semibold">David Smith</i>'s birthday. Wish him well!</p>
-              <p class="text-sm color-contrast-medium margin-top-xxxs"><time>12 hours ago</time></p>
-            </div>
-          </div>
-  
-          <div class="notif__dot margin-left-auto" aria-hidden="true"></div>
-        </a>
-      </li>
-  
-      <li class="notif__item ">
-        <a class="notif__link flex padding-sm" href="#0">
-          <figure class="notif__figure margin-right-xs color-primary" aria-hidden="true">
-            <img src="assets/img/table-v2-img-3.jpg" alt="user picture">
-          </figure>
-  
-          <div class="flex-grow margin-right-xs">
-            <div>
-              <p><i class="font-semibold">Marta Rossi</i> posted <i class="font-semibold">"10 helpful tips to learn web design"</i>.</p>
-              <p class="text-sm color-contrast-medium margin-top-xxxs"><time>a day ago</time></p>
-  
-              <div class="bg radius-md padding-sm shadow-sm margin-top-sm">
-                <p class="color-contrast-medium line-height-lg">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum beatae commodi quibusdam officiis...</p>
-              </div>
-            </div>
-          </div>
-        </a>
-      </li>
-    </ul>
   </div>
 <script src="assets/js/scripts.js"></script>
 </body>

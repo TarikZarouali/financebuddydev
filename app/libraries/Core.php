@@ -2,13 +2,17 @@
 class Core
 {
     protected $currentController = 'Landingpage';
-    protected $currentMethod = 'overview';
+    protected $currentMethod = 'index';
     protected $params = [];
 
     public function __construct()
     {
+
+
+
         //get the current url
         $url = $this->getUrl();
+
 
         //check if the controller exists for the current url
         if (file_exists(APPROOT . '/controllers/' . ucwords($url[0]) . '.php')) {
@@ -24,12 +28,21 @@ class Core
         //instantiate the controllerClass
         $this->currentController = new $this->currentController();
 
+
         //Check if the second part of the url is set and if the method exists
         if (isset($url[1])) {
             if (method_exists($this->currentController, $url[1])) {
                 $this->currentMethod = $url[1];
                 // unset($url[1]);
             }
+        }
+        if ($this->currentMethod !== 'login' && $this->currentMethod !== 'register' && $this->currentMethod !== 'index') {
+            session_start();
+            if (!isset($_SESSION['user'])) {
+                header('Location: ' . URLROOT . 'user/login');
+
+            }
+            session_write_close();
         }
 
         $this->params = $url ? [$url[2]] : [];
@@ -67,7 +80,7 @@ class Core
 
             return $output;
         } else {
-            return array('landingpage', 'overview');
+            return array('landingpage', 'index');
         }
     }
 }

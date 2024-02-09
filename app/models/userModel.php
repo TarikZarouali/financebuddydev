@@ -69,4 +69,24 @@ class userModel
             return false;
         }
     }
+
+    public function getAccountsByUserId($userId)
+    {
+        try {
+
+            $getAccountsByUserIdQuery = "SELECT `accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountGoal`, `accountIsActive`, `accountCreateDate`, `accountDescription` 
+                                        FROM `accounts` 
+                                        INNER JOIN `users` 
+                                        ON `accountUserId` = `userId` 
+                                        WHERE `accountUserId` = :accountUserId 
+                                        AND `accountIsActive` = 1";
+
+            $this->db->query($getAccountsByUserIdQuery);
+            $this->db->bind(":accountUserId", $userId);
+            return $this->db->resultSet();
+        } catch (PDOException $ex) {
+            helper::log('error', 'Failed to get accounts by user id' . $ex->getMessage());
+            return false;
+        }
+    }
 }

@@ -1,16 +1,13 @@
 <?php
 class Landingpage extends Controller
+
 {
-  // private $userModel;
 
-  // public function __construct()
-  // {
-  //   $this->userModel = $this->model('userModel');
 
-  // }
-  public function overview()
+  public function index()
   {
 
-    $this->view('landingpage/overview');
+
+    $this->view('landingpage/index');
   }
 }

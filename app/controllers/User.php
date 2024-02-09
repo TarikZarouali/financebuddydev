@@ -148,7 +148,7 @@ class User extends Controller
             return;
         }
         // Render the view with error messages
-        $this->view('users/register');
+        $this->view('user/register');
     }
 
     public function login()
@@ -205,10 +205,6 @@ class User extends Controller
         $this->view('user/login');
     }
 
-    public function overview()
-    {
-        $this->view('user/overview');
-    }
 
     public function logout()
     {
@@ -221,5 +217,19 @@ class User extends Controller
         // Redirect to the login page or any other page as needed
         header('Location:' . URLROOT . 'user/login/');
         exit();
+    }
+    public function overview()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+            session_start();
+            $userId = $_SESSION['user']->userId;
+            $getAccountByUserId = $this->userModel->getAccountsByUserId($userId);
+            session_write_close();
+            $data = [
+                'account' => $getAccountByUserId,
+            ];
+        }
+        $this->view('user/overview', $data);
     }
 }
