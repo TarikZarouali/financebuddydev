@@ -9,8 +9,12 @@ define('APPROOT', dirname(dirname(__FILE__)));
 
 // Zet hier je virtualhostnaam. Let op dat er http:// voor staat anders werkt het niet
 define('URLROOT', 'http://localhost/dev/');
+define('IMAGEROOT', 'http://localhost/dev/public/media/');
+
 
 define('SITENAME', 'FinanceBuddy');
+define('ROOT', dirname(dirname(dirname(__FILE__))));
+
 
 date_default_timezone_set('Europe/Amsterdam');
 

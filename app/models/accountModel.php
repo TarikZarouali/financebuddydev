@@ -14,7 +14,7 @@ class accountModel
 
         try {
             $createAccountQuery = "INSERT INTO `accounts`(`accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountGoal`, `accountIsActive`, `accountCreateDate`, `accountDescription`)
-                                VALUES (:accountId, :accountUserId, :accountName, :accountBalance, :accountType, :accountGoal, 1, :accountCreateDate, :accountDescription)";
+                                VALUES (:accountId, :accountUserId, :accountName, :accountBalance, :accountType, NULL, 1, :accountCreateDate, :accountDescription)";
 
             $this->db->query($createAccountQuery);
             $this->db->bind(':accountId', helper::generateRandomString(15));
@@ -22,7 +22,6 @@ class accountModel
             $this->db->bind(':accountName', $newAccount['accountName']);
             $this->db->bind(':accountBalance', $newAccount['accountBalance']);
             $this->db->bind(':accountType', $newAccount['accountType']);
-            $this->db->bind(':accountGoal', $newAccount['accountGoal']);
             $this->db->bind(':accountCreateDate', $var['timestamp']);
             $this->db->bind(':accountDescription', $newAccount['accountDescription']);
 
@@ -52,6 +51,45 @@ class accountModel
             }
         } catch (PDOException $ex) {
             helper::log('error', 'Exception occurred while deleting account: ' . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function getAccountById($accountId)
+    {
+        try {
+            $getAccountByIdQuery = "SELECT `accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountGoal`, `accountIsActive`, `accountCreateDate`, `accountDescription` 
+                                    FROM `accounts` 
+                                    WHERE `accountIsActive` = 1 AND `accountId` = :accountId";
+
+            $this->db->query($getAccountByIdQuery);
+            $this->db->bind(":accountId", $accountId);
+            return $this->db->single();
+        } catch (PDOException $ex) {
+            helper::log('error', 'Failed to get account by id' . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function updateAccount($accountId, $updatedAccount)
+    {
+        try {
+            $updateAccountQuery = "UPDATE `accounts` 
+                                    SET `accountName` = :accountName, 
+                                        `accountBalance` = :accountBalance, 
+                                        `accountType` = :accountType, 
+                                        `accountDescription` = :accountDescription
+                                    WHERE `accounts`.`accountId` = :accountId";
+                                    
+            $this->db->query($updateAccountQuery);
+            $this->db->bind(':accountId', $accountId);
+            $this->db->bind(':accountName', $updatedAccount['accountName']);
+            $this->db->bind(':accountBalance', $updatedAccount['accountBalance']);
+            $this->db->bind(':accountType', $updatedAccount['accountType']);
+            $this->db->bind(':accountDescription', $updatedAccount['accountDescription']);
+            return $this->db->execute();
+        } catch (PDOException $ex) {
+            helper::log('error', 'could not update account. Error: ' . $ex->getMessage());
             return false;
         }
     }

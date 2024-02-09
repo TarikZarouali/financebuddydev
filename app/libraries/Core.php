@@ -2,7 +2,7 @@
 class Core
 {
     protected $currentController = 'Landingpage';
-    protected $currentMethod = 'index';
+    protected $currentMethod = 'overview';
     protected $params = [];
 
     public function __construct()
@@ -36,7 +36,7 @@ class Core
                 // unset($url[1]);
             }
         }
-        if ($this->currentMethod !== 'login' && $this->currentMethod !== 'register' && $this->currentMethod !== 'index') {
+        if ($this->currentMethod !== 'login' && $this->currentMethod !== 'register' && $this->currentMethod !== 'landingpage') {
             session_start();
             if (!isset($_SESSION['user'])) {
                 header('Location: ' . URLROOT . 'user/login');
@@ -80,7 +80,7 @@ class Core
 
             return $output;
         } else {
-            return array('landingpage', 'index');
+            return array('landingpage', 'overview');
         }
     }
 }

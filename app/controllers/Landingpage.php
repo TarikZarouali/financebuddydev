@@ -4,10 +4,8 @@ class Landingpage extends Controller
 {
 
 
-  public function index()
+  public function overview()
   {
-
-
-    $this->view('landingpage/index');
+    $this->view('landingpage/overview');
   }
 }
