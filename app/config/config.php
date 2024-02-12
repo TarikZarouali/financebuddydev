@@ -8,8 +8,8 @@ define('APPROOT', dirname(dirname(__FILE__)));
 
 
 // Zet hier je virtualhostnaam. Let op dat er http:// voor staat anders werkt het niet
-define('URLROOT', 'http://localhost/dev/');
-define('IMAGEROOT', 'http://localhost/dev/public/media/');
+define('URLROOT', 'http://localhost/financebuddydev/');
+define('IMAGEROOT', 'http://localhost/financebuddydev/public/media/');
 
 
 define('SITENAME', 'FinanceBuddy');

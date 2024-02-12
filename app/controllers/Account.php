@@ -82,11 +82,22 @@ class Account extends Controller
     {
         $screenId = helper::generateRandomString(15);
         $imageUploaderResult = $this->imageUploader($screenId);
-        if ($imageUploaderResult['status'] === 200 && strpos($imageUploaderResult['message'], 'Image uploaded Successfully') !== false) {
-            header('Location:' . URLROOT . 'account/update/' . $accountId);
+        if ($imageUploaderResult['status'] === 200 && strpos($imageUploaderResult['message'], 'Image uploaded successfully') !== false) {
+            $this->screenModel->insertScreenImages($screenId, $accountId);
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
         } else {
             Helper::log('error', $imageUploaderResult);
-            header('Location:' . URLROOT . 'account/update/' . $accountId);
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
+        }
+    }
+
+    public function deleteImage($accountId)
+    {
+        // Call the deleteScreen method from the model
+        if ($this->screenModel->deleteScreen($accountId)) {
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
+        } else {
+            header('Location:' . URLROOT . '/account/update/' . $accountId);
         }
     }
 
@@ -96,6 +107,7 @@ class Account extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Handle the form submission
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
 
             $userId = isset($_SESSION['user']->userId) ? $_SESSION['user']->userId : null;
 

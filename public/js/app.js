@@ -12,16 +12,19 @@ async function signUp(event) {
   const formData = new FormData(form);
 
   // Make a POST request using the fetch API
-  const ajaxFetch = await fetch("http://localhost/dev/user/register/", {
-    method: "POST",
-    body: formData,
-  });
+  const ajaxFetch = await fetch(
+    "http://localhost/financebuddydev/user/register/",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
 
   const response = await ajaxFetch.json();
 
   if (response.success) {
     console.log(response.success.message);
-    window.location.href = "http://localhost/dev/user/login/";
+    window.location.href = "http://localhost/financebuddydev/user/login/";
   } else {
     // Loop through the response and append error messages to the corresponding input fields
     Object.keys(response).forEach((fieldName) => {
@@ -60,16 +63,19 @@ async function signIn(event) {
   const formData = new FormData(form);
 
   // Make a POST request using the fetch API
-  const ajaxFetch = await fetch("http://localhost/dev/user/login/", {
-    method: "POST",
-    body: formData,
-  });
+  const ajaxFetch = await fetch(
+    "http://localhost/financebuddydev/user/login/",
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
 
   const response = await ajaxFetch.json();
 
   if (response.success) {
     console.log(response.success.message);
-    window.location.href = "http://localhost/dev/user/overview/";
+    window.location.href = "http://localhost/financebuddydev/user/overview/";
   } else {
     // Loop through the response and append error messages to the corresponding input fields
     Object.keys(response).forEach((fieldName) => {
