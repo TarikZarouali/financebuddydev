@@ -210,7 +210,7 @@
                 <label class="form-label margin-bottom-xxs" for="modal-customer-accountType">Account Type</label>
                 <select class="form-control width-100 margin-bottom-xxs" name="accountType" id="modal-customer-accountType">
                     <option value="personal">Personal</option>
-                    <option value="business">Coupons</option>
+                    <option value="business">Business</option>
                 </select>
             </div>
 
@@ -218,7 +218,7 @@
 
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-account-accountDescription">Note</label>
-                <input class="form-control width-100% margin-bottom-xxs" type="text" name="accountDescription" id="modal-account-accountDescription">
+                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="accountDescription" id="modal-account-accountDescription"></textarea>
             </div>
 
             <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>

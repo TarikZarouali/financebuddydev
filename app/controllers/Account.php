@@ -5,27 +5,30 @@ class Account extends Controller
 
     private $accountModel;
     private $screenModel;
+    private $transactionModel;
+
+    private $categoryModel;
 
     public function __construct()
     {
         $this->screenModel = $this->model('screenModel');
         $this->accountModel = $this->model('accountModel');
+        $this->transactionModel = $this->model('transactionModel');
+        $this->categoryModel = $this->model('categoryModel');
     }
 
-   public function overview($accountId)
-   {
-   
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-
-            
-            $getAccountById = $this->accountModel->getAccountById($accountId);
-            $data = [
-                'account' => $getAccountById,
-            ];
-        }
+    public function overview($accountId)
+    {
+        $getAccountById = $this->accountModel->getAccountById($accountId);
+        $getTransactionsByAccount = $this->transactionModel->getTransactionsByAccountId($accountId);
+        $activeCategories = $this->categoryModel->getActiveCategories();
+        $data = [
+            'account' => $getAccountById,
+            'transactions' => $getTransactionsByAccount,
+            'category' => $activeCategories
+        ];
         $this->view('account/overview', $data);
-    
-   }
+    }
     public function update($accountId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -40,11 +43,11 @@ class Account extends Controller
 
                 // Check the success key in the result
                 if ($result) {
-                   
+
                     header('Location:' . URLROOT . 'account/update/' . $accountId);
                 } else {
                     header('Location:' . URLROOT . 'account/update/' . $accountId);
-                    }
+                }
             } else {
                 // Handle the case where $post is not an array
                 // You may want to log an error or display an error message
@@ -108,7 +111,7 @@ class Account extends Controller
         session_write_close();
     }
 
- 
+
 
     public function delete($accountId)
     {
@@ -122,8 +125,35 @@ class Account extends Controller
         }
     }
 
-   
+
+    // TRANSACTIONS
+    public function createTransaction($accountId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Handle the form submission
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $createTransaction = $this->transactionModel->createTransactionByAccountId($post, $accountId);
+
+            if ($createTransaction) {
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            } else {
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            }
+        }
+    }
 
 
-    
+    public function deleteTransaction($accountId,$transactionId)
+    {
+        $deleteTransaction = $this->transactionModel->deleteTransaction($transactionId);
+
+        if ($deleteTransaction) {
+            header('Location: ' . URLROOT . 'account/overview' . $accountId);
+        } else {
+            echo 'Account not deleted successfully';
+            helper::log('error', 'Could not delete account on user');
+        }
+    }
 }
