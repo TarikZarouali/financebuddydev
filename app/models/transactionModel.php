@@ -13,8 +13,10 @@ class transactionModel
     {
         try {
 
-            $getTransactionByAccountIdQuery = "SELECT `transactionId`, `transactionName`, `transactionAccountId`, `transactionCategoryId`, `transactionAmount`, `transactionDescription`, `transactionCreateDate`, `transactionIsActive` 
-                                               FROM `transactions` WHERE `transactionIsActive` = 1 AND `transactionAccountId` = :transactionAccountId";
+            $getTransactionByAccountIdQuery = "SELECT t.`transactionId`, t.`transactionName`, t.`transactionAccountId`, t.`transactionCategoryId`, t.`transactionAmount`, t.`transactionDescription`, t.`transactionCreateDate`, t.`transactionIsActive`, c.`categoryName`
+                                               FROM `transactions` t
+                                               INNER JOIN `categories` c ON t.`transactionCategoryId` = c.`categoryId`
+                                               WHERE t.`transactionIsActive` = 1 AND t.`transactionAccountId` = :transactionAccountId";
 
             $this->db->query($getTransactionByAccountIdQuery);
             $this->db->bind(':transactionAccountId', $accountId);

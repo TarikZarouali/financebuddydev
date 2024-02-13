@@ -42,8 +42,7 @@
                 </li>
                 <?php endforeach; ?>
                 <?php else : ?>
-                <p>You have no accounts. Start making your first account with <a class="btn btn--primary"
-                        href="URLROOT/account/create">Create Account</a></p>
+                <p>You have no accounts. Start making your first account with
                 <?php endif; ?>
 
 

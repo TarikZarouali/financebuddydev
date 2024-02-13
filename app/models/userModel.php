@@ -74,7 +74,7 @@ class userModel
     {
         try {
 
-            $getAccountsByUserIdQuery = "SELECT `accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountGoal`, `accountIsActive`, `accountCreateDate`, `accountDescription` 
+            $getAccountsByUserIdQuery = "SELECT `accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`,`accountIsActive`, `accountCreateDate`, `accountDescription` 
                                         FROM `accounts` 
                                         INNER JOIN `users` 
                                         ON `accountUserId` = `userId` 

@@ -8,7 +8,37 @@
                 <h2 class="text-lg">Overview account</h2>
             </header>
 
-            <button class="btn btn--primary" style="margin-bottom: 2rem; " aria-controls="modal-form">Create new transaction</button>
+            <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
+
+                <?php if ($data['goal']) : ?>
+                    <!-- Show Edit and Delete buttons if a goal exists -->
+                    <button class="btn btn--primary" style="margin-bottom: 2rem;" aria-controls="modal-goal-edit-form">Edit goal</button>
+                    <button class="btn btn--accent" style="margin-bottom: 2rem;" aria-controls="dialog-delete-goal-confirmation">Delete goal</button>
+                    <h5 style="margin-bottom:2rem;">Your goal is <?= $data['goal']->goalName ?> and the costs for your goal is $<strong><?= $data['goal']->goalAmount ?></strong></h5>
+                    <div class="progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar">
+                        <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value"><?= $data['progress'] ?>%</span></p>
+                        <span class="progress-bar__value margin-bottom-xs" aria-hidden="true"><?= $data['progress'] ?>%</span>
+
+                        <div class="progress-bar__bg" aria-hidden="true">
+                            <div class="progress-bar__fill" style="width: <?= $data['progress'] ?>%;"></div>
+                        </div>
+                    </div>
+                <?php else : ?>
+                    <!-- Show Add a goal button if no goal exists -->
+                    <button class="btn btn--subtle" style="margin-bottom: 2rem;" aria-controls="modal-goal-form">Add a goal</button>
+                <?php endif; ?>
+
+
+
+
+            </div>
+
+            <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
+                <h2>Your current balance is: <?=$data['account']->accountBalance ?></h2>
+            </div>
+            <div>
+                <button class="btn btn--primary" style="margin-bottom: 2rem; " aria-controls="modal-transaction-form">Create new transaction</button>
+            </div>
 
 
             <div class="bg-light radius-md padding-md inner-glow shadow-xs">
@@ -112,7 +142,7 @@
     </th>
 
     <th class="int-table__cell int-table__cell--th text-left">
-        transacion amoun
+        transacion amount
     </th>
 
     <th class="int-table__cell int-table__cell--th text-left">
@@ -167,12 +197,12 @@
                     </th>
                     <td class="int-table__cell text-truncate max-width-xxxxs"><?= $transaction->transactionName ?></a></td>
                     <td class="int-table__cell"><?= $transaction->transactionAmount ?></a></td>
-                    <td class="int-table__cell"><?= $transaction->transactionCategoryId ?></a></td>
+                    <td class="int-table__cell"><?= $transaction->categoryName ?></a></td>
                     <td class="int-table__cell">
                         <span class="inline-block bg-success bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-success-darker text-xs ws-nowrap">notyet</span>
                     </td>
                     <td class="int-table__cell text-right"><?php echo date('Y-m-d', $transaction->transactionCreateDate); ?></td>
-                    <td class="int-table__cell "> 
+                    <td class="int-table__cell ">
                         <a href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>" class="btn btn--primary">Edit</a>
                         <a href="<?= URLROOT ?>account/deleteTransaction/<?= $transaction->transactionId ?>" class="btn btn--accent">Delete</a>
                     </td>
@@ -350,14 +380,28 @@
 </main>
 </div>
 
+
 <!-- DELETE ALERT -->
+<div class="dialog dialog--sticky js-dialog" id="dialog-delete-goal-confirmation" data-animation="on">
+    <div class="dialog__content max-width-xxs" role="alertdialog" aria-labelledby="dialog-title-1" aria-describedby="dialog-description">
+        <div class="text-component">
+            <br>
+            <br>
+            <h4 id="dialog-title-1">Are you sure you want to delete this Goal?
+            </h4>
+            <p id="dialog-description">This action cannot be undone.</p>
+        </div>
+        <footer class="margin-top-md">
+            <div class="flex justify-end gap-xs flex-wrap">
+                <button class="btn btn--subtle js-dialog__close">Cancel</button>
+                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Delete goal</a>
+            </div>
+        </footer>
+    </div>
+</div>
 
-
-<!-- MODAL FORM -->
-
-
-
-<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-form">
+<!-- MODAL FORM  CREATING TRANSACTION-->
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-transaction-form">
     <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
         <div class="text-component margin-bottom-md">
             <h3 id="modal-form-title">Create new transaction</h3>
@@ -390,6 +434,45 @@
             </div>
             <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
         </form>
+    </div>
+
+    <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
+        <svg class="icon icon--sm" viewBox="0 0 24 24">
+            <title>Close modal window</title>
+            <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="3" x2="21" y2="21" />
+                <line x1="21" y1="3" x2="3" y2="21" />
+            </g>
+        </svg>
+    </button>
+</div>
+
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-goal-form">
+    <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
+        <div class="text-component margin-bottom-md">
+            <h3 id="modal-form-title">Create new Goal</h3>
+        </div>
+
+        <form method="POST" action="<?= URLROOT ?>account/createGoal/<?= $data['account']->accountId ?>/" class="margin-bottom-sm">
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-goal-goalName">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalAmount">goal amount</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="goalAmount" id="modal-goal-transactionAmount">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalDescription">Description</label>
+                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="goalDescription" id="modal-goal-goalDescription"></textarea>
+            </div>
+
+
+
+            <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
+        </form>
 
 
     </div>
@@ -404,5 +487,4 @@
         </svg>
     </button>
 </div>
-
 <?php require APPROOT . '/views/includes/footer.php'; ?>
