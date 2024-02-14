@@ -13,8 +13,8 @@ class accountModel
         global $var;
 
         try {
-            $createAccountQuery = "INSERT INTO `accounts`(`accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountGoal`, `accountIsActive`, `accountCreateDate`, `accountDescription`)
-                                VALUES (:accountId, :accountUserId, :accountName, :accountBalance, :accountType, NULL, 1, :accountCreateDate, :accountDescription)";
+            $createAccountQuery = "INSERT INTO `accounts`(`accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`,`accountIsActive`, `accountCreateDate`, `accountDescription`)
+                                VALUES (:accountId, :accountUserId, :accountName, :accountBalance, :accountType, 1, :accountCreateDate, :accountDescription)";
 
             $this->db->query($createAccountQuery);
             $this->db->bind(':accountId', helper::generateRandomString(15));
@@ -58,7 +58,7 @@ class accountModel
     public function getAccountById($accountId)
     {
         try {
-            $getAccountByIdQuery = "SELECT `accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountGoal`, `accountIsActive`, `accountCreateDate`, `accountDescription` 
+            $getAccountByIdQuery = "SELECT `accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountIsActive`, `accountCreateDate`, `accountDescription` 
                                     FROM `accounts` 
                                     WHERE `accountIsActive` = 1 AND `accountId` = :accountId";
 
@@ -93,4 +93,6 @@ class accountModel
             return false;
         }
     }
+
+    
 }

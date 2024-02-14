@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2024 at 03:15 PM
+-- Generation Time: Feb 13, 2024 at 04:31 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 7.4.30
 
@@ -33,11 +33,24 @@ CREATE TABLE `accounts` (
   `accountName` varchar(50) NOT NULL,
   `accountBalance` decimal(9,2) NOT NULL,
   `accountType` enum('personal','business') NOT NULL,
-  `accountGoal` decimal(9,2) NOT NULL,
   `accountIsActive` int(1) NOT NULL,
   `accountCreateDate` int(10) NOT NULL,
   `accountDescription` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `accounts`
+--
+
+INSERT INTO `accounts` (`accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountIsActive`, `accountCreateDate`, `accountDescription`) VALUES
+('AsgEUsAsQLss0iV', 'twTYXKTK2bEMbtP', 'Moneys', '700.00', 'personal', 1, 1707314186, 'This account is for my personal use'),
+('d92V2G0Pkt7Q7sm', 'twTYXKTK2bEMbtP', 'Saving', '500.00', 'personal', 0, 1707299291, NULL),
+('HLWlpf8ZU2FDt6i', 'twTYXKTK2bEMbtP', 'asd', '213.00', 'business', 0, 1707733564, ''),
+('is41siOwh8YEVI0', 'twTYXKTK2bEMbtP', 'asd', '23.00', 'personal', 0, 1707837895, 'asd'),
+('KrwjLEX5dV', 'twTYXKTK2bEMbtP', 'moneymaking', '500.00', 'personal', 0, 1707837781, NULL),
+('m62GZ05Ph41fONa', 'twTYXKTK2bEMbtP', 'rer', '213.00', 'personal', 0, 1707746673, ''),
+('P3Q7Cc5DGUHC90X', 'twTYXKTK2bEMbtP', 'work', '2000.00', 'personal', 0, 1707485379, 'business'),
+('PKWxyVxNKjIor1t', 'twTYXKTK2bEMbtP', 'asd', '0.00', 'personal', 0, 1707837932, 'asd');
 
 -- --------------------------------------------------------
 
@@ -64,8 +77,27 @@ CREATE TABLE `budgets` (
 CREATE TABLE `categories` (
   `categoryId` varchar(15) NOT NULL,
   `categoryName` varchar(50) NOT NULL,
-  `categoryDescription` text NOT NULL
+  `categoryDescription` text NOT NULL,
+  `categoryIsActive` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`categoryId`, `categoryName`, `categoryDescription`, `categoryIsActive`) VALUES
+('4wuGUpB6b0e9e31', 'Healthcare', '', 1),
+('7AoQS1tlg05WUc4', 'Education', '', 1),
+('Env8LPBHUUvcv5F', 'Household', '', 1),
+('fh36NuRXp1lBHmJ', 'Beauty', '', 1),
+('Ikt3cJPouB0lmkG', 'Culture', '', 1),
+('illWfJd7tZn8gWy', 'Transport', '', 1),
+('jWLg4VeULgOOsrK', 'Food', '', 1),
+('MmdkbJUJgztWGUY', 'Other', '', 1),
+('xhRVH7naEbrcQtJ', 'Gift', '', 1),
+('Y3JL6NB8OWSE4vy', 'Social life', '', 1),
+('YdQuJEuRywKcqP0', 'Pets', '', 1),
+('YQLK95c0YhqEXsq', 'Beauty', '', 1);
 
 -- --------------------------------------------------------
 
@@ -76,11 +108,19 @@ CREATE TABLE `categories` (
 CREATE TABLE `goals` (
   `goalId` varchar(15) NOT NULL,
   `goalAccountId` varchar(15) NOT NULL,
+  `goalName` varchar(50) NOT NULL,
   `goalAmount` decimal(9,2) NOT NULL,
   `goalIsActive` int(1) NOT NULL,
-  `goalDescription` text NOT NULL,
+  `goalDescription` text DEFAULT NULL,
   `goalCreateDate` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `goals`
+--
+
+INSERT INTO `goals` (`goalId`, `goalAccountId`, `goalName`, `goalAmount`, `goalIsActive`, `goalDescription`, `goalCreateDate`) VALUES
+('kcFs8J0PeNsMy4l', 'AsgEUsAsQLss0iV', 'Vacation', '7000.00', 1, 'this is just a test', 1707830119);
 
 -- --------------------------------------------------------
 
@@ -102,12 +142,23 @@ CREATE TABLE `screens` (
 
 CREATE TABLE `transactions` (
   `transactionId` varchar(15) NOT NULL,
+  `transactionName` varchar(255) NOT NULL,
   `transactionAccountId` varchar(15) NOT NULL,
   `transactionCategoryId` varchar(15) NOT NULL,
   `transactionAmount` decimal(9,2) NOT NULL,
   `transactionDescription` text DEFAULT NULL,
-  `transactionCreateDate` int(10) NOT NULL
+  `transactionCreateDate` int(10) NOT NULL,
+  `transactionIsActive` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`transactionId`, `transactionName`, `transactionAccountId`, `transactionCategoryId`, `transactionAmount`, `transactionDescription`, `transactionCreateDate`, `transactionIsActive`) VALUES
+('fmZFEs9bEPfxY6X', 'games', 'AsgEUsAsQLss0iV', 'xhRVH7naEbrcQtJ', '50.00', 'bought a game for my friend', 1707751773, 1),
+('MWlYHZjN4Wdrd0j', 'asd', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '213.00', 'sad', 1707837577, 1),
+('s63PzEJdd51JVnt', 'school', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '300.00', '', 1707749695, 1);
 
 -- --------------------------------------------------------
 

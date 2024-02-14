@@ -5,26 +5,52 @@ class Account extends Controller
 
     private $accountModel;
     private $screenModel;
+    private $transactionModel;
+    private $categoryModel;
+    private $goalModel;
 
     public function __construct()
     {
         $this->screenModel = $this->model('screenModel');
         $this->accountModel = $this->model('accountModel');
+        $this->transactionModel = $this->model('transactionModel');
+        $this->categoryModel = $this->model('categoryModel');
+        $this->goalModel = $this->model('goalModel');
     }
 
+
+    // ACCOUNTS SECTION
     public function overview($accountId)
     {
+        $getAccountById = $this->accountModel->getAccountById($accountId);
+        $getTransactionsByAccount = $this->transactionModel->getTransactionsByAccountId($accountId);
+        $activeCategories = $this->categoryModel->getActiveCategories();
+        $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
 
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        $accountBalance = $getAccountById->accountBalance;
+        $goalAmount = isset($activeGoals->goalAmount) ? $activeGoals->goalAmount : 0;
 
-
-            $getAccountById = $this->accountModel->getAccountById($accountId);
-            $data = [
-                'account' => $getAccountById,
-            ];
+        // Check if goalAmount is not zero to avoid division by zero warning
+        if ($goalAmount != 0) {
+            $progress = ($accountBalance / $goalAmount) * 100;
+            $progress = min(100, round($progress));
+        } else {
+            $progress = 0;
         }
+
+        $data = [
+            'account' => $getAccountById,
+            'transactions' => $getTransactionsByAccount,
+            'category' => $activeCategories,
+            'goal' => $activeGoals,
+            'progress' => $progress,
+        ];
+
+
         $this->view('account/overview', $data);
     }
+
+
     public function update($accountId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,7 +59,7 @@ class Account extends Controller
             // Check if $post is an array before proceeding
             if (is_array($post)) {
 
-                $accountId = $post['accountId']; // Adjust this line according to your form field name
+                $accountId = $post['accountId'];
 
                 $result = $this->accountModel->updateAccount($accountId, $post);
 
@@ -105,8 +131,8 @@ class Account extends Controller
             // Handle the form submission
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-
             $userId = isset($_SESSION['user']->userId) ? $_SESSION['user']->userId : null;
+
 
             $createAccount = $this->accountModel->createAccount($post, $userId);
 
@@ -131,6 +157,107 @@ class Account extends Controller
         } else {
             echo 'Account not deleted successfully';
             helper::log('error', 'Could not delete account on user');
+        }
+    }
+
+    // END ACCOUNT SECTION
+
+    // GOALS SECTION
+    public function createGoal($accountId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $createGoal = $this->goalModel->createGoalByAccountId($post, $accountId);
+
+            if ($createGoal) {
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            } else {
+
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            }
+        }
+    }
+
+    public function deleteGoal($goalId)
+    {
+        $goal = $this->goalModel->getGoalsById($goalId);
+        if ($this->goalModel->deleteGoal($goalId)) {
+            header('Location: ' . URLROOT . 'account/overview/' . $goal->goalAccountId);
+        } else {
+            echo 'goal not deleted successfully';
+            helper::log('error', 'Could not delete goal on user');
+        }
+        return;
+    }
+
+
+    public function updateGoal($goalId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $goal = $this->goalModel->getGoalsById($goalId);
+            $updateGoal = $this->goalModel->updateGoal($goalId, $post);
+
+            if ($updateGoal) {
+                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId);
+                return;
+            } else {
+                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId);
+                return;
+            }
+        }
+    }
+
+
+    // END GOAL SECTION
+
+    // TRANSACTIONS SECTION
+    public function createTransaction($accountId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Handle the form submission
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $createTransaction = $this->transactionModel->createTransactionByAccountId($post, $accountId);
+
+            if ($createTransaction) {
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            } else {
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            }
+        }
+    }
+
+
+    public function deleteTransaction($transactionId)
+    {
+        $transaction = $this->transactionModel->getTransactionsById($transactionId);
+        if ($this->transactionModel->deleteTransaction($transactionId)) {
+            header('Location: ' . URLROOT . 'account/overview/' . $transaction->transactionAccountId);
+        } else {
+            echo 'transaction not deleted successfully';
+            helper::log('error', 'Could not delete transaction on user');
+        }
+        return;
+    }
+
+    public function updateTransaction($transactionId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $transaction = $this->transactionModel->getTransactionsById($transactionId);
+            $updateTransaction = $this->transactionModel->updateTransaction($transactionId, $post);
+
+             if ($updateTransaction) {
+                header("Location:". URLROOT. 'account/overview/'. $transaction->transactionAccountId);
+                return;
+            } else {
+                header("Location:". URLROOT. 'account/overview/'. $transaction->transactionAccountId);
+                return;
+            }
         }
     }
 }
