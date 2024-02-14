@@ -26,10 +26,10 @@ class Account extends Controller
         $getTransactionsByAccount = $this->transactionModel->getTransactionsByAccountId($accountId);
         $activeCategories = $this->categoryModel->getActiveCategories();
         $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
-        
+
         $accountBalance = $getAccountById->accountBalance;
-        $goalAmount = isset($activeGoals->goalAmount) ? $activeGoals->goalAmount : 0; 
-    
+        $goalAmount = isset($activeGoals->goalAmount) ? $activeGoals->goalAmount : 0;
+
         // Check if goalAmount is not zero to avoid division by zero warning
         if ($goalAmount != 0) {
             $progress = ($accountBalance / $goalAmount) * 100;
@@ -37,7 +37,7 @@ class Account extends Controller
         } else {
             $progress = 0;
         }
-    
+
         $data = [
             'account' => $getAccountById,
             'transactions' => $getTransactionsByAccount,
@@ -45,11 +45,12 @@ class Account extends Controller
             'goal' => $activeGoals,
             'progress' => $progress,
         ];
-    
+
+
         $this->view('account/overview', $data);
     }
-    
-    
+
+
     public function update($accountId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -128,10 +129,10 @@ class Account extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Handle the form submission
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            
+
             $userId = isset($_SESSION['user']->userId) ? $_SESSION['user']->userId : null;
-       
-            
+
+
             $createAccount = $this->accountModel->createAccount($post, $userId);
 
             if ($createAccount) {
@@ -158,6 +159,58 @@ class Account extends Controller
         }
     }
 
+    // END ACCOUNT SECTION
+
+    // GOALS SECTION
+    public function createGoal($accountId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $createGoal = $this->goalModel->createGoalByAccountId($post, $accountId);
+
+            if ($createGoal) {
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            } else {
+
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            }
+        }
+    }
+
+    public function deleteGoal($goalId)
+    {
+        $goal = $this->goalModel->getGoalsById($goalId);
+        if ($this->goalModel->deleteGoal($goalId)) {
+            header('Location: ' . URLROOT . 'account/overview/' . $goal->goalAccountId);
+        } else {
+            echo 'goal not deleted successfully';
+            helper::log('error', 'Could not delete goal on user');
+        }
+        return;
+    }
+
+
+    public function updateGoal($goalId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $goal = $this->goalModel->getGoalsById($goalId);
+            $updateGoal = $this->goalModel->updateGoal($goalId, $post);
+
+            if ($updateGoal) {
+                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId);
+                return;
+            } else {
+                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId);
+                return;
+            }
+        }
+    }
+
+
+    // END GOAL SECTION
 
     // TRANSACTIONS SECTION
     public function createTransaction($accountId)
@@ -178,49 +231,32 @@ class Account extends Controller
     }
 
 
-    public function deleteTransaction($accountId,$transactionId)
+    public function deleteTransaction($transactionId)
     {
-        $deleteTransaction = $this->transactionModel->deleteTransaction($transactionId);
-
-        if ($deleteTransaction) {
-            header('Location: ' . URLROOT . 'account/overview' . $accountId);
+        $transaction = $this->transactionModel->getTransactionsById($transactionId);
+        if ($this->transactionModel->deleteTransaction($transactionId)) {
+            header('Location: ' . URLROOT . 'account/overview/' . $transaction->transactionAccountId);
         } else {
-            echo 'Account not deleted successfully';
-            helper::log('error', 'Could not delete account on user');
+            echo 'transaction not deleted successfully';
+            helper::log('error', 'Could not delete transaction on user');
         }
+        return;
     }
 
-
-
-
-    // GOALS SECTION
-    public function createGoal($accountId)
+    public function updateTransaction($transactionId)
     {
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $createGoal = $this->goalModel->createGoalByAccountId($post, $accountId);
+            $transaction = $this->transactionModel->getTransactionsById($transactionId);
+            $updateTransaction = $this->transactionModel->updateTransaction($transactionId, $post);
 
-            if($createGoal)
-            {
-                header("Location:". URLROOT. 'account/overview/'. $accountId);
+             if ($updateTransaction) {
+                header("Location:". URLROOT. 'account/overview/'. $transaction->transactionAccountId);
                 return;
-            }else{
-              
-                header("Location:". URLROOT. 'account/overview/'. $accountId);
+            } else {
+                header("Location:". URLROOT. 'account/overview/'. $transaction->transactionAccountId);
                 return;
             }
-        }
-    }
-
-    public function deleteGoal($Ids)
-    {
-        $Ids = explode('+', $Ids);
-        helper::dump($Ids);exit;
-
-        if($this->goalModel->deleteGoal($Ids[0])){
-            header('Refresh:' . URLROOT . 'account/overview/' . $Ids[1]);
-        } else {
-            helper::log('error', 'Could not delete goal on account');
         }
     }
 }

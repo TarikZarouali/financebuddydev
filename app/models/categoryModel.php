@@ -10,7 +10,7 @@ class categoryModel
 
     public function getActiveCategories()
     {
-        try{
+        try {
 
             $getActiveCategories = "SELECT `categoryId`, `categoryName`, `categoryDescription`, `categoryIsActive` 
                                     FROM `categories` 
@@ -18,11 +18,11 @@ class categoryModel
 
             $this->db->query($getActiveCategories);
             return $this->db->resultSet();
-        }catch(Exception $ex){
+        } catch (Exception $ex) {
             helper::log('error', 'could not get active categories' . $ex->getMessage());
             return;
         }
     }
 
-    
+   
 }

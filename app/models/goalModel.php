@@ -24,6 +24,21 @@ class goalModel
         }
     }
 
+    public function getGoalsById($goalId)
+    {
+        try {
+            $getGoalsByAccountIdQuery = "SELECT `goalId`, `goalAccountId`, `goalName`, `goalAmount`, `goalIsActive`, `goalDescription`, `goalCreateDate` 
+                                         FROM `goals` 
+                                         WHERE `goalIsActive` = 1 AND `goalId` = :goalId";
+            $this->db->query($getGoalsByAccountIdQuery);
+            $this->db->bind(':goalId', $goalId);
+            return $this->db->single();
+        } catch (PDOException $ex) {
+            helper::log('error', 'Failed to get goals by account id' . $ex->getMessage());
+            return false;
+        }
+    }
+
     public function createGoalByAccountId($newGoal, $accountId)
     {
         global $var;
@@ -49,13 +64,31 @@ class goalModel
     {
         try {
             $deleteGoal = "UPDATE `goals` 
-                                SET `goalIsActive` = '1' 
-                                WHERE `goals`.`goalId` = :goalId";
+                                SET `goalIsActive` = '0' 
+                                WHERE goals.goalId = :goalId";
             $this->db->query($deleteGoal);
             $this->db->bind(':goalId', $goalId);
-            $this->db->execute();
+            return $this->db->execute();
         } catch (PDOException $ex) {
             helper::log('error', 'Exception occurred while deleting goal: ' . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function updateGoal($goalId, $updatedGoal)
+    {
+        try {
+            $updateGoal = "UPDATE goals 
+                           SET goalName= :goalName, goalAmount= :goalAmount, goalDescription= :goalDescription
+                           WHERE goalId = :goalId";
+            $this->db->query($updateGoal);
+            $this->db->bind(':goalId', $goalId);
+            $this->db->bind(':goalName', $updatedGoal['goalName']);
+            $this->db->bind(':goalAmount', $updatedGoal['goalAmount']);
+            $this->db->bind(':goalDescription', $updatedGoal['goalDescription']);
+            return $this->db->execute();
+        } catch (PDOException $ex) {
+            helper::log('error', 'Failed to update goal'. $ex->getMessage());
             return false;
         }
     }

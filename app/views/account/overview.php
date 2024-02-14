@@ -14,7 +14,7 @@
                     <!-- Show Edit and Delete buttons if a goal exists -->
                     <button class="btn btn--primary" style="margin-bottom: 2rem;" aria-controls="modal-goal-edit-form">Edit goal</button>
                     <button class="btn btn--accent" style="margin-bottom: 2rem;" aria-controls="dialog-delete-goal-confirmation">Delete goal</button>
-                    <h5 style="margin-bottom:2rem;">Your goal is <?= $data['goal']->goalName ?> and the costs for your goal is $<strong><?= $data['goal']->goalAmount ?></strong></h5>
+                    <h5 style="margin-bottom:2rem;">Your goal is <?= $data['goal']->goalName ?> and the costs for your goal is <strong>$<?= $data['goal']->goalAmount ?></strong></h5>
                     <div class="progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar">
                         <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value"><?= $data['progress'] ?>%</span></p>
                         <span class="progress-bar__value margin-bottom-xs" aria-hidden="true"><?= $data['progress'] ?>%</span>
@@ -34,7 +34,7 @@
             </div>
 
             <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
-                <h2>Your current balance is: <?=$data['account']->accountBalance ?></h2>
+                <h2>Your current balance is: <?= $data['account']->accountBalance ?></h2>
             </div>
             <div>
                 <button class="btn btn--primary" style="margin-bottom: 2rem; " aria-controls="modal-transaction-form">Create new transaction</button>
@@ -203,8 +203,8 @@
                     </td>
                     <td class="int-table__cell text-right"><?php echo date('Y-m-d', $transaction->transactionCreateDate); ?></td>
                     <td class="int-table__cell ">
-                        <a href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>" class="btn btn--primary">Edit</a>
-                        <a href="<?= URLROOT ?>account/deleteTransaction/<?= $transaction->transactionId ?>" class="btn btn--accent">Delete</a>
+                        <button class="btn btn--primary" aria-controls="modal-transaction-edit-form">Edit transaction</button>
+                        <button class="btn btn--accent" aria-controls="dialog-delete-transaction-confirmation">Delete transaction</button>
                     </td>
 
                 </tr>
@@ -381,7 +381,7 @@
 </div>
 
 
-<!-- DELETE ALERT -->
+<!-- DELETE GOAL -->
 <div class="dialog dialog--sticky js-dialog" id="dialog-delete-goal-confirmation" data-animation="on">
     <div class="dialog__content max-width-xxs" role="alertdialog" aria-labelledby="dialog-title-1" aria-describedby="dialog-description">
         <div class="text-component">
@@ -395,6 +395,25 @@
             <div class="flex justify-end gap-xs flex-wrap">
                 <button class="btn btn--subtle js-dialog__close">Cancel</button>
                 <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Delete goal</a>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<!-- DELETE TRANSACTION -->
+<div class="dialog dialog--sticky js-dialog" id="dialog-delete-transaction-confirmation" data-animation="on">
+    <div class="dialog__content max-width-xxs" role="alertdialog" aria-labelledby="dialog-title-1" aria-describedby="dialog-description">
+        <div class="text-component">
+            <br>
+            <br>
+            <h4 id="dialog-title-1">Are you sure you want to delete this Transaction?
+            </h4>
+            <p id="dialog-description">This action cannot be undone.</p>
+        </div>
+        <footer class="margin-top-md">
+            <div class="flex justify-end gap-xs flex-wrap">
+                <button class="btn btn--subtle js-dialog__close">Cancel</button>
+                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteTransaction/<?= $transaction->transactionId ?>">Delete goal</a>
             </div>
         </footer>
     </div>
@@ -447,6 +466,8 @@
     </button>
 </div>
 
+
+<!-- MODAL FOR CREATING GOAL -->
 <div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-goal-form">
     <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
         <div class="text-component margin-bottom-md">
@@ -475,6 +496,95 @@
         </form>
 
 
+    </div>
+
+    <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
+        <svg class="icon icon--sm" viewBox="0 0 24 24">
+            <title>Close modal window</title>
+            <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="3" x2="21" y2="21" />
+                <line x1="21" y1="3" x2="3" y2="21" />
+            </g>
+        </svg>
+    </button>
+</div>
+
+
+<!-- MODAL FOR EDITING GOAL -->
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-goal-edit-form">
+    <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
+        <div class="text-component margin-bottom-md">
+            <h3 id="modal-form-title">Edit selected Goal</h3>
+        </div>
+
+        <form method="POST" action="<?= URLROOT ?>account/updateGoal/<?= $data['goal']->goalId ?>/" class="margin-bottom-sm">
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-transaction-goalName" value="<?= $data['goal']->goalName ?>">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalAmount">Goal amount</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="goalAmount" id="modal-goal-goalAmount" value="<?= $data['goal']->goalAmount ?>">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalDescription">Goal description</label>
+                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="goalDescription" id="modal-goal-goalDescription" value="<?= $data['goal']->goalDescription ?>"></textarea>
+            </div>
+
+            <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
+        </form>
+    </div>
+
+    <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
+        <svg class="icon icon--sm" viewBox="0 0 24 24">
+            <title>Close modal window</title>
+            <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="3" x2="21" y2="21" />
+                <line x1="21" y1="3" x2="3" y2="21" />
+            </g>
+        </svg>
+    </button>
+</div>
+
+
+<!-- MODAL FOR EDITING TRANSACTION -->
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-transaction-edit-form">
+    <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
+        <div class="text-component margin-bottom-md">
+            <h3 id="modal-form-title">Edit selected transaction</h3>
+        </div>
+
+        <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/" class="margin-bottom-sm">
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction name</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="text" name="transactionName" id="modal-transaction-transactionName" value="<?= $transaction->transactionName ?>">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionAmount">Transaction amount</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="transactionAmount" id="modal-transaction-transactionAmount" value="<?= $transaction->transactionAmount ?>">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionDescription">Transaction description</label>
+                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="transactionDescription" id="modal-transaction-transactionDescription" value="<?= $transaction->transactionDescription ?>"></textarea>
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="transactionCategoryId">Category</label>
+                <select class="form-control width-100" name="transactionCategoryId" id="transactionCategoryId" required>
+                    <?php foreach ($data['category'] as $category) : ?>
+                        <option value="<?= $category->categoryId ?>" <?= ($category->categoryId == $data['selectedCategory']) ? 'selected' : '' ?>>
+                            <?= $category->categoryName ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+
+            <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
+        </form>
     </div>
 
     <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
