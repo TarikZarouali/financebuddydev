@@ -87,6 +87,7 @@ class Account extends Controller
         }
     }
 
+
     public function deleteImage($accountId)
     {
         // Call the deleteScreen method from the model
