@@ -125,4 +125,23 @@ class transactionModel
             return false;
         }
     }
+
+    public function getTransactionsByCategory($categoryId)
+    {
+        try{
+
+            $getTransactionsByCategoryQuery = "SELECT t.`transactionId`, t.`transactionName`, t.`transactionAccountId`, t.`transactionCategoryId`, t.`transactionAmount`, t.`transactionDescription`, t.`transactionCreateDate`, t.`transactionIsActive`, c.`categoryName`
+                                               FROM `transactions` t
+                                               INNER JOIN `categories` c ON t.`transactionCategoryId` = c.`categoryId`
+                                               WHERE t.`transactionIsActive` = 1 AND c.`categoryName` = :categoryName";
+            $this->db->query($getTransactionsByCategoryQuery);
+            $this->db->bind(':categoryId', $categoryId);
+            return $this->db->resultSet();
+        }catch(PDOException $ex){
+            helper::log('error', 'Exception occurred while getting transactions by category: '. $ex->getMessage());
+            return false;
+        }
+    }
+    
+
 }

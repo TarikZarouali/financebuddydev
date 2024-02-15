@@ -97,4 +97,3 @@ async function signIn(event) {
     });
   }
 }
-// END SIGNIN CHECK
