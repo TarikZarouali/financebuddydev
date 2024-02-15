@@ -138,17 +138,17 @@
                                             <span>Transaction name</span>
                                         </div>
                                     </th>
-                                    <th class="int-table__cell int-table__cell--th text-left">
+                                    <th class="int-table__cell int-table__cell--th text-center">
                                         Transaction Amount
                                     </th>
-                                    <th class="int-table__cell int-table__cell--th text-left">
+                                    <th class="int-table__cell int-table__cell--th text-center">
                                         Transaction Category
                                     </th>
-                                    <th class="int-table__cell int-table__cell--th text-left">
+                                    <th class="int-table__cell int-table__cell--th text-center">
                                         Transaction Type
                                     </th>
-                                    <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort" data-date-format="dd-mm-yyyy">
-                                        <div class="flex items-center justify-end">
+                                    <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort text-center" data-date-format="dd-mm-yyyy">
+                                        <div class="flex items-center justify-center">
                                             <span>Create date</span>
                                             <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
                                                 <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
@@ -170,7 +170,7 @@
                                             </li>
                                         </ul>
                                     </th>
-                                    <th class="int-table__cell int-table__cell--th text-left">
+                                    <th class="int-table__cell int-table__cell--th text-center">
                                         Action
                                     </th>
                                 </tr>
@@ -185,18 +185,18 @@
                                                     <div class="custom-checkbox__control" aria-hidden="true"></div>
                                                 </div>
                                             </th>
-                                            <td class="int-table__cell text-truncate max-width-xxxxs"><?= $transaction->transactionName ?></td>
-                                            <td class="int-table__cell"><?= $transaction->transactionAmount ?></td>
-                                            <td class="int-table__cell"><?= $transaction->categoryName ?></td>
-                                            <td class="int-table__cell">
+                                            <td class="int-table__cell text-truncate max-width-xxxxs text-left"><?= $transaction->transactionName ?></td>
+                                            <td class="int-table__cell text-center"><?= $transaction->transactionAmount ?></td>
+                                            <td class="int-table__cell text-center"><?= $transaction->categoryName ?></td>
+                                            <td class="int-table__cell text-center">
                                                 <?php if ($transaction->transactionAmount > 0) : ?>
                                                     <span class="inline-block bg-success-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-success-darker text-xs ws-nowrap">Income</span>
                                                 <?php else : ?>
                                                     <span class="inline-block bg-error-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-error-darker text-xs ws-nowrap">Expense</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td class="int-table__cell text-right"><?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
-                                            <td class="int-table__cell">
+                                            <td class="int-table__cell text-center"><?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
+                                            <td class="int-table__cell text-center">
                                                 <a class="btn btn--primary" href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/">Edit transaction</a>
                                             </td>
                                         </tr>

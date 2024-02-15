@@ -133,7 +133,7 @@ class transactionModel
             $getTransactionsByCategoryQuery = "SELECT t.`transactionId`, t.`transactionName`, t.`transactionAccountId`, t.`transactionCategoryId`, t.`transactionAmount`, t.`transactionDescription`, t.`transactionCreateDate`, t.`transactionIsActive`, c.`categoryName`
                                                FROM `transactions` t
                                                INNER JOIN `categories` c ON t.`transactionCategoryId` = c.`categoryId`
-                                               WHERE t.`transactionIsActive` = 1 AND c.`categoryId` = :categoryId";
+                                               WHERE t.`transactionIsActive` = 1 AND c.`categoryName` = :categoryName";
             $this->db->query($getTransactionsByCategoryQuery);
             $this->db->bind(':categoryId', $categoryId);
             return $this->db->resultSet();
