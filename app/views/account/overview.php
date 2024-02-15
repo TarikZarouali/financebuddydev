@@ -198,7 +198,6 @@
                                             <td class="int-table__cell text-right"><?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
                                             <td class="int-table__cell">
                                                 <a class="btn btn--primary" href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/">Edit transaction</a>
-                                                <button class="btn btn--accent" aria-controls="dialog-delete-transaction-confirmation">Delete transaction</button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -392,30 +391,13 @@
         <footer class="margin-top-md">
             <div class="flex justify-end gap-xs flex-wrap">
                 <button class="btn btn--subtle js-dialog__close">Cancel</button>
-                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Delete goal</a>
+                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Confirm</a>
             </div>
         </footer>
     </div>
 </div>
 
-<!-- DELETE TRANSACTION -->
-<div class="dialog dialog--sticky js-dialog" id="dialog-delete-transaction-confirmation" data-animation="on">
-    <div class="dialog__content max-width-xxs" role="alertdialog" aria-labelledby="dialog-title-1" aria-describedby="dialog-description">
-        <div class="text-component">
-            <br>
-            <br>
-            <h4 id="dialog-title-1">Are you sure you want to delete this Transaction?
-            </h4>
-            <p id="dialog-description">This action cannot be undone.</p>
-        </div>
-        <footer class="margin-top-md">
-            <div class="flex justify-end gap-xs flex-wrap">
-                <button class="btn btn--subtle js-dialog__close">Cancel</button>
-                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteTransaction/<?= $transaction->transactionId ?>">Delete goal</a>
-            </div>
-        </footer>
-    </div>
-</div>
+
 
 <!-- MODAL FORM  CREATING TRANSACTION-->
 <div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-transaction-form">
@@ -555,6 +537,9 @@
         </div>
 
         <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/" class="margin-bottom-sm">
+
+        <input type="hidden" name="transactionId" value="<?= $transaction->transactionId ?>">
+
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="transactionName" id="modal-transaction-transactionName" value="<?= $transaction->transactionName ?>">

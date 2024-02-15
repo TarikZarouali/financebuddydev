@@ -94,5 +94,33 @@ class accountModel
         }
     }
 
+    public function getAccountBalance($accountId)
+    {
+        try {
+            $getBalanceQuery = "SELECT `accountBalance` FROM `accounts` WHERE `accountId` = :accountId";
+            $this->db->query($getBalanceQuery);
+            $this->db->bind(':accountId', $accountId);
+            return $this->db->single()->accountBalance;
+        } catch (PDOException $ex) {
+            helper::log('error', 'Failed to get account balance' . $ex->getMessage());
+            return false;
+        }
+    }
+
+    public function updateAccountBalance($accountId, $newBalance)
+    {
+        try {
+            $updateBalanceQuery = "UPDATE `accounts` SET `accountBalance` = :newBalance WHERE `accountId` = :accountId";
+            $this->db->query($updateBalanceQuery);
+            $this->db->bind(':accountId', $accountId);
+            $this->db->bind(':newBalance', $newBalance);
+            
+            return $this->db->execute();
+        } catch (PDOException $ex) {
+            helper::log('error', 'Failed to update account balance' . $ex->getMessage());
+            return false;
+        }
+    }
+
     
 }

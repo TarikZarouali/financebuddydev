@@ -126,31 +126,22 @@ class transactionModel
         }
     }
 
-    public function getAccountBalance($accountId)
+    public function getTransactionsByCategory($categoryId)
     {
-        try {
-            $getBalanceQuery = "SELECT `accountBalance` FROM `accounts` WHERE `accountId` = :accountId";
-            $this->db->query($getBalanceQuery);
-            $this->db->bind(':accountId', $accountId);
-            return $this->db->single()->accountBalance;
-        } catch (PDOException $ex) {
-            helper::log('error', 'Failed to get account balance' . $ex->getMessage());
-            return false;
-        }
-    }
+        try{
 
-    public function updateAccountBalance($accountId, $newBalance)
-    {
-        try {
-            $updateBalanceQuery = "UPDATE `accounts` SET `accountBalance` = :newBalance WHERE `accountId` = :accountId";
-            $this->db->query($updateBalanceQuery);
-            $this->db->bind(':accountId', $accountId);
-            $this->db->bind(':newBalance', $newBalance);
-            
-            return $this->db->execute();
-        } catch (PDOException $ex) {
-            helper::log('error', 'Failed to update account balance' . $ex->getMessage());
+            $getTransactionsByCategoryQuery = "SELECT t.`transactionId`, t.`transactionName`, t.`transactionAccountId`, t.`transactionCategoryId`, t.`transactionAmount`, t.`transactionDescription`, t.`transactionCreateDate`, t.`transactionIsActive`, c.`categoryName`
+                                               FROM `transactions` t
+                                               INNER JOIN `categories` c ON t.`transactionCategoryId` = c.`categoryId`
+                                               WHERE t.`transactionIsActive` = 1 AND c.`categoryId` = :categoryId";
+            $this->db->query($getTransactionsByCategoryQuery);
+            $this->db->bind(':categoryId', $categoryId);
+            return $this->db->resultSet();
+        }catch(PDOException $ex){
+            helper::log('error', 'Exception occurred while getting transactions by category: '. $ex->getMessage());
             return false;
         }
     }
+    
+
 }

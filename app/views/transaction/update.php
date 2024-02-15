@@ -2,6 +2,7 @@
 
 
 <div class="container max-width-lg padding-y-lg">
+<button style="margin-bottom:2rem;" class="btn btn--accent" aria-controls="dialog-delete-transaction-confirmation">Delete transaction</button>
 
     <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
         <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $data['transaction']->transactionId ?>">
@@ -165,5 +166,25 @@
             </ul>
         </li>
     </ul>
+</div>
+
+<!-- DELETE TRANSACTION -->
+<div class="dialog dialog--sticky js-dialog" id="dialog-delete-transaction-confirmation" data-animation="on">
+    <div class="dialog__content max-width-xxs" role="alertdialog" aria-labelledby="dialog-title-1" aria-describedby="dialog-description">
+        <div class="text-component">
+            <br>
+            <input type="hidden" name="transactionId" value="<?= $data['transaction']->transactionId ?>">
+            <br>
+            <h4 id="dialog-title-1">Are you sure you want to delete this Transaction?
+            </h4>
+            <p id="dialog-description">This action cannot be undone.</p>
+        </div>
+        <footer class="margin-top-md">
+            <div class="flex justify-end gap-xs flex-wrap">
+                <button class="btn btn--subtle js-dialog__close">Cancel</button>
+                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteTransaction/<?= $data['transaction']->transactionId ?>">Confirm</a>
+            </div>
+        </footer>
+    </div>
 </div>
 <?php require APPROOT . '/views/includes/footer.php'; ?>

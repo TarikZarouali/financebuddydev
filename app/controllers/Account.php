@@ -28,7 +28,7 @@ class Account extends Controller
         $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
 
         // Fetch the latest account balance from the database
-        $accountBalance = $this->transactionModel->getAccountBalance($accountId);
+        $accountBalance = $this->accountModel->getAccountBalance($accountId);
 
         $goalAmount = isset($activeGoals->goalAmount) ? $activeGoals->goalAmount : 0;
 
@@ -226,14 +226,14 @@ class Account extends Controller
 
             // check for transaction amount
             if ($transactionAmount > 0) {
-                $newBalance = $this->transactionModel->getAccountBalance($accountId) + $transactionAmount;
+                $newBalance = $this->accountModel->getAccountBalance($accountId) + $transactionAmount;
             } else {
-                $newBalance = $this->transactionModel->getAccountBalance($accountId) - abs($transactionAmount);
+                $newBalance = $this->accountModel->getAccountBalance($accountId) - abs($transactionAmount);
             }
 
 
             // Update the account balance
-            $this->transactionModel->updateAccountBalance($accountId, $newBalance);
+            $this->accountModel->updateAccountBalance($accountId, $newBalance);
 
             // Create the transaction
             $createTransaction = $this->transactionModel->createTransactionByAccountId($post, $accountId);
@@ -255,11 +255,12 @@ class Account extends Controller
     {
         $transaction = $this->transactionModel->getTransactionsById($transactionId);
 
+
         $transactionAmount = $transaction->transactionAmount;
         $accountId = $transaction->transactionAccountId;
 
         // Get the current account balance
-        $currentBalance = $this->transactionModel->getAccountBalance($accountId);
+        $currentBalance = $this->accountModel->getAccountBalance($accountId);
 
         // Update the account balance based on the transaction amount
         if ($transactionAmount > 0) {
@@ -269,7 +270,7 @@ class Account extends Controller
         }
 
         // Update the account balance in the database
-        $this->transactionModel->updateAccountBalance($accountId, $newBalance);
+        $this->accountModel->updateAccountBalance($accountId, $newBalance);
 
         // Delete the transaction
         if ($this->transactionModel->deleteTransaction($transactionId)) {
@@ -295,8 +296,8 @@ class Account extends Controller
             $updatedAmount = floatval($post['transactionAmount']);
             $amountDifference = $updatedAmount - $originalAmount;
 
-            $newBalance = $this->transactionModel->getAccountBalance($transaction->transactionAccountId) + $amountDifference;
-            $this->transactionModel->updateAccountBalance($transaction->transactionAccountId, $newBalance);
+            $newBalance = $this->accountModel->getAccountBalance($transaction->transactionAccountId) + $amountDifference;
+            $this->accountModel->updateAccountBalance($transaction->transactionAccountId, $newBalance);
 
             // Update the transaction
             $updateTransaction = $this->transactionModel->updateTransaction($transactionId, $post);
