@@ -27,7 +27,9 @@ class Account extends Controller
         $activeCategories = $this->categoryModel->getActiveCategories();
         $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
 
-        $accountBalance = $getAccountById->accountBalance;
+        // Fetch the latest account balance from the database
+        $accountBalance = $this->transactionModel->getAccountBalance($accountId);
+
         $goalAmount = isset($activeGoals->goalAmount) ? $activeGoals->goalAmount : 0;
 
         // Check if goalAmount is not zero to avoid division by zero warning
@@ -46,9 +48,9 @@ class Account extends Controller
             'progress' => $progress,
         ];
 
-
         $this->view('account/overview', $data);
     }
+
 
 
     public function update($accountId)
@@ -218,6 +220,22 @@ class Account extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Handle the form submission
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            // Get the transaction amount
+            $transactionAmount = floatval($post['transactionAmount']);
+
+            // check for transaction amount
+            if ($transactionAmount > 0) {
+                $newBalance = $this->transactionModel->getAccountBalance($accountId) + $transactionAmount;
+            } else {
+                $newBalance = $this->transactionModel->getAccountBalance($accountId) - abs($transactionAmount);
+            }
+
+
+            // Update the account balance
+            $this->transactionModel->updateAccountBalance($accountId, $newBalance);
+
+            // Create the transaction
             $createTransaction = $this->transactionModel->createTransactionByAccountId($post, $accountId);
 
             if ($createTransaction) {
@@ -231,30 +249,61 @@ class Account extends Controller
     }
 
 
+
+
     public function deleteTransaction($transactionId)
     {
         $transaction = $this->transactionModel->getTransactionsById($transactionId);
-        if ($this->transactionModel->deleteTransaction($transactionId)) {
-            header('Location: ' . URLROOT . 'account/overview/' . $transaction->transactionAccountId);
+
+        $transactionAmount = $transaction->transactionAmount;
+        $accountId = $transaction->transactionAccountId;
+
+        // Get the current account balance
+        $currentBalance = $this->transactionModel->getAccountBalance($accountId);
+
+        // Update the account balance based on the transaction amount
+        if ($transactionAmount > 0) {
+            $newBalance = $currentBalance - $transactionAmount;
         } else {
-            echo 'transaction not deleted successfully';
+            $newBalance = $currentBalance + abs($transactionAmount);
+        }
+
+        // Update the account balance in the database
+        $this->transactionModel->updateAccountBalance($accountId, $newBalance);
+
+        // Delete the transaction
+        if ($this->transactionModel->deleteTransaction($transactionId)) {
+            header('Location: ' . URLROOT . 'account/overview/' . $accountId);
+        } else {
+            echo 'Transaction not deleted successfully';
             helper::log('error', 'Could not delete transaction on user');
         }
         return;
     }
+
+
 
     public function updateTransaction($transactionId)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $transaction = $this->transactionModel->getTransactionsById($transactionId);
+
+            $originalAmount = $transaction->transactionAmount;
+            $updatedAmount = floatval($post['transactionAmount']);
+            $amountDifference = $updatedAmount - $originalAmount;
+
+            $newBalance = $this->transactionModel->getAccountBalance($transaction->transactionAccountId) + $amountDifference;
+            $this->transactionModel->updateAccountBalance($transaction->transactionAccountId, $newBalance);
+
+            // Update the transaction
             $updateTransaction = $this->transactionModel->updateTransaction($transactionId, $post);
 
-             if ($updateTransaction) {
-                header("Location:". URLROOT. 'account/overview/'. $transaction->transactionAccountId);
+            if ($updateTransaction) {
+                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId);
                 return;
             } else {
-                header("Location:". URLROOT. 'account/overview/'. $transaction->transactionAccountId);
+                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId);
                 return;
             }
         }
