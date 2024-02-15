@@ -285,9 +285,11 @@ class Account extends Controller
 
     public function updateTransaction($transactionId)
     {
+        $transaction = $this->transactionModel->getTransactionsById($transactionId);
+        $activeCategories = $this->categoryModel->getActiveCategories();
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $transaction = $this->transactionModel->getTransactionsById($transactionId);
 
             $originalAmount = $transaction->transactionAmount;
             $updatedAmount = floatval($post['transactionAmount']);
@@ -307,5 +309,13 @@ class Account extends Controller
                 return;
             }
         }
+
+        $data = [
+            'transaction' => $transaction,
+            'category'=> $activeCategories
+        ];
+        // helper::dump($transaction);exit;
+
+        $this->view('transaction/update', $data);
     }
 }

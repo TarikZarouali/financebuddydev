@@ -40,9 +40,9 @@
             <div class="bg-light radius-md padding-md inner-glow shadow-xs">
                 <nav class="s-tabs text-sm">
                     <ul class="s-tabs__list">
-                        <li><a class="s-tabs__link s-tabs__link--current" href="#0">All (21)</a></li>
-                        <li><a class="s-tabs__link" href="#0">Published (19)</a></li>
-                        <li><a class="s-tabs__link" href="#0">Draft (2)</a></li>
+                        <li><a class="s-tabs__link s-tabs__link--current" href="#0">All transactions</a></li>
+                        <li><a class="s-tabs__link" href="income">Income</a></li>
+                        <li><a class="s-tabs__link" href="expense">Expenses</a></li>
                     </ul>
                 </nav>
 
@@ -71,9 +71,10 @@
                             <div class="flex flex-wrap items-center gap-xxxs">
                                 <div class="select" style="--select-icon-size: 12px;">
                                     <select class="select__input btn btn--subtle text-sm" name="select-author" id="select-author">
-                                        <option value="0">All authors</option>
-                                        <option value="1">Author 1</option>
-                                        <option value="2">Author 2</option>
+                                        <option value="0">All transaction types</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monhtly">monhtly</option>
                                     </select>
 
                                     <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
@@ -84,10 +85,14 @@
                                 <div class="select" style="--select-icon-size: 12px;">
                                     <select class="select__input btn btn--subtle text-sm" name="select-category" id="select-category">
                                         <option value="0">All categories</option>
-                                        <option value="1">Category 1</option>
-                                        <option value="2">Category 2</option>
+                                        <?php foreach ($data['category'] as $category) : ?>
+                                            <option value="<?= $category->categoryId ?>">
+                                                <?= $category->categoryName ?></option>
+                                            <?php endforeach; ?><?php foreach ($data['category'] as $category) : ?>
+                                            <option value="<?= $category->categoryId ?>">
+                                                <?= $category->categoryName ?></option>
+                                        <?php endforeach; ?>
                                     </select>
-
                                     <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
                                         <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                                     </svg>
@@ -185,14 +190,14 @@
                                             <td class="int-table__cell"><?= $transaction->categoryName ?></td>
                                             <td class="int-table__cell">
                                                 <?php if ($transaction->transactionAmount > 0) : ?>
-                                                    <span class="inline-block bg-success bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-success-darker text-xs ws-nowrap">Income</span>
+                                                    <span class="inline-block bg-success-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-success-darker text-xs ws-nowrap">Income</span>
                                                 <?php else : ?>
                                                     <span class="inline-block bg-error-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-error-darker text-xs ws-nowrap">Expense</span>
                                                 <?php endif; ?>
                                             </td>
                                             <td class="int-table__cell text-right"><?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
                                             <td class="int-table__cell">
-                                                <button class="btn btn--primary" aria-controls="modal-transaction-edit-form">Edit transaction</button>
+                                                <a class="btn btn--primary" href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/">Edit transaction</a>
                                                 <button class="btn btn--accent" aria-controls="dialog-delete-transaction-confirmation">Delete transaction</button>
                                             </td>
                                         </tr>
