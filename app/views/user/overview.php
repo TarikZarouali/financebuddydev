@@ -43,7 +43,7 @@
                 <?php endforeach; ?>
                 <?php else : ?>
                 <p>You have no accounts. Start making your first account with
-                <?php endif; ?>
+                    <?php endif; ?>
 
 
             </ul>
@@ -229,20 +229,21 @@
         </div>
 
         <form method="POST" action="<?= URLROOT ?>account/create" class="margin-bottom-sm">
+
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-account-accountName">Account Name</label>
+                <label class="form-label" for="modal-account-accountName">Account Name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="accountName"
                     id="modal-account-accountName">
             </div>
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-account-accountBalance">Account Balance</label>
-                <input class="form-control width-100% margin-bottom-xxs" type="text" name="accountBalance"
+                <label class="form-label " for="modal-account-accountBalance">Account Balance</label>
+                <input class="form-control width-100% margin-bottom-xxs " type="text" name="accountBalance"
                     id="modal-account-accountBalance">
             </div>
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-customer-accountType">Account Type</label>
+                <label class="form-label " for="modal-customer-accountType">Account Type</label>
                 <select class="form-control width-100 margin-bottom-xxs" name="accountType"
                     id="modal-customer-accountType">
                     <option value="personal">Personal</option>
@@ -253,8 +254,9 @@
 
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-account-accountDescription">Note</label>
-                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="accountDescription" id="modal-account-accountDescription"></textarea>
+                <label class="form-label " for="modal-account-accountDescription">Note</label>
+                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="accountDescription"
+                    id="modal-account-accountDescription"></textarea>
             </div>
 
             <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>

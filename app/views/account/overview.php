@@ -12,9 +12,11 @@
 
                 <?php if ($data['goal']) : ?>
                     <!-- Show Edit and Delete buttons if a goal exists -->
-                    <button class="btn btn--primary" style="margin-bottom: 2rem;" aria-controls="modal-goal-edit-form">Edit goal</button>
+                    <button class="btn btn--primary" style="margin-bottom: 2rem;" aria-controls="modal-goal-edit-form">Edit
+                        goal</button>
                     <button class="btn btn--accent" style="margin-bottom: 2rem;" aria-controls="dialog-delete-goal-confirmation">Delete goal</button>
-                    <h5 style="margin-bottom:2rem;">Your goal is <?= $data['goal']->goalName ?> and the costs for your goal is <strong>$<?= $data['goal']->goalAmount ?></strong></h5>
+                    <h5 style="margin-bottom:2rem;">Your goal is <?= $data['goal']->goalName ?> and the costs for your goal
+                        is <strong>$<?= $data['goal']->goalAmount ?></strong></h5>
                     <div class="progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar">
                         <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value"><?= $data['progress'] ?>%</span></p>
                         <span class="progress-bar__value margin-bottom-xs" aria-hidden="true"><?= $data['progress'] ?>%</span>
@@ -25,7 +27,8 @@
                     </div>
                 <?php else : ?>
                     <!-- Show Add a goal button if no goal exists -->
-                    <button class="btn btn--subtle" style="margin-bottom: 2rem;" aria-controls="modal-goal-form">Add a goal</button>
+                    <button class="btn btn--subtle" style="margin-bottom: 2rem;" aria-controls="modal-goal-form">Add a
+                        goal</button>
                 <?php endif; ?>
             </div>
 
@@ -185,7 +188,8 @@
                                                     <div class="custom-checkbox__control" aria-hidden="true"></div>
                                                 </div>
                                             </th>
-                                            <td class="int-table__cell text-truncate max-width-xxxxs text-left"><?= $transaction->transactionName ?></td>
+                                            <td class="int-table__cell text-truncate max-width-xxxxs text-left">
+                                                <?= $transaction->transactionName ?></td>
                                             <td class="int-table__cell text-center"><?= $transaction->transactionAmount ?></td>
                                             <td class="int-table__cell text-center"><?= $transaction->categoryName ?></td>
                                             <td class="int-table__cell text-center">
@@ -195,18 +199,48 @@
                                                     <span class="inline-block bg-error-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-error-darker text-xs ws-nowrap">Expense</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td class="int-table__cell text-center"><?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
                                             <td class="int-table__cell text-center">
-                                                <a class="btn btn--primary" href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/">Edit transaction</a>
+                                                <?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
+                                            <td class="int-table__cell text-center">
+                                                <a class="btn btn--primary" href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/">Edit
+                                                    transaction</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>
-                                    <tr>
-                                        <td colspan="7">
-                                            <p>You have no transactions yet.</p>
+
+                                    <tr class="int-table__row">
+                                        <td class="text-center" colspan="7">
+                                            <div class="alert alert--is-visible js-alert" role="alert">
+                                                <div class="cd-flex cd-items-center cd-justify-between">
+                                                    <div class="cd-flex cd-items-center">
+                                                        <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                            <g fill="currentColor">
+                                                                <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
+                                                                <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
+                                                                </path>
+                                                                <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
+                                                            </g>
+                                                        </svg>
+
+                                                        <p><strong class="alert__label">Info:</strong> You have no
+                                                            transactions yet. </p>
+                                                    </div>
+
+                                                    <button class="alert__close-btn js-alert__close-btn">
+                                                        <svg class="cd-icon" viewBox="0 0 16 16">
+                                                            <title>Close alert</title>
+                                                            <g fill="currentColor">
+                                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l10 10"></path>
+                                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L3 13"></path>
+                                                            </g>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
+
                                 <?php endif; ?>
                             </tbody>
                         </table>
@@ -271,15 +305,19 @@
                                             <path d="M5.576,10.958a1,1,0,0,0,.673-1.244,6,6,0,1,1,11.5,0,1,1,0,0,0,.673,1.244A1.021,1.021,0,0,0,18.71,11a1,1,0,0,0,.958-.714,8,8,0,1,0-15.336,0A1,1,0,0,0,5.576,10.958Z" opacity="0.5"></path>
                                             <circle cx="12" cy="8" r="4" opacity="0.5"></circle>
                                             <path d="M13,18.184V15a1,1,0,0,0-2,0v3.184a3,3,0,1,0,2,0Z"></path>
-                                            <path d="M21,18.184V16a1,1,0,0,0-.445-.832l-3-2a1,1,0,0,0-1.11,1.664L19,16.535v1.649a3,3,0,1,0,2,0Z"></path>
-                                            <path d="M6.445,13.168l-3,2A1,1,0,0,0,3,16v2.184a3,3,0,1,0,2,0V16.535l2.555-1.7a1,1,0,1,0-1.11-1.664Z"></path>
+                                            <path d="M21,18.184V16a1,1,0,0,0-.445-.832l-3-2a1,1,0,0,0-1.11,1.664L19,16.535v1.649a3,3,0,1,0,2,0Z">
+                                            </path>
+                                            <path d="M6.445,13.168l-3,2A1,1,0,0,0,3,16v2.184a3,3,0,1,0,2,0V16.535l2.555-1.7a1,1,0,1,0-1.11-1.664Z">
+                                            </path>
                                         </g>
                                     </svg>
                                 </figure>
 
                                 <div class="text-component text-space-y-sm">
-                                    <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="#0">Quick Link One</a></h3>
-                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                                    <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="#0">Quick
+                                            Link One</a></h3>
+                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit</p>
                                 </div>
                             </li>
 
@@ -289,13 +327,15 @@
                                         <g>
                                             <circle cx="18.5" cy="8.5" r="5.5" opacity="0.5"></circle>
                                             <rect x="5" y="14" width="9" height="9" rx="1"></rect>
-                                            <path d="M10.932,9.752a.5.5,0,0,0,0-.5l-4.5-8a.52.52,0,0,0-.872,0l-4.5,8A.5.5,0,0,0,1.5,10h9A.5.5,0,0,0,10.932,9.752Z"></path>
+                                            <path d="M10.932,9.752a.5.5,0,0,0,0-.5l-4.5-8a.52.52,0,0,0-.872,0l-4.5,8A.5.5,0,0,0,1.5,10h9A.5.5,0,0,0,10.932,9.752Z">
+                                            </path>
                                         </g>
                                     </svg>
                                 </figure>
 
                                 <div class="text-component text-space-y-sm">
-                                    <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="#0">Quick Link Two</a></h3>
+                                    <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="#0">Quick
+                                            Link Two</a></h3>
                                     <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur</p>
                                 </div>
                             </li>
@@ -305,14 +345,17 @@
                                     <svg class="list-v3__icon icon" viewBox="0 0 24 24">
                                         <g>
                                             <path d="M23,15h-3v-2h2V2H2v11h3v2H1c-0.553,0-1-0.448-1-1V1c0-0.552,0.447-1,1-1h22 c0.553,0,1,0.448,1,1v13C24,14.552,23.553,15,23,15z" opacity="0.5"></path>
-                                            <path d="M20.561,19.439l-6.211-6.211L20,10L5,6l4,15l3.229-5.65l6.211,6.211c0.586,0.586,1.535,0.586,2.121,0 C21.146,20.975,21.146,20.025,20.561,19.439z"></path>
+                                            <path d="M20.561,19.439l-6.211-6.211L20,10L5,6l4,15l3.229-5.65l6.211,6.211c0.586,0.586,1.535,0.586,2.121,0 C21.146,20.975,21.146,20.025,20.561,19.439z">
+                                            </path>
                                         </g>
                                     </svg>
                                 </figure>
 
                                 <div class="text-component text-space-y-sm">
-                                    <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="#0">Quick Link Three</a></h3>
-                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                                    <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="#0">Quick
+                                            Link Three</a></h3>
+                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit</p>
                                 </div>
                             </li>
                         </ul>
@@ -338,7 +381,8 @@
 
                                 <div class="text-component text-space-y-sm">
                                     <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="author.html">Olivia Saturday</a></h3>
-                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit</p>
                                 </div>
                             </li>
 
@@ -360,7 +404,8 @@
 
                                 <div class="text-component text-space-y-sm">
                                     <h3 class="text-md"><a class="color-contrast-higher list-v3__link" href="author.html">Marta Rossi</a></h3>
-                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                                    <p class="color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit</p>
                                 </div>
                             </li>
                         </ul>
@@ -408,12 +453,14 @@
 
         <form method="POST" action="<?= URLROOT ?>account/createTransaction/<?= $data['account']->accountId ?>/" class="margin-bottom-sm">
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction name</label>
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction
+                    name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="transactionName" id="modal-transaction-transactionName">
             </div>
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionAmount">Transaction amount</label>
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionAmount">Transaction
+                    amount</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="transactionAmount" id="modal-transaction-transactionAmount">
             </div>
 
@@ -538,20 +585,23 @@
 
         <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/" class="margin-bottom-sm">
 
-        <input type="hidden" name="transactionId" value="<?= $transaction->transactionId ?>">
+            <input type="hidden" name="transactionId" value="<?= $transaction->transactionId ?>">
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction name</label>
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction
+                    name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="transactionName" id="modal-transaction-transactionName" value="<?= $transaction->transactionName ?>">
             </div>
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionAmount">Transaction amount</label>
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionAmount">Transaction
+                    amount</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="transactionAmount" id="modal-transaction-transactionAmount" value="<?= $transaction->transactionAmount ?>">
             </div>
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionDescription">Transaction description</label>
+                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionDescription">Transaction
+                    description</label>
                 <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="transactionDescription" id="modal-transaction-transactionDescription" value="<?= $transaction->transactionDescription ?>"></textarea>
             </div>
 
