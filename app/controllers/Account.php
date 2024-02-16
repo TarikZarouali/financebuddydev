@@ -9,6 +9,8 @@ class Account extends Controller
     private $categoryModel;
     private $goalModel;
 
+    private $budgetModel;
+
     public function __construct()
     {
         $this->screenModel = $this->model('screenModel');
@@ -16,23 +18,38 @@ class Account extends Controller
         $this->transactionModel = $this->model('transactionModel');
         $this->categoryModel = $this->model('categoryModel');
         $this->goalModel = $this->model('goalModel');
+        $this->budgetModel = $this->model('budgetModel');
     }
 
 
     // ACCOUNTS SECTION
     public function overview($accountId)
     {
+
+        // Check if the form is submitted
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $categoryFilter = isset($_POST['categoryFilter']) ? filter_var($_POST['categoryFilter']) : '';
+            $transactionType = isset($_POST['transactionType']) ? filter_var($_POST['transactionType']) : '';
+        } else {
+            // If not submitted, show an empty string (All categories)
+            $categoryFilter = '';
+            $transactionType = '';
+        }
+
+        // Account details, transactions, categories, and goals
         $getAccountById = $this->accountModel->getAccountById($accountId);
-        $getTransactionsByAccount = $this->transactionModel->getTransactionsByAccountId($accountId);
+        $getTransactionsByAccount = $this->transactionModel->getTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
         $activeCategories = $this->categoryModel->getActiveCategories();
         $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
+        $getActiveBudgets = $this->budgetModel->getActiveBudgetsByAccountId($accountId);
 
         // Fetch the latest account balance from the database
         $accountBalance = $this->accountModel->getAccountBalance($accountId);
 
+        // Calculate progress for goals
         $goalAmount = isset($activeGoals->goalAmount) ? $activeGoals->goalAmount : 0;
 
-        // Check if goalAmount is not zero to avoid division by zero warning
+        // Check if goalAmount is not zero
         if ($goalAmount != 0) {
             $progress = ($accountBalance / $goalAmount) * 100;
             $progress = min(100, round($progress));
@@ -40,16 +57,24 @@ class Account extends Controller
             $progress = 0;
         }
 
+        // Ensure $getTransactionsByAccount is always an array
+        $getTransactionsByAccount = is_array($getTransactionsByAccount) ? $getTransactionsByAccount : [];
+
+        // Prepare data for the view
         $data = [
             'account' => $getAccountById,
             'transactions' => $getTransactionsByAccount,
             'category' => $activeCategories,
             'goal' => $activeGoals,
             'progress' => $progress,
+            'budget' => $getActiveBudgets
         ];
 
+        // Load the view
         $this->view('account/overview', $data);
     }
+
+
 
 
 
@@ -114,7 +139,6 @@ class Account extends Controller
             header('Location:' . URLROOT . '/account/update/' . $accountId);
         }
     }
-
 
     public function deleteImage($accountId)
     {
@@ -256,7 +280,6 @@ class Account extends Controller
     {
         $transaction = $this->transactionModel->getTransactionsById($transactionId);
 
-
         $transactionAmount = $transaction->transactionAmount;
         $accountId = $transaction->transactionAccountId;
 
@@ -314,10 +337,37 @@ class Account extends Controller
 
         $data = [
             'transaction' => $transaction,
-            'category'=> $activeCategories
+            'category' => $activeCategories
         ];
         // helper::dump($transaction);exit;
 
         $this->view('transaction/update', $data);
     }
+
+    // END TRANSACTION SECTION
+
+
+    // START BUDGET SECTION
+
+    public function createBudget($accountId)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $createBudget = $this->budgetModel->createBudgetByAccountId($post, $accountId);
+            
+            if ($createBudget) {
+                helper::dump('hello');
+                exit;
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            } else {
+                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                return;
+            }
+        }
+    }
+
+
+    // END BUDGET SECTION
+
 }

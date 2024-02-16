@@ -74,7 +74,7 @@
                     <nav class="sidenav-v4 padding-x-xs padding-bottom-xs js-sidenav-v4">
                         <ul>
                             <li class="sidenav-v4__item">
-                                <a class="sidenav-v4__link js-sidenav-v4__link" href="index.html" aria-current="page">
+                                <a class="sidenav-v4__link js-sidenav-v4__link" href="<?= URLROOT ?>user/overview" aria-current="page">
                                     <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
                                         <g fill="currentColor">
                                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12v7H4v-7"></path>
@@ -239,8 +239,27 @@
                         <li class="menu__separator" role="separator"></li>
 
                         <li role="menuitem">
-                            <a class="menu__content js-menu__content" href="<?= URLROOT ?>user/logout">Logout</a>
+                            <a class="menu__content js-menu__content" aria-controls="dialog-logout-confirmation">Logout</a>
                         </li>
                     </menu>
                 </div>
             </header>
+
+            <!-- Logout ALERT -->
+            <div class="dialog dialog--sticky js-dialog" id="dialog-logout-confirmation" data-animation="on">
+                <div class="dialog__content max-width-xxs" role="alertdialog" aria-labelledby="dialog-title-1" aria-describedby="dialog-description">
+                    <div class="text-component">
+                        <br>
+                        <br>
+                        <h4 id="dialog-title-1">Are you sure you want to log out?
+                        </h4>
+                        <p id="dialog-description">This action cannot be undone.</p>
+                    </div>
+                    <footer class="margin-top-md">
+                        <div class="flex justify-end gap-xs flex-wrap">
+                            <button class="btn btn--subtle js-dialog__close">Cancel</button>
+                            <a class="btn btn--accent" href="<?= URLROOT ?>user/logout/">Logout</a>
+                        </div>
+                    </footer>
+                </div>
+            </div>

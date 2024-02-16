@@ -14,7 +14,7 @@ class categoryModel
 
             $getActiveCategories = "SELECT `categoryId`, `categoryName`, `categoryDescription`, `categoryIsActive` 
                                     FROM `categories` 
-                                    WHERE `categoryIsActive` = 1";
+                                    WHERE `categoryIsActive` = 1 ORDER BY `categoryName` ASC";
 
             $this->db->query($getActiveCategories);
             return $this->db->resultSet();

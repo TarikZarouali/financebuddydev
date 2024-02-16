@@ -30,7 +30,7 @@
 
                     <div class="grid gap-sm">
                         <label class="form-label margin-bottom-xxs" for="transactionCategoryId">Category</label>
-                        <select class="form-control width-100" name="transactionCategoryId" id="transactionCategoryId" value="<?= $data['transaction']->categoryName ?>" required>
+                        <select class="form-control width-100" name="transactionCategoryId" id="transactionCategoryId" value="<?= $data['transaction']->categoryName ?>">
                             <?php foreach ($data['category'] as $category) : ?>
                                 <option value="<?= $category->categoryId ?>">
                                     <?= $category->categoryName ?></option>

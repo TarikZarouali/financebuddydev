@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2024 at 12:46 PM
+-- Generation Time: Feb 16, 2024 at 05:38 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 7.4.30
 
@@ -43,7 +43,11 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountIsActive`, `accountCreateDate`, `accountDescription`) VALUES
-('AsgEUsAsQLss0iV', 'twTYXKTK2bEMbtP', 'Moneys', '0.00', 'personal', 1, 1707314186, 'This account is for my personal use');
+('AsgEUsAsQLss0iV', 'twTYXKTK2bEMbtP', 'Moneys', '50.00', 'personal', 1, 1707314186, 'This account is for my personal use'),
+('C18erto9a6hp0EY', 'twTYXKTK2bEMbtP', 'asdas', '213.00', 'personal', 1, 1708077960, 'as'),
+('cHVzk4HY4oa4QHa', 'twTYXKTK2bEMbtP', 'Saving', '0.00', 'personal', 0, 1707998032, ''),
+('cRz9jHOiOKHJrf6', 'twTYXKTK2bEMbtP', 'sad', '23.00', 'personal', 0, 1708078017, ''),
+('IWAq1YceS89nfMi', 'twTYXKTK2bEMbtP', 'Saving', '0.00', 'personal', 0, 1708007976, '');
 
 -- --------------------------------------------------------
 
@@ -54,10 +58,11 @@ INSERT INTO `accounts` (`accountId`, `accountUserId`, `accountName`, `accountBal
 CREATE TABLE `budgets` (
   `budgetId` varchar(15) NOT NULL,
   `budgetAccountId` varchar(15) NOT NULL,
+  `budgetCategoryId` varchar(15) NOT NULL,
   `budgetName` varchar(50) NOT NULL,
   `budgetAmount` decimal(9,2) NOT NULL,
   `budgetIsActive` int(1) NOT NULL,
-  `budgetDescription` text NOT NULL,
+  `budgetDescription` text DEFAULT NULL,
   `budgetCreateDate` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -117,8 +122,8 @@ CREATE TABLE `goals` (
 --
 
 INSERT INTO `goals` (`goalId`, `goalAccountId`, `goalName`, `goalAmount`, `goalIsActive`, `goalDescription`, `goalCreateDate`) VALUES
-('DbeEcK4RM0G9YPG', 'AsgEUsAsQLss0iV', 'Vacation', '1000.00', 0, '', 1707988410),
-('fHCSd4qux2k1cpO', 'AsgEUsAsQLss0iV', 'Vacation', '900.00', 0, '', 1707905181);
+('0DQirTELV6ipfhV', 'AsgEUsAsQLss0iV', 'asd', '21.00', 0, '', 1708084333),
+('SLGNdfZEy7fVrnb', 'C18erto9a6hp0EY', 'asdas', '1.00', 0, '', 1708082879);
 
 -- --------------------------------------------------------
 
@@ -154,24 +159,28 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`transactionId`, `transactionName`, `transactionAccountId`, `transactionCategoryId`, `transactionAmount`, `transactionDescription`, `transactionCreateDate`, `transactionIsActive`) VALUES
-('3NsVCx7TvLxzTpr', 'asd', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '100.00', '', 1707993145, 0),
-('81SRCApjzHs2Nat', 'school', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-200.00', '', 1707992451, 0),
-('8JDpHGhn88XxpXq', 'School', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '150.00', '', 1707991418, 0),
-('ar67pf98B7QwPjU', '', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-200.00', '', 1707993217, 0),
-('g3SZ8KBrnRhpbeL', 'Money', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '400.00', '', 1707993321, 0),
-('JYnNj3EyPeJPd8J', '', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-300.00', '', 1707993093, 0),
-('kXWPkiMoLhQZuVT', '', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-200.00', '', 1707993153, 0),
-('lfppnxBOY0AEyA2', 'school', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-100.00', '', 1707992747, 0),
-('m00lXTiXJeXb4FT', 'Internship', 'AsgEUsAsQLss0iV', 'MmdkbJUJgztWGUY', '200.00', 'no description needed', 1707991017, 0),
-('NiTUt58DJ72h9pa', 'Internship', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '1000.00', '', 1707993837, 0),
-('ojPfODHyx40fg0K', '', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-100.00', '', 1707993132, 0),
-('pdGlTsA62JDtOBS', 'school', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '-150.00', '', 1707993957, 0),
-('qjaEvq9SpiZcayS', 'Internship', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '-200.00', '', 1707991409, 0),
-('qLS36lwJL2Xx56q', 'school', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '300.00', 'asd', 1707992704, 0),
-('sDYr3rZ79bjhtna', '', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '400.00', '', 1707992511, 0),
-('wZ6VrGqgQU8SlG0', 'School', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '-150.00', '', 1707990985, 0),
-('XhDe59r8jFvrNBC', 'money ', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '300.00', 'ad', 1707993308, 0),
-('ZKNe9TAaxZzsQFd', '', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '5000.00', '', 1707993283, 0);
+('0lMUOzrdh61DbUC', 'work', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '400.00', '', 1708010973, 0),
+('144guMsIml3vFPu', 'Netflix', 'AsgEUsAsQLss0iV', 'MmdkbJUJgztWGUY', '-12.00', '', 1708010420, 0),
+('6katqrlJzUzNlGd', 'asd', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-21.00', '', 1708085730, 0),
+('Cn7lR90yGsgaP6a', 'DUO', 'AsgEUsAsQLss0iV', 'z2RAKIoebHzbKeY', '508.00', '', 1708010269, 0),
+('GjbNgxa5zIZrnLo', 'amazon', 'AsgEUsAsQLss0iV', 'MmdkbJUJgztWGUY', '-5.00', '', 1708010443, 0),
+('gwgfcV6kYcKQ13x', 'School', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '-150.00', '', 1708084864, 1),
+('htpJcz5wPoV8vXG', 'sada', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '314234.00', 'asd', 1708077001, 0),
+('hUFOwUbbrE9CPCQ', 'internship', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '200.00', '', 1708010300, 0),
+('HWzNQHtWKTzMZsE', 'asd', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '213.00', '', 1708080193, 0),
+('Ic9qOUiMDFq5T1O', 'phone bill', 'AsgEUsAsQLss0iV', 'MmdkbJUJgztWGUY', '-20.00', '', 1708010485, 0),
+('krOjJ4PEZU3XfV0', 'school', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-150.00', '', 1708010308, 0),
+('lbc0D3afxCoJpSD', 'insurance money', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '123.00', '', 1708010292, 0),
+('m5NUNurmwwU1L48', 'asd', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '2.00', '', 1708082885, 0),
+('nQfhhAozZD0s53g', 'school', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '-150.00', '', 1708008711, 0),
+('o3ritCSjicfB8MS', 'health insurance', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-140.00', '', 1708010383, 0),
+('Owt6j2CTppeOTnD', 'duo', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '510.00', '', 1708008720, 0),
+('pO5LEDC3aRgMrRb', 'DUO', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '508.00', '', 1708075661, 0),
+('r3CtSBmnXps8AS1', 'Spotify', 'AsgEUsAsQLss0iV', 'Ikt3cJPouB0lmkG', '-11.99', '', 1708010407, 0),
+('rMWJLVLLKKPsjVU', 'internship', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '200.00', '', 1708084874, 1),
+('touWsjfT2qhQ7Jv', '21', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '123.00', '', 1708080198, 0),
+('TvuifcQ2GY762Bx', 'sad', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '123.00', '', 1708080213, 0),
+('zcMSqOOIM6lsQw6', 'SADA', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '2131.00', '', 1708077227, 0);
 
 -- --------------------------------------------------------
 
@@ -215,7 +224,8 @@ ALTER TABLE `accounts`
 --
 ALTER TABLE `budgets`
   ADD PRIMARY KEY (`budgetId`),
-  ADD KEY `budgetAccountId` (`budgetAccountId`);
+  ADD KEY `budgetAccountId` (`budgetAccountId`),
+  ADD KEY `budgetCategoryId` (`budgetCategoryId`);
 
 --
 -- Indexes for table `categories`
@@ -264,7 +274,8 @@ ALTER TABLE `accounts`
 -- Constraints for table `budgets`
 --
 ALTER TABLE `budgets`
-  ADD CONSTRAINT `budgets_ibfk_1` FOREIGN KEY (`budgetAccountId`) REFERENCES `accounts` (`accountId`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `budgets_ibfk_1` FOREIGN KEY (`budgetAccountId`) REFERENCES `accounts` (`accountId`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `budgets_ibfk_2` FOREIGN KEY (`budgetCategoryId`) REFERENCES `categories` (`categoryId`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `goals`

@@ -44,56 +44,29 @@
                 <nav class="s-tabs text-sm">
                     <ul class="s-tabs__list">
                         <li><a class="s-tabs__link s-tabs__link--current" href="#0">All transactions</a></li>
-                        <li><a class="s-tabs__link" href="income">Income</a></li>
-                        <li><a class="s-tabs__link" href="expense">Expenses</a></li>
                     </ul>
                 </nav>
 
                 <div class="padding-y-xs border-bottom" data-table-controls="table-id">
                     <ul class="flex flex-column gap-xxs flex-row@sm items-center@sm">
-                        <li class="padding-right-sm is-hidden js-int-table-actions__items-selected">
-                            <div class="flex items-center gap-xxxs">
-                                <div class="select" style="--select-icon-size: 12px;">
-                                    <select class="select__input btn btn--subtle text-sm" name="select-bulk-action" id="select-bulk-action" aria-label="Bulk actions">
-                                        <option value="0">Bulk actions</option>
-                                        <option value="1">Action 1</option>
-                                        <option value="2">Action 2</option>
-                                        <option value="3">Action 3</option>
-                                    </select>
-
-                                    <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
-                                        <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                    </svg>
-                                </div>
-
-                                <button class="btn btn--primary text-sm">Apply</button>
-                            </div>
-                        </li>
-
-                        <li class="">
+                        <form method="post">
                             <div class="flex flex-wrap items-center gap-xxxs">
                                 <div class="select" style="--select-icon-size: 12px;">
-                                    <select class="select__input btn btn--subtle text-sm" name="select-author" id="select-author">
+                                    <select class="select__input btn btn--subtle text-sm" name="transactionType" id="transactionType">
                                         <option value="0">All transaction types</option>
-                                        <option value="daily">Daily</option>
-                                        <option value="weekly">Weekly</option>
-                                        <option value="monhtly">monhtly</option>
+                                        <option value="income">Income</option>
+                                        <option value="expense">Expense</option>
                                     </select>
 
                                     <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
                                         <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                                     </svg>
                                 </div>
-
                                 <div class="select" style="--select-icon-size: 12px;">
-                                    <select class="select__input btn btn--subtle text-sm" name="select-category" id="select-category">
-                                        <option value="0">All categories</option>
+                                    <select class="select__input btn btn--subtle text-sm" name="categoryFilter" id="categoryFilter">
+                                        <option value="">All categories</option>
                                         <?php foreach ($data['category'] as $category) : ?>
-                                            <option value="<?= $category->categoryId ?>">
-                                                <?= $category->categoryName ?></option>
-                                            <?php endforeach; ?><?php foreach ($data['category'] as $category) : ?>
-                                            <option value="<?= $category->categoryId ?>">
-                                                <?= $category->categoryName ?></option>
+                                            <option value="<?= $category->categoryId ?>"><?= $category->categoryName ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
@@ -103,25 +76,7 @@
 
                                 <button class="btn btn--primary text-sm">Filter</button>
                             </div>
-                        </li>
-
-                        <li class="margin-left-auto@sm">
-                            <form class="expandable-search text-sm js-expandable-search" style="--expandable-search-icon-size: 1.25em; --expandable-search-size-expanded: 12em;">
-                                <label class="sr-only" for="expandable-search">Filter articles</label>
-
-                                <input class="reset expandable-search__input js-expandable-search__input" type="search" name="expandable-search" id="expandable-search" placeholder="Search articles...">
-
-                                <button class="reset expandable-search__btn">
-                                    <svg class="icon" viewBox="0 0 20 20">
-                                        <title>Search</title>
-                                        <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
-                                            <circle cx="8" cy="8" r="6" />
-                                            <line x1="12.243" y1="12.243" x2="18" y2="18" />
-                                        </g>
-                                    </svg>
-                                </button>
-                            </form>
-                        </li>
+                        </form>
                     </ul>
                 </div>
 
@@ -130,12 +85,6 @@
                         <table class="int-table__table" aria-label="Interactive table example">
                             <thead class="int-table__header js-int-table__header">
                                 <tr class="int-table__row">
-                                    <td class="int-table__cell">
-                                        <div class="custom-checkbox int-table__checkbox">
-                                            <input class="custom-checkbox__input js-int-table__select-all" type="checkbox" aria-label="Select all rows" />
-                                            <div class="custom-checkbox__control" aria-hidden="true"></div>
-                                        </div>
-                                    </td>
                                     <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
                                         <div class="flex items-center">
                                             <span>Transaction name</span>
@@ -182,16 +131,11 @@
                                 <?php if (!empty($data['transactions'])) : ?>
                                     <?php foreach ($data['transactions'] as $transaction) : ?>
                                         <tr class="int-table__row">
-                                            <th class="int-table__cell" scope="row">
-                                                <div class="custom-checkbox int-table__checkbox">
-                                                    <input class="custom-checkbox__input js-int-table__select-row" type="checkbox" aria-label="Select this row" />
-                                                    <div class="custom-checkbox__control" aria-hidden="true"></div>
-                                                </div>
-                                            </th>
                                             <td class="int-table__cell text-truncate max-width-xxxxs text-left">
                                                 <?= $transaction->transactionName ?></td>
                                             <td class="int-table__cell text-center"><?= $transaction->transactionAmount ?></td>
                                             <td class="int-table__cell text-center"><?= $transaction->categoryName ?></td>
+                                            <td style="display:none"><?= $transaction->categoryId ?></td>
                                             <td class="int-table__cell text-center">
                                                 <?php if ($transaction->transactionAmount > 0) : ?>
                                                     <span class="inline-block bg-success-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-success-darker text-xs ws-nowrap">Income</span>
@@ -208,46 +152,48 @@
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>
-
                                     <tr class="int-table__row">
                                         <td class="text-center" colspan="7">
-                                            <div class="alert alert--is-visible js-alert" role="alert">
-                                                <div class="cd-flex cd-items-center cd-justify-between">
-                                                    <div class="cd-flex cd-items-center">
-                                                        <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                                            <g fill="currentColor">
-                                                                <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
-                                                                <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
-                                                                </path>
-                                                                <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
-                                                            </g>
-                                                        </svg>
-
-                                                        <p><strong class="alert__label">Info:</strong> You have no
-                                                            transactions yet. </p>
+                                            <?php if (empty($data['transaction']->categoryName)) : ?>
+                                                <div class="alert alert--warning alert--is-visible js-alert" role="alert">
+                                                    <div class="cd-flex cd-items-center cd-justify-between">
+                                                        <div class="cd-flex cd-items-center">
+                                                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                <g fill="currentColor">
+                                                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
+                                                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
+                                                                    </path>
+                                                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
+                                                                </g>
+                                                            </svg>
+                                                            <p><strong class="alert__label">Info:</strong> No transactions found for the selected category. </p>
+                                                        </div>
                                                     </div>
-
-                                                    <button class="alert__close-btn js-alert__close-btn">
-                                                        <svg class="cd-icon" viewBox="0 0 16 16">
-                                                            <title>Close alert</title>
-                                                            <g fill="currentColor">
-                                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l10 10"></path>
-                                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L3 13"></path>
-                                                            </g>
-                                                        </svg>
-                                                    </button>
                                                 </div>
-                                            </div>
+                                            <?php else : ?>
+                                                <div class="alert alert--is-visible js-alert" role="alert">
+                                                    <div class="cd-flex cd-items-center cd-justify-between">
+                                                        <div class="cd-flex cd-items-center">
+                                                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                                <g fill="currentColor">
+                                                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
+                                                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
+                                                                    </path>
+                                                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
+                                                                </g>
+                                                            </svg>
+                                                            <p><strong class="alert__label">Info:</strong> You have no transactions yet. </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
-
                                 <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-
                 <div class="flex items-center justify-between padding-top-sm">
                     <p class="text-sm">21 results</p>
 
@@ -286,6 +232,69 @@
                 </div>
             </div>
         </li>
+
+        <div>
+        <button class="btn btn--primary" style="margin: 2rem; " aria-controls="modal-budget-form">Create a new budget</button>
+        </div>
+
+        <?php if (!empty($data['budget'])) : ?>
+            <?php foreach ($data['budget'] as $budget) : ?>
+                <div class="bg-light radius-md padding-md inner-glow shadow-xs">
+                    <p class="color-contrast-low margin-bottom-md"><?= $budget->budgetName ?></p>
+                    <div class="pie-chart flex flex-column gap-md js-pie-chart">
+                        <div class="flex-shrink-0 flex justify-center">
+                            <div class="pie-chart__area js-pie-chart__area">
+                                <div class="pie-chart__tooltip is-hidden js-pie-chart__tooltip"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <ul class="grid gap-xs">
+                                <li class="flex items-center col-6">
+                                    <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
+                                    <span class="text-sm">Income (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);">43%</i>)</span>
+                                </li>
+
+                                <li class="flex items-center col-6">
+                                    <span class="pie-chart__bullet bg-contrast-low margin-right-xxs" aria-hidden="true"></span>
+                                    <span class="text-sm">Expense (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-low);">28%</i>)</span>
+                                </li>
+
+                                <li class="flex items-center col-6">
+                                    <span class="pie-chart__bullet bg-contrast-higher margin-right-xxs" aria-hidden="true"></span>
+                                    <span class="text-sm">Label 3 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-higher);">17%</i>)</span>
+                                </li>
+
+                                <li class="flex items-center col-6">
+                                    <span class="pie-chart__bullet bg-accent margin-right-xxs" aria-hidden="true"></span>
+                                    <span class="text-sm">Label 4 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);">12%</i>)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <div class="bg-light radius-md padding-md inner-glow shadow-xs">
+                <div class="alert alert--is-visible js-alert" role="alert">
+                    <div class="cd-flex cd-items-center cd-justify-between">
+                        <div class="cd-flex cd-items-center">
+                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <g fill="currentColor">
+                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
+                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
+                                    </path>
+                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
+                                </g>
+                            </svg>
+                            <p><strong class="alert__label">Info:</strong> You have no budgets yet.</p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <!-- connected apps -->
 
         <li>
@@ -501,7 +510,7 @@
             <h3 id="modal-form-title">Create new Goal</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/createGoal/<?= $data['account']->accountId ?>/" class="margin-bottom-sm">
+        <form method="POST" action="<?= URLROOT ?>account/createGoal/<?= $data['account']->accountId ?>" class="margin-bottom-sm">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-goal-goalName">
@@ -523,6 +532,55 @@
         </form>
 
 
+    </div>
+
+    <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
+        <svg class="icon icon--sm" viewBox="0 0 24 24">
+            <title>Close modal window</title>
+            <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="3" x2="21" y2="21" />
+                <line x1="21" y1="3" x2="3" y2="21" />
+            </g>
+        </svg>
+    </button>
+</div>
+
+<!-- MODAL FOR CREATING A BUDGET -->
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-budget-form">
+    <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
+        <div class="text-component margin-bottom-md">
+            <h3 id="modal-form-title">Create a new budget</h3>
+        </div>
+
+        <form method="POST" action="<?= URLROOT ?>account/createBudget/<?= $data['account']->accountId ?>/" class="margin-bottom-sm">
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-budget-budgetName">Budget
+                    name</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="text" name="budgetName" id="modal-budget-budgetName">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-budget-budgetAmount">Budget
+                    amount</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="budgetAmount" id="modal-budget-budgetAmount">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="transactionCategoryId">Category</label>
+                <select class="form-control width-100" name="transactionCategoryId" id="transactionCategoryId" required>
+                    <?php foreach ($data['category'] as $category) : ?>
+                        <option value="<?= $category->categoryId ?>">
+                            <?= $category->categoryName ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-budget-budgetDescription">Description</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="text" name="budgetDescription" id="modal-budget-budgetDescription">
+            </div>
+            <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
+        </form>
     </div>
 
     <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">

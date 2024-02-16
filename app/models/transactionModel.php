@@ -9,23 +9,43 @@ class transactionModel
     }
 
 
-    public function getTransactionsByAccountId($accountId)
+    public function getTransactionsByAccountId($accountId, $categoryFilter = 0, $transactionType = '')
     {
         try {
+            // Base query
+            $getTransactionByAccountIdQuery = "SELECT t.transactionId, t.transactionName, t.transactionAccountId, t.transactionCategoryId, t.transactionAmount, t.transactionDescription, t.transactionCreateDate, t.transactionIsActive,c.categoryId, c.categoryName
+                                       FROM transactions as t
+                                       INNER JOIN categories as c ON t.transactionCategoryId = c.categoryId
+                                       WHERE t.transactionIsActive = 1 AND t.transactionAccountId = :transactionAccountId";
 
-            $getTransactionByAccountIdQuery = "SELECT t.`transactionId`, t.`transactionName`, t.`transactionAccountId`, t.`transactionCategoryId`, t.`transactionAmount`, t.`transactionDescription`, t.`transactionCreateDate`, t.`transactionIsActive`, c.`categoryName`
-                                               FROM `transactions` t
-                                               INNER JOIN `categories` c ON t.`transactionCategoryId` = c.`categoryId`
-                                               WHERE t.`transactionIsActive` = 1 AND t.`transactionAccountId` = :transactionAccountId";
+            // Append category filter condition if a specific category is selected
+            if (!empty($categoryFilter)) {
+                $getTransactionByAccountIdQuery .= " AND t.transactionCategoryId = :categoryFilter";
+            }
 
+            // Append transaction type condition if a specific type is selected
+            if ($transactionType === 'income') {
+                $getTransactionByAccountIdQuery .= " AND t.transactionAmount > 0";
+            } elseif ($transactionType === 'expense') {
+                $getTransactionByAccountIdQuery .= " AND t.transactionAmount < 0";
+            }
+
+            // Prepare and execute the query
             $this->db->query($getTransactionByAccountIdQuery);
             $this->db->bind(':transactionAccountId', $accountId);
+
+            // Bind category filter parameter if applicable
+            if (!empty($categoryFilter)) {
+                $this->db->bind(':categoryFilter', $categoryFilter);
+            }
+
             return $this->db->resultSet();
         } catch (PDOException $ex) {
             helper::log('error', 'Failed to get transactions by account id' . $ex->getMessage());
             return false;
         }
     }
+
 
     public function getTransactionsByPagination($offset, $limit)
     {
@@ -125,23 +145,4 @@ class transactionModel
             return false;
         }
     }
-
-    public function getTransactionsByCategory($categoryId)
-    {
-        try{
-
-            $getTransactionsByCategoryQuery = "SELECT t.`transactionId`, t.`transactionName`, t.`transactionAccountId`, t.`transactionCategoryId`, t.`transactionAmount`, t.`transactionDescription`, t.`transactionCreateDate`, t.`transactionIsActive`, c.`categoryName`
-                                               FROM `transactions` t
-                                               INNER JOIN `categories` c ON t.`transactionCategoryId` = c.`categoryId`
-                                               WHERE t.`transactionIsActive` = 1 AND c.`categoryName` = :categoryName";
-            $this->db->query($getTransactionsByCategoryQuery);
-            $this->db->bind(':categoryId', $categoryId);
-            return $this->db->resultSet();
-        }catch(PDOException $ex){
-            helper::log('error', 'Exception occurred while getting transactions by category: '. $ex->getMessage());
-            return false;
-        }
-    }
-    
-
 }
