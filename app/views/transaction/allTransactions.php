@@ -1,51 +1,53 @@
 <?php require APPROOT . '/views/includes/head.php'; ?>
 <!-- start container -->
 <div class="container max-width-lg padding-y-lg">
+    
     <ul class="grid gap-lg">
         <!-- connected apps -->
         <li>
             <header class="margin-bottom-sm">
-                <h2 class="text-lg">Overview account</h2>
+                <h2 class="text-lg">All transactions</h2>
             </header>
-
-            <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
-
-                <?php if ($data['goal']) : ?>
-                    <!-- Show Edit and Delete buttons if a goal exists -->
-                    <button class="btn btn--primary" style="margin-bottom: 2rem;" aria-controls="modal-goal-edit-form">Edit
-                        goal</button>
-                    <button class="btn btn--accent" style="margin-bottom: 2rem;" aria-controls="dialog-delete-goal-confirmation">Delete goal</button>
-                    <h5 style="margin-bottom:2rem;">Your goal is <?= $data['goal']->goalName ?> and the costs for your goal
-                        is <strong>$<?= $data['goal']->goalAmount ?></strong></h5>
-                    <div class="progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar">
-                        <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value"><?= $data['progress'] ?>%</span></p>
-                        <span class="progress-bar__value margin-bottom-xs" aria-hidden="true"><?= $data['progress'] ?>%</span>
-
-                        <div class="progress-bar__bg" aria-hidden="true">
-                            <div class="progress-bar__fill" style="width: <?= $data['progress'] ?>%;"></div>
-                        </div>
-                    </div>
-                <?php else : ?>
-                    <!-- Show Add a goal button if no goal exists -->
-                    <button class="btn btn--subtle" style="margin-bottom: 2rem;" aria-controls="modal-goal-form">Add a
-                        goal</button>
-                <?php endif; ?>
-            </div>
-
-            <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
-                <h2>Your current balance is: <?= $data['account']->accountBalance ?></h2>
-            </div>
-            <div>
-                <button class="btn btn--primary" style="margin-bottom: 2rem; " aria-controls="modal-transaction-form">Create new transaction</button>
-            </div>
-
-
             <div class="bg-light radius-md padding-md inner-glow shadow-xs">
                 <nav class="s-tabs text-sm">
                     <ul class="s-tabs__list">
-                        <li><a class="s-tabs__link s-tabs__link--current" href="#0"><strong>Recent transactions</strong></a></li>
+                        <li><a class="s-tabs__link s-tabs__link--current" href="#0">All transactions</a></li>
                     </ul>
                 </nav>
+
+                <div class="padding-y-xs border-bottom" data-table-controls="table-id">
+                    <ul class="flex flex-column gap-xxs flex-row@sm items-center@sm">
+                        <form method="post">
+                            <div class="flex flex-wrap items-center gap-xxxs">
+                                <div class="select" style="--select-icon-size: 12px;">
+                                    <select class="select__input btn btn--subtle text-sm" name="transactionType" id="transactionType">
+                                        <option value="0">All transaction types</option>
+                                        <option value="income">Income</option>
+                                        <option value="expense">Expense</option>
+                                    </select>
+
+                                    <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
+                                        <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                    </svg>
+                                </div>
+                                <div class="select" style="--select-icon-size: 12px;">
+                                    <select class="select__input btn btn--subtle text-sm" name="categoryFilter" id="categoryFilter">
+                                        <option value="">All categories</option>
+                                        <?php foreach ($data['category'] as $category) : ?>
+                                            <option value="<?= $category->categoryId ?>"><?= $category->categoryName ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
+                                        <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                    </svg>
+                                </div>
+
+                                <button class="btn btn--primary text-sm">Filter</button>
+                            </div>
+                        </form>
+                    </ul>
+                </div>
+
                 <div id="table-id" class="int-table text-sm js-int-table">
                     <div class="int-table__inner">
                         <table class="int-table__table" aria-label="Interactive table example">
@@ -160,73 +162,10 @@
                         </table>
                     </div>
                 </div>
-                <div class="flex items-end justify-between padding-top-sm">
-                <a href="<?= URLROOT . 'account/allTransactions/' . $transaction->transactionAccountId ?>" class="text-sm">See all transactions -></a>
-                </div>
             </div>
         </li>
 
-        <div>
-        <button class="btn btn--primary" style="margin: 1rem; " aria-controls="modal-budget-form">Create a new budget</button>
-        </div>
-
-        <?php if (!empty($data['budget'])) : ?>
-            <?php foreach ($data['budget'] as $budget) : ?>
-                <div class="bg-light radius-md padding-md inner-glow shadow-xs">
-                    <p class="color-contrast-low margin-bottom-md"><?= $budget->budgetName ?></p>
-                    <div class="pie-chart flex flex-column gap-md js-pie-chart">
-                        <div class="flex-shrink-0 flex justify-center">
-                            <div class="pie-chart__area js-pie-chart__area">
-                                <div class="pie-chart__tooltip is-hidden js-pie-chart__tooltip"></div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <ul class="grid gap-xs">
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Income (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);">43%</i>)</span>
-                                </li>
-
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-contrast-low margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Expense (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-low);">28%</i>)</span>
-                                </li>
-
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-contrast-higher margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 3 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-higher);">17%</i>)</span>
-                                </li>
-
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-accent margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 4 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);">12%</i>)</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <div class="bg-light radius-md padding-md inner-glow shadow-xs">
-                <div class="alert alert--is-visible js-alert" role="alert">
-                    <div class="cd-flex cd-items-center cd-justify-between">
-                        <div class="cd-flex cd-items-center">
-                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                <g fill="currentColor">
-                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
-                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
-                                    </path>
-                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
-                                </g>
-                            </svg>
-                            <p><strong class="alert__label">Info:</strong> You have no budgets yet.</p>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
+        
 
         <!-- connected apps -->
 

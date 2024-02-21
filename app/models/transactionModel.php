@@ -9,14 +9,31 @@ class transactionModel
     }
 
 
-    public function getTransactionsByAccountId($accountId, $categoryFilter = 0, $transactionType = '')
+    public function getLimitedTransactionsByAccountId($accountId)
+    {
+        try{
+
+            $getLimitedTransactionsQuery = "SELECT t.transactionId, t.transactionName, t.transactionAccountId, t.transactionCategoryId, t.transactionAmount, t.transactionDescription, t.transactionCreateDate, t.transactionIsActive,c.categoryId, c.categoryName
+                                            FROM transactions as t
+                                            INNER JOIN categories as c ON t.transactionCategoryId = c.categoryId
+                                            WHERE t.transactionIsActive = 1 AND t.transactionAccountId = :transactionAccountId ORDER BY t.transactionCreateDate DESC LIMIT 4";
+
+            $this->db->query($getLimitedTransactionsQuery);
+            $this->db->bind(":transactionAccountId", $accountId);
+            return $this->db->resultSet();
+        }catch(PDOException $ex){
+            helper::log('error', 'Could not get limited transactions by account id: '.$accountId . $ex->getMessage());
+            return false;
+        }
+    }
+    public function getAllTransactionsByAccountId($accountId, $categoryFilter = 0, $transactionType = '')
     {
         try {
             // Base query
             $getTransactionByAccountIdQuery = "SELECT t.transactionId, t.transactionName, t.transactionAccountId, t.transactionCategoryId, t.transactionAmount, t.transactionDescription, t.transactionCreateDate, t.transactionIsActive,c.categoryId, c.categoryName
-                                       FROM transactions as t
-                                       INNER JOIN categories as c ON t.transactionCategoryId = c.categoryId
-                                       WHERE t.transactionIsActive = 1 AND t.transactionAccountId = :transactionAccountId";
+                                               FROM transactions as t
+                                               INNER JOIN categories as c ON t.transactionCategoryId = c.categoryId
+                                               WHERE t.transactionIsActive = 1 AND t.transactionAccountId = :transactionAccountId ";
 
             // Append category filter condition if a specific category is selected
             if (!empty($categoryFilter)) {
@@ -29,7 +46,6 @@ class transactionModel
             } elseif ($transactionType === 'expense') {
                 $getTransactionByAccountIdQuery .= " AND t.transactionAmount < 0";
             }
-
             // Prepare and execute the query
             $this->db->query($getTransactionByAccountIdQuery);
             $this->db->bind(':transactionAccountId', $accountId);
@@ -47,23 +63,6 @@ class transactionModel
     }
 
 
-    public function getTransactionsByPagination($offset, $limit)
-    {
-        try {
-            $getTransactionsByPaginationQuery = "SELECT t.`transactionId`, t.`transactionName`, t.`transactionAccountId`, t.`transactionCategoryId`, t.`transactionAmount`, t.`transactionDescription`, t.`transactionCreateDate`, t.`transactionIsActive`, c.`categoryName`
-                                                 FROM `transactions` t
-                                                 INNER JOIN `categories` c ON t.`transactionCategoryId` = c.`categoryId`
-                                                 WHERE t.`transactionIsActive` = 1 AND t.`transactionAccountId` = :transactionAccountId
-                                                LIMIT :offset, :limit";
-
-            $this->db->query($getTransactionsByPaginationQuery);
-            $this->db->bind(':offset', $offset);
-            $this->db->bind(':limit', $limit);
-        } catch (PDOException $ex) {
-            helper::log('error', 'Failed to get transactions by pagination' . $ex->getMessage());
-            return false;
-        }
-    }
 
     public function getTransactionsById($transactionId)
     {

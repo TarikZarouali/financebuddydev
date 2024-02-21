@@ -38,7 +38,7 @@ class Account extends Controller
 
         // Account details, transactions, categories, and goals
         $getAccountById = $this->accountModel->getAccountById($accountId);
-        $getTransactionsByAccount = $this->transactionModel->getTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
+        $getTransactionsByAccount = $this->transactionModel->getLimitedTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
         $activeCategories = $this->categoryModel->getActiveCategories();
         $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
         $getActiveBudgets = $this->budgetModel->getActiveBudgetsByAccountId($accountId);
@@ -93,7 +93,7 @@ class Account extends Controller
                 // Check the success key in the result
                 if ($result) {
 
-                    header('Location:' . URLROOT . 'account/update/' . $accountId);
+                    header('Location:' . URLROOT . 'user/overview/');
                 } else {
                     header('Location:' . URLROOT . 'account/update/' . $accountId);
                 }
@@ -172,8 +172,6 @@ class Account extends Controller
         session_write_close();
     }
 
-
-
     public function delete($accountId)
     {
         $deleteAccount = $this->accountModel->deleteAccount($accountId);
@@ -217,7 +215,6 @@ class Account extends Controller
         }
         return;
     }
-
 
     public function updateGoal($goalId)
     {
@@ -273,9 +270,6 @@ class Account extends Controller
         }
     }
 
-
-
-
     public function deleteTransaction($transactionId)
     {
         $transaction = $this->transactionModel->getTransactionsById($transactionId);
@@ -305,8 +299,6 @@ class Account extends Controller
         }
         return;
     }
-
-
 
     public function updateTransaction($transactionId)
     {
@@ -344,6 +336,34 @@ class Account extends Controller
         $this->view('transaction/update', $data);
     }
 
+
+    public function allTransactions($accountId)
+    {
+        // Check if the form is submitted
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $categoryFilter = isset($_POST['categoryFilter']) ? filter_var($_POST['categoryFilter']) : '';
+            $transactionType = isset($_POST['transactionType']) ? filter_var($_POST['transactionType']) : '';
+        } else {
+            // If not submitted, show an empty string (All categories)
+            $categoryFilter = '';
+            $transactionType = '';
+        }
+        
+        // Get all transactions without limiting the result
+        $getTransactionsByAccount = $this->transactionModel->getLimitedTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
+        $activeCategories = $this->categoryModel->getActiveCategories();
+
+        $data = [
+            'transactions' => $getTransactionsByAccount,
+            'category' => $activeCategories
+        ];
+        
+        // $this->view('transaction/alltransactions', $data);
+        $this->view('transaction/allTransactions', $data);
+
+    }
+
+
     // END TRANSACTION SECTION
 
 
@@ -354,10 +374,8 @@ class Account extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $createBudget = $this->budgetModel->createBudgetByAccountId($post, $accountId);
-            
+
             if ($createBudget) {
-                helper::dump('hello');
-                exit;
                 header("Location:" . URLROOT . 'account/overview/' . $accountId);
                 return;
             } else {
