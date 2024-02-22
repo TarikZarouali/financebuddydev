@@ -13539,6 +13539,126 @@ Usage: codyhouse.co/license
 -------------------------------- */
 :root {
   --custom-checkbox-size: 20px;
+  --custom-checkbox-radius: 4px;
+  --custom-checkbox-border-width: 1px;
+  --custom-checkbox-marker-size: 18px;
+}
+
+.custom-checkbox {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  font-size: var(--custom-checkbox-size);
+}
+
+.custom-checkbox__input {
+  position: relative;
+  /* hide native input */
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  height: 1em;
+  width: 1em;
+  display: block;
+  z-index: 1;
+}
+
+.custom-checkbox__control {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: transform 0.2s;
+  color: hsla(var(--color-contrast-low-h), var(--color-contrast-low-s), var(--color-contrast-low-l), 0.65); /* unchecked color */
+}
+.custom-checkbox__control::before, .custom-checkbox__control::after {
+  content: "";
+  position: absolute;
+}
+.custom-checkbox__control::before { /* focus circle */
+  width: 160%;
+  height: 160%;
+  background-color: currentColor;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  border-radius: 50%;
+  will-change: transform;
+  transition: transform 0.2s;
+}
+.custom-checkbox__control::after { /* custom checkbox */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* custom checkbox style */
+  background-color: var(--color-bg);
+  border-radius: var(--custom-checkbox-radius);
+  box-shadow: inset 0 0 0 var(--custom-checkbox-border-width) currentColor, var(--shadow-xs); /* border */
+}
+
+.custom-checkbox__input:checked ~ .custom-checkbox__control::after,
+.custom-checkbox__input:indeterminate ~ .custom-checkbox__control::after {
+  background-color: currentColor;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: var(--custom-checkbox-marker-size);
+  box-shadow: none;
+}
+
+.custom-checkbox__input:checked ~ .custom-checkbox__control {
+  color: var(--color-primary); /* checked color */
+}
+.custom-checkbox__input:checked ~ .custom-checkbox__control::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpolyline points='2.5 8 6.5 12 13.5 3' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+.custom-checkbox__input:indeterminate ~ .custom-checkbox__control::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cline x1='2' y1='8' x2='14' y2='8' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.custom-checkbox__input:active ~ .custom-checkbox__control {
+  transform: scale(0.9);
+}
+
+.custom-checkbox__input:checked:active ~ .custom-checkbox__control,
+.custom-checkbox__input:indeterminate:active ~ .custom-checkbox__control {
+  transform: scale(1);
+}
+
+.custom-checkbox__input:focus ~ .custom-checkbox__control::before {
+  opacity: 0.2;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* --icon */
+.custom-checkbox--icon {
+  --custom-checkbox-size: 32px;
+}
+.custom-checkbox--icon .custom-checkbox__control::after {
+  display: none;
+}
+.custom-checkbox--icon .icon {
+  display: block;
+  color: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------------------- 
+
+File#: _1_custom-checkbox
+Title: Custom Checkbox
+Descr: Replace the native checkbox button with a custom element (e.g., an icon)
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --custom-checkbox-size: 20px;
   --custom-checkbox-radius: 3px;
   --custom-checkbox-border-width: 1px;
   --custom-checkbox-marker-size: 18px;
@@ -13644,6 +13764,164 @@ Usage: codyhouse.co/license
   color: inherit;
   position: relative;
   z-index: 1;
+}
+
+/* -------------------------------- 
+
+File#: _1_custom-select
+Title: Custom Select
+Descr: Custom Select Control
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  /* --default variation only 👇 */
+  --select-icon-size: 16px;
+  --select-icon-right-margin: var(--space-sm); /* icon margin right */
+  --select-text-icon-gap: var(--space-xxxs); /* gap between text and icon */
+}
+
+.select {
+  position: relative;
+}
+
+.select__input {
+  width: 100%;
+  height: 100%;
+  padding-right: calc(var(--select-icon-size) + var(--select-icon-right-margin) + var(--select-text-icon-gap)) !important;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.select__icon {
+  width: var(--select-icon-size);
+  height: var(--select-icon-size);
+  pointer-events: none;
+  position: absolute;
+  right: var(--select-icon-right-margin);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* --custom-dropdown */
+:root {
+  --select-dropdown-gap: 4px; /* distance between select control and custom dropdown */
+}
+
+.select__button { /* created in JS - custom select control */
+  width: 100%;
+}
+
+.select__button[aria-expanded=true] {
+  /* custom select control if dropdown = visible */
+}
+
+.select__dropdown { /* created in JS - custom select dropdown */
+  position: absolute;
+  left: 0;
+  top: 100%;
+  min-width: 200px;
+  max-height: 1px; /* updated in JS */
+  background-color: var(--color-bg-light);
+  box-shadow: var(--inner-glow), var(--shadow-md);
+  padding: var(--space-xxxs) 0;
+  border-radius: var(--radius-md);
+  z-index: var(--z-index-popover, 5);
+  margin-top: var(--select-dropdown-gap);
+  margin-bottom: var(--select-dropdown-gap);
+  overflow: auto;
+  /* use rem units */
+  --space-unit: 1rem;
+  --text-unit: 1rem;
+  font-size: var(--text-unit);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s;
+}
+
+.select__dropdown--right { /* change dropdown position based on the available space */
+  right: 0;
+  left: auto;
+}
+
+.select__dropdown--up {
+  bottom: 100%;
+  top: auto;
+}
+
+.select__button[aria-expanded=true] + .select__dropdown {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s;
+}
+
+/* custom <optgroup> list - include all <option>s if no <optgroup> available  */
+.select__list {
+  list-style: none !important;
+}
+
+.select__list:not(:first-of-type) {
+  padding-top: var(--space-xxs);
+}
+
+.select__list:not(:last-of-type) {
+  border-bottom: 1px solid hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.1);
+  padding-bottom: var(--space-xxs);
+}
+
+.select__item { /* single item inside .select__list */
+  display: flex;
+  align-items: center;
+  padding: var(--space-xxs) var(--space-sm);
+  color: var(--color-contrast-high);
+  width: 100%;
+  text-align: left;
+  /* truncate text */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select__item--optgroup { /* custom <optgroup> label */
+  font-size: var(--text-sm);
+  color: var(--color-contrast-medium);
+}
+
+.select__item--option { /* custom <option> label */
+  cursor: pointer;
+  transition: 0.2s;
+}
+.select__item--option:hover {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.075);
+}
+.select__item--option:focus {
+  outline: none;
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.15);
+}
+.select__item--option[aria-selected=true] { /* selected option */
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.select__item--option[aria-selected=true]::after { /* check icon next to the selected language */
+  content: "";
+  display: block;
+  height: 1em;
+  width: 1em;
+  margin-left: auto;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpolyline stroke-width='2' stroke='%23ffffff' fill='none' stroke-linecap='round' stroke-linejoin='round' points='1,9 5,13 15,3 '/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpolyline stroke-width='2' stroke='%23ffffff' fill='none' stroke-linecap='round' stroke-linejoin='round' points='1,9 5,13 15,3 '/%3E%3C/svg%3E");
+}
+.select__item--option[aria-selected=true]:focus {
+  box-shadow: inset 0 0 0 2px var(--color-primary-dark);
+}
+.select__item--option[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* -------------------------------- 
@@ -14195,6 +14473,112 @@ Usage: codyhouse.co/license
 }
 .drawer--modal .drawer__content {
   max-width: var(--drawer-width);
+}
+
+/* -------------------------------- 
+
+File#: _1_expandable-search
+Title: Expandable Search
+Descr: A search button that expands to reveal a search input element
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --expandable-search-size-compact: 2.2em; /* height and width - compact version /  height - expanded version */
+  --expandable-search-size-expanded: 10em; /* width - expanded version */
+  --expandable-search-radius: 50em; /* border radius */
+  --expandable-search-icon-size: 1.2em; /* lens icon size */
+  --expandable-search-btn-padding: 2px; /* gap between button and input element */
+}
+
+.expandable-search {
+  position: relative;
+  display: inline-block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.expandable-search__input {
+  width: var(--expandable-search-size-compact);
+  height: var(--expandable-search-size-compact);
+  color: transparent;
+  overflow: hidden;
+  border-radius: var(--expandable-search-radius);
+  transition: width 0.3s var(--ease-out), box-shadow 0.3s, background-color 0.3s;
+}
+.expandable-search__input::-moz-placeholder {
+  opacity: 0;
+  color: transparent;
+}
+.expandable-search__input::placeholder {
+  opacity: 0;
+  color: transparent;
+}
+.expandable-search__input:hover {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.1);
+  cursor: pointer;
+}
+.expandable-search__input:not(:focus):not(.expandable-search__input--has-content) {
+  padding: 0px; /* padding = 0 if search is not expanded */
+}
+.expandable-search__input:focus, .expandable-search__input.expandable-search__input--has-content {
+  background-color: var(--color-bg);
+  width: var(--expandable-search-size-expanded);
+  padding-top: 0;
+  padding-right: calc(var(--expandable-search-btn-padding, 2px) + var(--expandable-search-size-compact));
+  padding-bottom: 0;
+  outline: none;
+  box-shadow: var(--shadow-md), 0 0 0 2px var(--color-primary);
+  color: var(--color-contrast-higher);
+  cursor: auto;
+  -webkit-user-select: auto;
+     -moz-user-select: auto;
+          user-select: auto;
+  /* 👇 you can ovveride this padding by using the padding utility classes */
+}
+.expandable-search__input:focus:not([class^=padding-]):not([class*=" padding-"]), .expandable-search__input.expandable-search__input--has-content:not([class^=padding-]):not([class*=" padding-"]) {
+  padding-left: var(--space-sm);
+}
+.expandable-search__input:focus::-moz-placeholder, .expandable-search__input.expandable-search__input--has-content::-moz-placeholder {
+  opacity: 1;
+  color: var(--color-contrast-low);
+}
+.expandable-search__input:focus::placeholder, .expandable-search__input.expandable-search__input--has-content::placeholder {
+  opacity: 1;
+  color: var(--color-contrast-low);
+}
+.expandable-search__input:focus + .expandable-search__btn {
+  pointer-events: auto;
+}
+.expandable-search__input::-webkit-search-decoration, .expandable-search__input::-webkit-search-cancel-button, .expandable-search__input::-webkit-search-results-button, .expandable-search__input::-webkit-search-results-decoration {
+  display: none;
+}
+
+.expandable-search__btn {
+  position: absolute;
+  display: flex;
+  top: var(--expandable-search-btn-padding, 2px);
+  right: var(--expandable-search-btn-padding, 2px);
+  width: calc(var(--expandable-search-size-compact) - var(--expandable-search-btn-padding, 2px) * 2);
+  height: calc(var(--expandable-search-size-compact) - var(--expandable-search-btn-padding, 2px) * 2);
+  border-radius: var(--expandable-search-radius);
+  z-index: 1;
+  pointer-events: none;
+  transition: background-color 0.3s;
+}
+.expandable-search__btn .icon {
+  display: block;
+  margin: auto;
+  height: var(--expandable-search-icon-size);
+  width: var(--expandable-search-icon-size);
+}
+.expandable-search__btn:hover {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.1);
+}
+.expandable-search__btn:focus {
+  outline: none;
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.15);
 }
 
 /* -------------------------------- 
@@ -15323,6 +15707,220 @@ Usage: codyhouse.co/license
   transition: transform 0.2s;
 }
 
+.link-fx-2 {
+  position: relative;
+  display: inline-block;
+  padding: 4px 6px;
+  color: var(--color-contrast-higher);
+  text-decoration: none;
+  background-image: linear-gradient(var(--color-contrast-higher), var(--color-contrast-higher));
+  background-size: 100% 1px;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  will-change: background-size;
+  transition: background-size 0.3s var(--ease-out);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.link-fx-2::after {
+  content: attr(data-link-fx-clone);
+  color: var(--color-bg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: inherit;
+  will-change: clip-path, transform;
+  -webkit-clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+          clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  transform: translateY(4px);
+  transition: transform 0.3s, -webkit-clip-path 0.3s;
+  transition: clip-path 0.3s, transform 0.3s;
+  transition: clip-path 0.3s, transform 0.3s, -webkit-clip-path 0.3s;
+  transition-timing-function: var(--ease-out);
+}
+.link-fx-2:hover {
+  background-size: 100% 100%;
+}
+.link-fx-2:hover::after {
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+          clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  transform: translateY(0px);
+}
+
+.link-fx-3 {
+  position: relative;
+  display: inline-flex;
+  padding: 4px 6px;
+  text-decoration: none;
+  align-items: center;
+}
+.link-fx-3 .icon {
+  display: block;
+  font-size: 12px;
+  margin-left: 8px;
+  position: relative;
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s var(--ease-out), visibility 0s 0.3s;
+}
+.link-fx-3 .icon line {
+  transform-origin: 9px 6px;
+  will-change: transform;
+  transition: transform 0.3s var(--ease-out);
+}
+.link-fx-3 .icon line:first-child {
+  transform: rotate(20deg);
+}
+.link-fx-3 .icon line:last-child {
+  transform: rotate(-20deg);
+}
+.link-fx-3::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 18px);
+  height: 1px;
+  background-color: currentColor;
+  transition: 0.3s var(--ease-out);
+}
+.link-fx-3:hover .icon {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.3s, transform 0.3s var(--ease-out);
+}
+.link-fx-3:hover .icon line:first-child, .link-fx-3:hover .icon line:last-child {
+  transform: rotate(0);
+}
+.link-fx-3:hover::before {
+  width: 100%;
+}
+
+.link-fx-4 {
+  position: relative;
+  display: inline-block;
+  padding: 6px 10px;
+  background-color: var(--color-contrast-lower);
+  color: var(--color-contrast-higher);
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.link-fx-4::before {
+  content: attr(data-link-fx-clone);
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-contrast-higher);
+  color: var(--color-bg);
+  will-change: clip-path;
+  -webkit-clip-path: polygon(0% 0%, 1px 0%, 1px 100%, 0% 100%);
+          clip-path: polygon(0% 0%, 1px 0%, 1px 100%, 0% 100%);
+  transition: -webkit-clip-path 0.3s var(--ease-out);
+  transition: clip-path 0.3s var(--ease-out);
+  transition: clip-path 0.3s var(--ease-out), -webkit-clip-path 0.3s var(--ease-out);
+}
+.link-fx-4:hover::before {
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+          clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.link-fx-5 {
+  display: inline-block;
+  padding: 4px 0;
+  text-decoration: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='4' viewBox='0 0 16 4'%3E%3Cpath d='M0,3.5c4,0,4-3,8-3s4,3,8,3' fill='none' stroke='%232a6df4' opacity='0.5' stroke-miterlimit='10'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: 0px 100%;
+  background-size: 0;
+}
+.link-fx-5:hover {
+  background-size: 16px 4px;
+  animation: link-fx-5-animation 0.4s linear infinite;
+}
+
+@keyframes link-fx-5-animation {
+  from {
+    background-position: 0px 100%;
+  }
+  to {
+    background-position: 16px 100%;
+  }
+}
+/* -------------------------------- 
+
+File#: _1_link-effects
+Title: Link Effects
+Descr: A collection of link effects
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.link-fx-1 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 6px;
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.link-fx-1 .icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transform: translateX(100%) rotate(90deg);
+  font-size: 32px;
+}
+.link-fx-1 .icon circle {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 0.2s;
+}
+.link-fx-1 .icon line {
+  transition: transform 0.4s;
+  transform-origin: 13px 15px;
+}
+.link-fx-1 .icon line:last-child {
+  transform-origin: 19px 15px;
+}
+.link-fx-1::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform-origin: right center;
+  transition: transform 0.2s 0.1s;
+}
+.link-fx-1:hover .icon circle {
+  stroke-dashoffset: 200;
+  transition: stroke-dashoffset 0.2s 0.1s;
+}
+.link-fx-1:hover .icon line {
+  transform: rotate(-180deg);
+}
+.link-fx-1:hover .icon line:last-child {
+  transform: rotate(180deg);
+}
+.link-fx-1:hover::before {
+  transform: translateX(17px) scaleX(0);
+  transition: transform 0.2s;
+}
+
 /* -------------------------------- 
 
 File#: _1_list-filter
@@ -16072,6 +16670,87 @@ Usage: codyhouse.co/license
 
 -------------------------------- */
 .menu {
+  --menu-vertical-gap: 4px; /* vertical gap between the Menu element and its control */
+  --menu-item-padding: var(--space-xxxs) var(--space-xs);
+  list-style: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  position: fixed; /* top/left position set in JS */
+  z-index: var(--z-index-popover, 5);
+  width: 220px;
+  background-color: var(--color-bg-light);
+  box-shadow: var(--inner-glow), var(--shadow-md);
+  padding: var(--space-xxs) 0;
+  border-radius: var(--radius-md);
+  margin-top: var(--menu-vertical-gap);
+  margin-bottom: var(--menu-vertical-gap);
+  overflow: auto;
+  /* use rem units */
+  --space-unit: 1rem;
+  --text-unit: 1rem;
+  font-size: var(--text-unit);
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s;
+}
+
+.menu--is-visible {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.2s;
+}
+
+.menu--overlay {
+  z-index: var(--z-index-overlay, 15);
+}
+
+.menu__content {
+  display: flex;
+  align-items: center;
+  padding: var(--menu-item-padding);
+  text-decoration: none; /* reset link style */
+  color: var(--color-contrast-high);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: 0.2s;
+}
+.menu__content:hover {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.075);
+}
+.menu__content:focus {
+  outline: none;
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.15);
+}
+
+.menu__label {
+  padding: var(--menu-item-padding);
+  font-size: var(--text-sm);
+  color: var(--color-contrast-medium);
+}
+
+.menu__separator {
+  height: 1px;
+  background-color: var(--color-contrast-lower);
+  margin: var(--menu-item-padding);
+}
+
+.menu__icon {
+  color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.5);
+  margin-right: var(--space-xxs);
+}
+
+/* -------------------------------- 
+
+File#: _1_menu
+Title: Menu
+Descr: Application menu that provides access to a set of functionalities
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.menu {
   --menu-vertical-gap: 4px;
   --menu-item-padding: var(--space-xxs) var(--space-sm);
   list-style: none;
@@ -16586,6 +17265,71 @@ Usage: codyhouse.co/license
 }
 .number-input--v2 .number-input__btn--plus {
   order: 2;
+}
+
+/* -------------------------------- 
+
+File#: _1_pagination
+Title: Pagination 
+Descr: Component used to navigate through pages of related content
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.pagination__list > li {
+  display: inline-block;
+}
+
+.pagination--split .pagination__list {
+  width: 100%;
+}
+.pagination--split .pagination__list > *:first-child {
+  margin-right: auto;
+}
+.pagination--split .pagination__list > *:last-child {
+  margin-left: auto;
+}
+
+.pagination__item {
+  display: inline-block;
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+  padding: var(--space-xs) calc(1.355 * var(--space-xs));
+  white-space: nowrap;
+  line-height: 1;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--color-contrast-high);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  will-change: transform;
+  transition: 0.2s;
+}
+.pagination__item:hover:not(.pagination__item--selected):not(.pagination__item--ellipsis) {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.1);
+}
+.pagination__item:active {
+  transform: translateY(2px);
+}
+
+.pagination__item--selected {
+  background-color: var(--color-contrast-higher);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.pagination__item--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.pagination__jumper .form-control {
+  width: 3em;
+  margin-right: var(--space-xs);
+}
+.pagination__jumper em {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* -------------------------------- 
@@ -18221,6 +18965,69 @@ Usage: codyhouse.co/license
 .s-tabs {
   position: relative;
 }
+.s-tabs::after { /* gradient - truncate text */
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 0;
+  height: calc(100% - var(--s-tabs-border-bottom-width));
+  width: 2em;
+  background: linear-gradient(90deg, hsla(var(--color-bg-h), var(--color-bg-s), var(--color-bg-l), 0), var(--color-bg));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.s-tabs__list {
+  display: flex;
+  overflow: auto;
+  -webkit-overflow-scrolling: auto;
+}
+.s-tabs__list::after { /* border bottom */
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: var(--s-tabs-border-bottom-width);
+  left: 0;
+  bottom: 0;
+  background-color: var(--color-contrast-lower);
+}
+
+.s-tabs__link {
+  color: var(--color-contrast-medium);
+  text-decoration: none;
+  display: inline-block;
+  padding: var(--space-xs) var(--space-sm);
+  white-space: nowrap;
+  border-bottom: var(--s-tabs-selected-item-border-bottom-width) solid transparent;
+  z-index: 1;
+  transition: 0.2s;
+}
+.s-tabs__link:hover:not(.s-tabs__link--current) {
+  color: var(--color-contrast-high);
+}
+
+.s-tabs__link--current {
+  position: relative;
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* -------------------------------- 
+
+File#: _1_tabbed-navigation
+Title: Tabbed Navigation
+Descr: Tabbed secondary navigation
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --s-tabs-border-bottom-width: 1px;
+  --s-tabs-selected-item-border-bottom-width: 1px;
+}
+
+.s-tabs {
+  position: relative;
+}
 
 .s-tabs__list {
   display: flex;
@@ -19505,6 +20312,154 @@ Usage: codyhouse.co/license
   display: block;
   margin: auto;
   --size: var(--md-editor-btn-icon-size);
+}
+
+/* -------------------------------- 
+
+File#: _2_menu-bar
+Title: Menu Bar
+Descr: Application menu with a list of common actions that users can perform
+Usage: codyhouse.co/license
+
+-------------------------------- */
+:root {
+  --menu-bar-button-size: 2.5em;
+  --menu-bar-icon-size: 1em;
+  --menu-bar-horizontal-gap: var(--space-xxs);
+  --menu-bar-vertical-gap: 4px;
+  --menu-bar-label-size: var(--text-xs);
+}
+
+.menu-bar {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.menu-bar__item {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--menu-bar-button-size);
+  width: var(--menu-bar-button-size);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.menu-bar__item:not(:last-child) {
+  margin-right: var(--menu-bar-horizontal-gap);
+}
+.menu-bar__item:hover, .menu-bar__item.menu-control--active {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.1);
+}
+.menu-bar__item:hover > .menu-bar__icon, .menu-bar__item.menu-control--active > .menu-bar__icon {
+  color: var(--color-contrast-higher);
+}
+.menu-bar__item:hover > .menu-bar__label, .menu-bar__item.menu-control--active > .menu-bar__label {
+  clip: auto;
+  -webkit-clip-path: none;
+          clip-path: none;
+  height: auto;
+  width: auto;
+}
+.menu-bar__item:focus {
+  outline: none;
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.1);
+}
+.menu-bar__item:active {
+  background-color: var(--color-contrast-low);
+}
+.menu-bar__item:focus:active {
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.2);
+}
+
+.menu-bar__item--trigger {
+  display: none;
+}
+
+.menu-bar__icon {
+  display: block;
+  color: var(--color-contrast-high);
+  font-size: var(--menu-bar-icon-size);
+  transition: color 0.2s;
+}
+
+.menu-bar__label {
+  position: absolute;
+  z-index: var(--z-index-popover, 5);
+  clip: rect(1px, 1px, 1px, 1px);
+  -webkit-clip-path: inset(50%);
+          clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(var(--menu-bar-vertical-gap));
+  padding: var(--space-xxs) var(--space-xs);
+  color: var(--color-bg);
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.95);
+  border-radius: var(--radius-md);
+  font-size: var(--menu-bar-label-size);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.menu-bar--collapsed .menu-bar__item--hide {
+  display: none;
+}
+.menu-bar--collapsed .menu-bar__item--trigger {
+  display: inline-block;
+  display: flex;
+}
+
+.menu-bar {
+  opacity: 0;
+}
+.menu-bar::before {
+  display: none;
+  content: "collapsed";
+}
+
+.menu-bar--loaded {
+  opacity: 1;
+}
+
+@media (min-width: 32rem) {
+  .menu-bar--expanded\@xs::before {
+    content: "expanded";
+  }
+}
+
+@media (min-width: 48rem) {
+  .menu-bar--expanded\@sm::before {
+    content: "expanded";
+  }
+}
+
+@media (min-width: 64rem) {
+  .menu-bar--expanded\@md::before {
+    content: "expanded";
+  }
+}
+
+@media (min-width: 80rem) {
+  .menu-bar--expanded\@lg::before {
+    content: "expanded";
+  }
+}
+
+@media (min-width: 90rem) {
+  .menu-bar--expanded\@xl::before {
+    content: "expanded";
+  }
 }
 
 /* -------------------------------- 
@@ -21600,6 +22555,144 @@ Usage: codyhouse.co/license
 -------------------------------- */
 .int-table {
   overflow: hidden;
+  border-bottom: 2px solid var(--color-contrast-lower);
+}
+
+.int-table__inner {
+  position: relative;
+  overflow: auto;
+}
+.int-table__inner::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.int-table__inner::-webkit-scrollbar-track {
+  background-color: var(--color-contrast-lower);
+}
+.int-table__inner::-webkit-scrollbar-thumb {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.9);
+  border-radius: 50em;
+}
+.int-table__inner::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-contrast-higher);
+}
+
+.int-table__table {
+  width: 100%;
+}
+
+.int-table__header .int-table__cell {
+  background-color: var(--color-bg);
+  box-shadow: 0 2px 0 var(--color-contrast-lower);
+}
+
+.int-table__body .int-table__row {
+  border-bottom: 1px solid var(--color-contrast-lower);
+}
+.int-table__body .int-table__row:last-child {
+  border-bottom: none;
+}
+.int-table__body .int-table__row--checked {
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.1);
+  border-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.25);
+}
+
+.int-table__cell {
+  padding: var(--space-xs);
+}
+
+.int-table__cell--th {
+  font-weight: 600;
+}
+
+.int-table__cell--sort {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.int-table__cell--sort:hover, .int-table__cell--sort:focus-within {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.075);
+}
+.int-table__cell--sort:hover {
+  cursor: pointer;
+}
+
+.int-table__cell--focus {
+  background-color: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.15);
+}
+
+.int-table__sort-icon .arrow-up, .int-table__sort-icon .arrow-down {
+  fill: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.3);
+}
+
+.int-table__cell--asc .int-table__sort-icon .arrow-up,
+.int-table__cell--desc .int-table__sort-icon .arrow-down {
+  fill: var(--color-contrast-higher);
+}
+
+.int-table__checkbox {
+  --custom-checkbox-size: 18px;
+  --custom-checkbox-marker-size: 16px;
+  display: block;
+  width: var(--custom-checkbox-size);
+  height: var(--custom-checkbox-size);
+}
+
+.int-table__menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+}
+.int-table__menu-btn .icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+.int-table__menu-btn:hover, .int-table__menu-btn.menu-control--active {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.1);
+}
+.int-table__menu-btn:active {
+  background-color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.075);
+}
+
+.int-table--sticky-header {
+  position: relative;
+  z-index: 1;
+}
+.int-table--sticky-header .int-table__inner {
+  max-height: 480px;
+}
+.int-table--sticky-header .int-table__header .int-table__cell {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.int-table-actions .menu-bar {
+  --menu-bar-button-size: 38px;
+  --menu-bar-icon-size: 16px;
+  --menu-bar-horizontal-gap: var(--space-xxxxs);
+  --menu-bar-vertical-gap: 4px;
+  --menu-bar-label-size: var(--text-xs);
+}
+.int-table-actions .menu-bar__icon {
+  color: hsla(var(--color-contrast-higher-h), var(--color-contrast-higher-s), var(--color-contrast-higher-l), 0.5);
+}
+
+/* -------------------------------- 
+
+File#: _3_interactive-table
+Title: Interactive Table
+Descr: Table with the option of sorting data and selecting rows to perform specific actions
+Usage: codyhouse.co/license
+
+-------------------------------- */
+.int-table {
+  overflow: hidden;
   border-bottom: 2px solid var(--color-border-alpha);
 }
 
@@ -22177,6 +23270,14 @@ Usage: codyhouse.co/license
 File#: _4_area-chart-card
 Title: Area Chart Card
 Descr: Area chart card of app UI
+Usage: codyhouse.co/license
+
+-------------------------------- */
+/* -------------------------------- 
+
+File#: _4_interactive-table-card-v2
+Title: Interactive Table Card v2
+Descr: A sortable table with bulk actions and filter options
 Usage: codyhouse.co/license
 
 -------------------------------- */

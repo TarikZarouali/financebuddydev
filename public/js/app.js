@@ -119,3 +119,9 @@ function initAlertEvent(element) {
     element.closest(".js-alert").classList.remove("alert--is-visible");
   });
 }
+
+new PieChart({
+  element: pieCharts,
+  type: 'pie',
+  animate: 'off'
+});

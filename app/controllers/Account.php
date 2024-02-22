@@ -25,11 +25,10 @@ class Account extends Controller
     // ACCOUNTS SECTION
     public function overview($accountId)
     {
-
         // Check if the form is submitted
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $categoryFilter = isset($_POST['categoryFilter']) ? filter_var($_POST['categoryFilter']) : '';
-            $transactionType = isset($_POST['transactionType']) ? filter_var($_POST['transactionType']) : '';
+            $categoryFilter = isset($_POST['categoryFilter']) ? filter_var($_POST['categoryFilter'], FILTER_SANITIZE_STRING) : '';
+            $transactionType = isset($_POST['transactionType']) ? filter_var($_POST['transactionType'], FILTER_SANITIZE_STRING) : '';
         } else {
             // If not submitted, show an empty string (All categories)
             $categoryFilter = '';
@@ -60,6 +59,16 @@ class Account extends Controller
         // Ensure $getTransactionsByAccount is always an array
         $getTransactionsByAccount = is_array($getTransactionsByAccount) ? $getTransactionsByAccount : [];
 
+        $dataArray = [];
+
+        foreach ($getTransactionsByAccount as $transaction) {
+            $category = $transaction->transactionCategory;
+            $amount = $transaction->transactionAmount;
+
+            $dataArray[$category][] = $amount;
+        }
+
+
         // Prepare data for the view
         $data = [
             'account' => $getAccountById,
@@ -70,9 +79,12 @@ class Account extends Controller
             'budget' => $getActiveBudgets
         ];
 
+
         // Load the view
         $this->view('account/overview', $data);
     }
+
+
 
 
 
@@ -348,19 +360,18 @@ class Account extends Controller
             $categoryFilter = '';
             $transactionType = '';
         }
-        
+
         // Get all transactions without limiting the result
-        $getTransactionsByAccount = $this->transactionModel->getLimitedTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
+        $getTransactionsByAccount = $this->transactionModel->getAllTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
         $activeCategories = $this->categoryModel->getActiveCategories();
 
         $data = [
             'transactions' => $getTransactionsByAccount,
             'category' => $activeCategories
         ];
-        
+
         // $this->view('transaction/alltransactions', $data);
         $this->view('transaction/allTransactions', $data);
-
     }
 
 
@@ -373,7 +384,7 @@ class Account extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $createBudget = $this->budgetModel->createBudgetByAccountId($post, $accountId);
+            $createBudget = $this->budgetModel->createBudgetByAccountId($accountId, $post);
 
             if ($createBudget) {
                 header("Location:" . URLROOT . 'account/overview/' . $accountId);
@@ -383,6 +394,9 @@ class Account extends Controller
                 return;
             }
         }
+
+        // If the execution reaches here, there was an error creating the budget
+        header("Location:" . URLROOT . 'account/overview/' . $accountId);
     }
 
 

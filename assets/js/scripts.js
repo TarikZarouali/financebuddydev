@@ -1033,6 +1033,283 @@ function resetFocusTabsStyle() {
     });
   }
 }());
+// File#: _1_custom-select
+// Usage: codyhouse.co/license
+(function() {
+  // NOTE: you need the js code when using the --custom-dropdown/--minimal variation of the Custom Select component. Default version does nor require JS.
+  
+  var CustomSelect = function(element) {
+    this.element = element;
+    this.select = this.element.getElementsByTagName('select')[0];
+    this.optGroups = this.select.getElementsByTagName('optgroup');
+    this.options = this.select.getElementsByTagName('option');
+    this.selectedOption = getSelectedOptionText(this);
+    this.selectId = this.select.getAttribute('id');
+    this.trigger = false;
+    this.dropdown = false;
+    this.customOptions = false;
+    this.arrowIcon = this.element.getElementsByTagName('svg');
+    this.label = document.querySelector('[for="'+this.selectId+'"]');
+    this.labelContent = '';
+    if(this.label) this.labelContent = ', '+this.label.textContent;
+
+    this.optionIndex = 0; // used while building the custom dropdown
+
+    initCustomSelect(this); // init markup
+    initCustomSelectEvents(this); // init event listeners
+  };
+  
+  function initCustomSelect(select) {
+    // create the HTML for the custom dropdown element
+    select.element.insertAdjacentHTML('beforeend', initButtonSelect(select) + initListSelect(select));
+    
+    // save custom elements
+    select.dropdown = select.element.getElementsByClassName('js-select__dropdown')[0];
+    select.trigger = select.element.getElementsByClassName('js-select__button')[0];
+    select.customOptions = select.dropdown.getElementsByClassName('js-select__item');
+    
+    // hide default select
+    select.select.classList.add('is-hidden');
+    if(select.arrowIcon.length > 0 ) select.arrowIcon[0].style.display = 'none';
+
+    // store drowdown min width
+    select.minWidth = parseInt(getComputedStyle(select.dropdown).getPropertyValue('min-width'));
+
+    // place dropdown
+    placeDropdown(select);
+  };
+
+  function initCustomSelectEvents(select) {
+    // option selection in dropdown
+    initSelection(select);
+
+    // click events
+    select.trigger.addEventListener('click', function(){
+      toggleCustomSelect(select, false);
+    });
+    if(select.label) {
+      // move focus to custom trigger when clicking on <select> label
+      select.label.addEventListener('click', function(){
+        moveFocus(select.trigger);
+      });
+    }
+    // keyboard navigation
+    select.dropdown.addEventListener('keydown', function(event){
+      if(event.keyCode && event.keyCode == 38 || event.key && event.key.toLowerCase() == 'arrowup') {
+        keyboardCustomSelect(select, 'prev', event);
+      } else if(event.keyCode && event.keyCode == 40 || event.key && event.key.toLowerCase() == 'arrowdown') {
+        keyboardCustomSelect(select, 'next', event);
+      }
+    });
+    // native <select> element has been updated -> update custom select as well
+    select.element.addEventListener('select-updated', function(event){
+      resetCustomSelect(select);
+    });
+  };
+
+  function toggleCustomSelect(select, bool) {
+    var ariaExpanded;
+    if(bool) {
+      ariaExpanded = bool;
+    } else {
+      ariaExpanded = select.trigger.getAttribute('aria-expanded') == 'true' ? 'false' : 'true';
+    }
+    select.trigger.setAttribute('aria-expanded', ariaExpanded);
+    if(ariaExpanded == 'true') {
+      var selectedOption = getSelectedOption(select);
+      moveFocus(selectedOption); // fallback if transition is not supported
+      select.dropdown.addEventListener('transitionend', function cb(){
+        moveFocus(selectedOption);
+        select.dropdown.removeEventListener('transitionend', cb);
+      });
+      placeDropdown(select); // place dropdown based on available space
+    }
+  };
+
+  function placeDropdown(select) {
+    // remove placement classes to reset position
+    select.dropdown.classList.remove('select__dropdown--right', 'select__dropdown--up');
+    var triggerBoundingRect = select.trigger.getBoundingClientRect();
+    select.dropdown.classList.toggle('select__dropdown--right', (document.documentElement.clientWidth - 5 < triggerBoundingRect.left + select.dropdown.offsetWidth));
+    // check if there's enough space up or down
+    var moveUp = (window.innerHeight - triggerBoundingRect.bottom - 5) < triggerBoundingRect.top;
+    select.dropdown.classList.toggle('select__dropdown--up', moveUp);
+    // set max-height based on available space
+    var maxHeight = moveUp ? triggerBoundingRect.top - 20 : window.innerHeight - triggerBoundingRect.bottom - 20;
+    if(select.minWidth < triggerBoundingRect.width) { // check if we need to set a min-width
+      select.dropdown.setAttribute('style', 'max-height: '+maxHeight+'px; min-width: '+triggerBoundingRect.width+'px;');
+    } else {
+      select.dropdown.setAttribute('style', 'max-height: '+maxHeight+'px;');
+    }
+  };
+
+  function keyboardCustomSelect(select, direction, event) { // navigate custom dropdown with keyboard
+    event.preventDefault();
+    var index = Array.prototype.indexOf.call(select.customOptions, document.activeElement);
+    index = (direction == 'next') ? index + 1 : index - 1;
+    if(index < 0) index = select.customOptions.length - 1;
+    if(index >= select.customOptions.length) index = 0;
+    moveFocus(select.customOptions[index]);
+  };
+
+  function initSelection(select) { // option selection
+    select.dropdown.addEventListener('click', function(event){
+      var option = event.target.closest('.js-select__item');
+      if(!option) return;
+      selectOption(select, option);
+    });
+  };
+  
+  function selectOption(select, option) {
+    if(option.hasAttribute('aria-selected') && option.getAttribute('aria-selected') == 'true') {
+      // selecting the same option
+      select.trigger.setAttribute('aria-expanded', 'false'); // hide dropdown
+    } else { 
+      var selectedOption = select.dropdown.querySelector('[aria-selected="true"]');
+      if(selectedOption) selectedOption.setAttribute('aria-selected', 'false');
+      option.setAttribute('aria-selected', 'true');
+      select.trigger.getElementsByClassName('js-select__label')[0].textContent = option.textContent;
+      select.trigger.setAttribute('aria-expanded', 'false');
+      // new option has been selected -> update native <select> element _ arai-label of trigger <button>
+      updateNativeSelect(select, option.getAttribute('data-index'));
+      updateTriggerAria(select); 
+    }
+    // move focus back to trigger
+    select.trigger.focus();
+  };
+
+  function updateNativeSelect(select, index) {
+    select.select.selectedIndex = index;
+    select.select.dispatchEvent(new CustomEvent('change', {bubbles: true})); // trigger change event
+    select.select.dispatchEvent(new CustomEvent('input', {bubbles: true})); // trigger change event
+  };
+
+  function updateTriggerAria(select) {
+    select.trigger.setAttribute('aria-label', select.options[select.select.selectedIndex].innerHTML+select.labelContent);
+  };
+
+  function getSelectedOptionText(select) {// used to initialize the label of the custom select button
+    var label = '';
+    if('selectedIndex' in select.select) {
+      label = select.options[select.select.selectedIndex].text;
+    } else {
+      label = select.select.querySelector('option[selected]').text;
+    }
+    return label;
+
+  };
+  
+  function initButtonSelect(select) { // create the button element -> custom select trigger
+    // check if we need to add custom classes to the button trigger
+    var customClasses = select.element.getAttribute('data-trigger-class') ? ' '+select.element.getAttribute('data-trigger-class') : '';
+
+    var label = select.options[select.select.selectedIndex].innerHTML+select.labelContent;
+  
+    var button = '<button type="button" class="js-select__button select__button'+customClasses+'" aria-label="'+label+'" aria-expanded="false" aria-controls="'+select.selectId+'-dropdown"><span aria-hidden="true" class="js-select__label select__label">'+select.selectedOption+'</span>';
+    if(select.arrowIcon.length > 0 && select.arrowIcon[0].outerHTML) {
+      var clone = select.arrowIcon[0].cloneNode(true);
+      clone.classList.remove('select__icon');
+      button = button +clone.outerHTML;
+    }
+    
+    return button+'</button>';
+
+  };
+
+  function initListSelect(select) { // create custom select dropdown
+    var list = '<div class="js-select__dropdown select__dropdown" aria-describedby="'+select.selectId+'-description" id="'+select.selectId+'-dropdown">';
+    list = list + getSelectLabelSR(select);
+    if(select.optGroups.length > 0) {
+      for(var i = 0; i < select.optGroups.length; i++) {
+        var optGroupList = select.optGroups[i].getElementsByTagName('option'),
+          optGroupLabel = '<li><span class="select__item select__item--optgroup">'+select.optGroups[i].getAttribute('label')+'</span></li>';
+        list = list + '<ul class="select__list" role="listbox">'+optGroupLabel+getOptionsList(select, optGroupList) + '</ul>';
+      }
+    } else {
+      list = list + '<ul class="select__list" role="listbox">'+getOptionsList(select, select.options) + '</ul>';
+    }
+    return list;
+  };
+
+  function getSelectLabelSR(select) {
+    if(select.label) {
+      return '<p class="sr-only" id="'+select.selectId+'-description">'+select.label.textContent+'</p>'
+    } else {
+      return '';
+    }
+  };
+  
+  function resetCustomSelect(select) {
+    // <select> element has been updated (using an external control) - update custom select
+    var selectedOption = select.dropdown.querySelector('[aria-selected="true"]');
+    if(selectedOption) selectedOption.setAttribute('aria-selected', 'false');
+    var option = select.dropdown.querySelector('.js-select__item[data-index="'+select.select.selectedIndex+'"]');
+    option.setAttribute('aria-selected', 'true');
+    select.trigger.getElementsByClassName('js-select__label')[0].textContent = option.textContent;
+    select.trigger.setAttribute('aria-expanded', 'false');
+    updateTriggerAria(select); 
+  };
+
+  function getOptionsList(select, options) {
+    var list = '';
+    for(var i = 0; i < options.length; i++) {
+      var selected = options[i].hasAttribute('selected') ? ' aria-selected="true"' : ' aria-selected="false"',
+        disabled = options[i].hasAttribute('disabled') ? ' disabled' : '';
+      list = list + '<li><button type="button" class="reset js-select__item select__item select__item--option" role="option" data-value="'+options[i].value+'" '+selected+disabled+' data-index="'+select.optionIndex+'">'+options[i].text+'</button></li>';
+      select.optionIndex = select.optionIndex + 1;
+    };
+    return list;
+  };
+
+  function getSelectedOption(select) {
+    var option = select.dropdown.querySelector('[aria-selected="true"]');
+    if(option) return option;
+    else return select.dropdown.getElementsByClassName('js-select__item')[0];
+  };
+
+  function moveFocusToSelectTrigger(select) {
+    if(!document.activeElement.closest('.js-select')) return
+    select.trigger.focus();
+  };
+  
+  function checkCustomSelectClick(select, target) { // close select when clicking outside it
+    if( !select.element.contains(target) ) toggleCustomSelect(select, 'false');
+  };
+
+  function moveFocus(element) {
+    element.focus();
+    if (document.activeElement !== element) {
+      element.setAttribute('tabindex','-1');
+      element.focus();
+    }
+  };
+  
+  //initialize the CustomSelect objects
+  var customSelect = document.getElementsByClassName('js-select');
+  if( customSelect.length > 0 ) {
+    var selectArray = [];
+    for( var i = 0; i < customSelect.length; i++) {
+      (function(i){selectArray.push(new CustomSelect(customSelect[i]));})(i);
+    }
+
+    // listen for key events
+    window.addEventListener('keyup', function(event){
+      if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
+        // close custom select on 'Esc'
+        selectArray.forEach(function(element){
+          moveFocusToSelectTrigger(element); // if focus is within dropdown, move it to dropdown trigger
+          toggleCustomSelect(element, 'false'); // close dropdown
+        });
+      } 
+    });
+    // close custom select when clicking outside it
+    window.addEventListener('click', function(event){
+      selectArray.forEach(function(element){
+        checkCustomSelectClick(element, event.target);
+      });
+    });
+  }
+}());
 // File#: _1_date-picker
 // Usage: codyhouse.co/license
 (function() {
@@ -2093,6 +2370,20 @@ function resetFocusTabsStyle() {
 	if( drawer.length > 0 ) {
 		for( var i = 0; i < drawer.length; i++) {
 			(function(i){new Drawer(drawer[i]);})(i);
+		}
+	}
+}());
+// File#: _1_expandable-search
+// Usage: codyhouse.co/license
+(function() {
+	var expandableSearch = document.getElementsByClassName('js-expandable-search');
+	if(expandableSearch.length > 0) {
+		for( var i = 0; i < expandableSearch.length; i++) {
+			(function(i){ // if user types in search input, keep the input expanded when focus is lost
+				expandableSearch[i].getElementsByClassName('js-expandable-search__input')[0].addEventListener('input', function(event){
+					event.target.classList.toggle('expandable-search__input--has-content', event.target.value.length > 0);
+				});
+			})(i);
 		}
 	}
 }());
@@ -3473,6 +3764,186 @@ function resetFocusTabsStyle() {
       };
     };
   };
+}());
+// File#: _1_menu
+// Usage: codyhouse.co/license
+(function() {
+	var Menu = function(element) {
+		this.element = element;
+		this.elementId = this.element.getAttribute('id');
+		this.menuItems = this.element.getElementsByClassName('js-menu__content');
+		this.trigger = document.querySelectorAll('[aria-controls="'+this.elementId+'"]');
+		this.selectedTrigger = false;
+		this.menuIsOpen = false;
+		this.initMenu();
+		this.initMenuEvents();
+	};	
+
+	Menu.prototype.initMenu = function() {
+		// init aria-labels
+		for(var i = 0; i < this.trigger.length; i++) {
+			this.trigger[i].setAttribute('aria-expanded', 'false');
+			this.trigger[i].setAttribute('aria-haspopup', 'true');
+		}
+		// init tabindex
+		for(var i = 0; i < this.menuItems.length; i++) {
+			this.menuItems[i].setAttribute('tabindex', '0');
+		}
+	};
+
+	Menu.prototype.initMenuEvents = function() {
+		var self = this;
+		for(var i = 0; i < this.trigger.length; i++) {(function(i){
+			self.trigger[i].addEventListener('click', function(event){
+				event.preventDefault();
+				// if the menu had been previously opened by another trigger element -> close it first and reopen in the right position
+				if(self.element.classList.contains('menu--is-visible') && self.selectedTrigger !=  self.trigger[i]) {
+					self.toggleMenu(false, false); // close menu
+				}
+				// toggle menu
+				self.selectedTrigger = self.trigger[i];
+				self.toggleMenu(!self.element.classList.contains('menu--is-visible'), true);
+			});
+		})(i);}
+		
+		// keyboard events
+		this.element.addEventListener('keydown', function(event) {
+			// use up/down arrow to navigate list of menu items
+			if( !event.target.classList.contains('js-menu__content') ) return;
+			if( (event.keyCode && event.keyCode == 40) || (event.key && event.key.toLowerCase() == 'arrowdown') ) {
+				self.navigateItems(event, 'next');
+			} else if( (event.keyCode && event.keyCode == 38) || (event.key && event.key.toLowerCase() == 'arrowup') ) {
+				self.navigateItems(event, 'prev');
+			}
+		});
+	};
+
+	Menu.prototype.toggleMenu = function(bool, moveFocus) {
+		var self = this;
+		// toggle menu visibility
+		this.element.classList.toggle('menu--is-visible', bool);
+		this.menuIsOpen = bool;
+		if(bool) {
+			this.selectedTrigger.setAttribute('aria-expanded', 'true');
+			moveFocusFn(this.menuItems[0]);
+			this.element.addEventListener("transitionend", function(event) {moveFocusFn(self.menuItems[0]);}, {once: true});
+			// position the menu element
+			this.positionMenu();
+			// add class to menu trigger
+			this.selectedTrigger.classList.add('menu-control--active');
+		} else if(this.selectedTrigger) {
+			this.selectedTrigger.setAttribute('aria-expanded', 'false');
+			if(moveFocus) moveFocusFn(this.selectedTrigger);
+			// remove class from menu trigger
+			this.selectedTrigger.classList.remove('menu-control--active');
+			this.selectedTrigger = false;
+		}
+	};
+
+	Menu.prototype.positionMenu = function(event, direction) {
+		var selectedTriggerPosition = this.selectedTrigger.getBoundingClientRect(),
+			menuOnTop = (window.innerHeight - selectedTriggerPosition.bottom) < selectedTriggerPosition.top;
+			// menuOnTop = window.innerHeight < selectedTriggerPosition.bottom + this.element.offsetHeight;
+			
+		var left = selectedTriggerPosition.left,
+			right = (window.innerWidth - selectedTriggerPosition.right),
+			isRight = (window.innerWidth < selectedTriggerPosition.left + this.element.offsetWidth);
+
+		var horizontal = isRight ? 'right: '+right+'px;' : 'left: '+left+'px;',
+			vertical = menuOnTop
+				? 'bottom: '+(window.innerHeight - selectedTriggerPosition.top)+'px;'
+				: 'top: '+selectedTriggerPosition.bottom+'px;';
+		// check right position is correct -> otherwise set left to 0
+		if( isRight && (right + this.element.offsetWidth) > window.innerWidth) horizontal = 'left: '+ parseInt((window.innerWidth - this.element.offsetWidth)/2)+'px;';
+		var maxHeight = menuOnTop ? selectedTriggerPosition.top - 20 : window.innerHeight - selectedTriggerPosition.bottom - 20;
+		this.element.setAttribute('style', horizontal + vertical +'max-height:'+Math.floor(maxHeight)+'px;');
+	};
+
+	Menu.prototype.navigateItems = function(event, direction) {
+		event.preventDefault();
+		var index = Array.prototype.indexOf.call(this.menuItems, event.target),
+			nextIndex = direction == 'next' ? index + 1 : index - 1;
+		if(nextIndex < 0) nextIndex = this.menuItems.length - 1;
+		if(nextIndex > this.menuItems.length - 1) nextIndex = 0;
+		moveFocusFn(this.menuItems[nextIndex]);
+	};
+
+	Menu.prototype.checkMenuFocus = function() {
+		var menuParent = document.activeElement.closest('.js-menu');
+		if (!menuParent || !this.element.contains(menuParent)) this.toggleMenu(false, false);
+	};
+
+	Menu.prototype.checkMenuClick = function(target) {
+		if( !this.element.contains(target) && !target.closest('[aria-controls="'+this.elementId+'"]')) this.toggleMenu(false);
+	};
+
+	function moveFocusFn(element) {
+    element.focus();
+    if (document.activeElement !== element) {
+      element.setAttribute('tabindex','-1');
+      element.focus();
+    }
+  };
+
+	window.Menu = Menu;
+
+	//initialize the Menu objects
+	var menus = document.getElementsByClassName('js-menu');
+	if( menus.length > 0 ) {
+		var menusArray = [];
+		var scrollingContainers = [];
+		for( var i = 0; i < menus.length; i++) {
+			(function(i){
+				menusArray.push(new Menu(menus[i]));
+				var scrollableElement = menus[i].getAttribute('data-scrollable-element');
+				if(scrollableElement && !scrollingContainers.includes(scrollableElement)) scrollingContainers.push(scrollableElement);
+			})(i);
+		}
+
+		// listen for key events
+		window.addEventListener('keyup', function(event){
+			if( event.keyCode && event.keyCode == 9 || event.key && event.key.toLowerCase() == 'tab' ) {
+				//close menu if focus is outside menu element
+				menusArray.forEach(function(element){
+					element.checkMenuFocus();
+				});
+			} else if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {
+				// close menu on 'Esc'
+				menusArray.forEach(function(element){
+					element.toggleMenu(false, false);
+				});
+			} 
+		});
+		// close menu when clicking outside it
+		window.addEventListener('click', function(event){
+			menusArray.forEach(function(element){
+				element.checkMenuClick(event.target);
+			});
+		});
+		// on resize -> close all menu elements
+		window.addEventListener('resize', function(event){
+			menusArray.forEach(function(element){
+				element.toggleMenu(false, false);
+			});
+		});
+		// on scroll -> close all menu elements
+		window.addEventListener('scroll', function(event){
+			menusArray.forEach(function(element){
+				if(element.menuIsOpen) element.toggleMenu(false, false);
+			});
+		});
+		// take into account additinal scrollable containers
+		for(var j = 0; j < scrollingContainers.length; j++) {
+			var scrollingContainer = document.querySelector(scrollingContainers[j]);
+			if(scrollingContainer) {
+				scrollingContainer.addEventListener('scroll', function(event){
+					menusArray.forEach(function(element){
+						if(element.menuIsOpen) element.toggleMenu(false, false);
+					});
+				});
+			}
+		}
+	}
 }());
 // File#: _1_menu
 // Usage: codyhouse.co/license
@@ -10296,6 +10767,179 @@ Util.moveFocus = function (element) {
 (function() {
   var MenuBar = function(element) {
     this.element = element;
+    this.items = getChildrenByClassName(this.element, 'menu-bar__item');
+    this.mobHideItems = this.element.getElementsByClassName('menu-bar__item--hide');
+    this.moreItemsTrigger = this.element.getElementsByClassName('js-menu-bar__trigger');
+    initMenuBar(this);
+  };
+
+  function initMenuBar(menu) {
+    setMenuTabIndex(menu); // set correct tabindexes for menu item
+    initMenuBarMarkup(menu); // create additional markup
+    checkMenuLayout(menu); // set menu layout
+    menu.element.classList.add('menu-bar--loaded'); // reveal menu
+
+    // custom event emitted when window is resized
+    menu.element.addEventListener('update-menu-bar', function(event){
+      checkMenuLayout(menu);
+      if(menu.menuInstance) menu.menuInstance.toggleMenu(false, false); // close dropdown
+    });
+
+    // keyboard events 
+    // open dropdown when pressing Enter on trigger element
+    if(menu.moreItemsTrigger.length > 0) {
+      menu.moreItemsTrigger[0].addEventListener('keydown', function(event) {
+        if( (event.keyCode && event.keyCode == 13) || (event.key && event.key.toLowerCase() == 'enter') ) {
+          if(!menu.menuInstance) return;
+          menu.menuInstance.selectedTrigger = menu.moreItemsTrigger[0];
+          menu.menuInstance.toggleMenu(!menu.subMenu.classList.contains('menu--is-visible'), true);
+        }
+      });
+
+      // close dropdown on esc
+      menu.subMenu.addEventListener('keydown', function(event) {
+        if((event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape')) { // close submenu on esc
+          if(menu.menuInstance) menu.menuInstance.toggleMenu(false, true);
+        }
+      });
+    }
+    
+    // navigate menu items using left/right arrows
+    menu.element.addEventListener('keydown', function(event) {
+      if( (event.keyCode && event.keyCode == 39) || (event.key && event.key.toLowerCase() == 'arrowright') ) {
+        navigateItems(menu.items, event, 'next');
+      } else if( (event.keyCode && event.keyCode == 37) || (event.key && event.key.toLowerCase() == 'arrowleft') ) {
+        navigateItems(menu.items, event, 'prev');
+      }
+    });
+  };
+
+  function setMenuTabIndex(menu) { // set tabindexes for the menu items to allow keyboard navigation
+    var nextItem = false;
+    for(var i = 0; i < menu.items.length; i++ ) {
+      if(i == 0 || nextItem) menu.items[i].setAttribute('tabindex', '0');
+      else menu.items[i].setAttribute('tabindex', '-1');
+      if(i == 0 && menu.moreItemsTrigger.length > 0) nextItem = true;
+      else nextItem = false;
+    }
+  };
+
+  function initMenuBarMarkup(menu) {
+    if(menu.mobHideItems.length == 0 ) { // no items to hide on mobile - remove trigger
+      if(menu.moreItemsTrigger.length > 0) menu.element.removeChild(menu.moreItemsTrigger[0]);
+      return;
+    }
+
+    if(menu.moreItemsTrigger.length == 0) return;
+
+    // create the markup for the Menu element
+    var content = '';
+    menu.menuControlId = 'submenu-bar-'+Date.now();
+    for(var i = 0; i < menu.mobHideItems.length; i++) {
+      var item = menu.mobHideItems[i].cloneNode(true),
+        svg = item.getElementsByTagName('svg')[0],
+        label = item.getElementsByClassName('menu-bar__label')[0];
+
+      svg.setAttribute('class', 'icon menu__icon');
+      content = content + '<li role="menuitem"><span class="menu__content js-menu__content">'+svg.outerHTML+'<span>'+label.innerHTML+'</span></span></li>';
+    }
+
+    menu.moreItemsTrigger[0].setAttribute('role', 'button');
+    menu.moreItemsTrigger[0].setAttribute('aria-expanded', 'false');
+    menu.moreItemsTrigger[0].setAttribute('aria-controls', menu.menuControlId);
+    menu.moreItemsTrigger[0].setAttribute('aria-haspopup', 'true');
+
+    var subMenu = document.createElement('menu'),
+      customClass = menu.element.getAttribute('data-menu-class');
+    subMenu.setAttribute('id', menu.menuControlId);
+    subMenu.setAttribute('class', 'menu js-menu '+customClass);
+    subMenu.innerHTML = content;
+    document.body.appendChild(subMenu);
+
+    menu.subMenu = subMenu;
+    menu.subItems = subMenu.getElementsByTagName('li');
+
+    menu.menuInstance = new Menu(menu.subMenu); // this will handle the dropdown behaviour
+  };
+
+  function checkMenuLayout(menu) { // switch from compressed to expanded layout and viceversa
+    var layout = getComputedStyle(menu.element, ':before').getPropertyValue('content').replace(/\'|"/g, '');
+    menu.element.classList.toggle('menu-bar--collapsed', layout == 'collapsed');
+  };
+
+  function navigateItems(list, event, direction, prevIndex) { // keyboard navigation among menu items
+    event.preventDefault();
+    var index = (typeof prevIndex !== 'undefined') ? prevIndex : Array.prototype.indexOf.call(list, event.target),
+      nextIndex = direction == 'next' ? index + 1 : index - 1;
+    if(nextIndex < 0) nextIndex = list.length - 1;
+    if(nextIndex > list.length - 1) nextIndex = 0;
+    // check if element is visible before moving focus
+    (list[nextIndex].offsetParent === null) ? navigateItems(list, event, direction, nextIndex) : moveFocusFn(list[nextIndex]);
+  };
+
+  function checkMenuClick(menu, target) { // close dropdown when clicking outside the menu element
+    if(menu.menuInstance && !menu.moreItemsTrigger[0].contains(target) && !menu.subMenu.contains(target)) menu.menuInstance.toggleMenu(false, false);
+  };
+
+  function getChildrenByClassName(el, className) {
+    var children = el.children,
+    childrenByClass = [];
+    for (var i = 0; i < children.length; i++) {
+      if (children[i].classList.contains(className)) childrenByClass.push(children[i]);
+    }
+    return childrenByClass;
+  };
+
+  function moveFocusFn(element) {
+    element.focus();
+    if (document.activeElement !== element) {
+      element.setAttribute('tabindex','-1');
+      element.focus();
+    }
+  };
+
+  // init MenuBars objects
+  var menuBars = document.getElementsByClassName('js-menu-bar');
+  if( menuBars.length > 0 ) {
+    var j = 0,
+      menuBarArray = [];
+    for( var i = 0; i < menuBars.length; i++) {
+      var beforeContent = getComputedStyle(menuBars[i], ':before').getPropertyValue('content');
+      if(beforeContent && beforeContent !='' && beforeContent !='none') {
+        (function(i){menuBarArray.push(new MenuBar(menuBars[i]));})(i);
+        j = j + 1;
+      }
+    }
+    
+    if(j > 0) {
+      var resizingId = false,
+        customEvent = new CustomEvent('update-menu-bar');
+      // update Menu Bar layout on resize  
+      window.addEventListener('resize', function(event){
+        clearTimeout(resizingId);
+        resizingId = setTimeout(doneResizing, 150);
+      });
+
+      // close menu when clicking outside it
+      window.addEventListener('click', function(event){
+        menuBarArray.forEach(function(element){
+          checkMenuClick(element, event.target);
+        });
+      });
+
+      function doneResizing() {
+        for( var i = 0; i < menuBars.length; i++) {
+          (function(i){menuBars[i].dispatchEvent(customEvent)})(i);
+        };
+      };
+    }
+  }
+}());
+// File#: _2_menu-bar
+// Usage: codyhouse.co/license
+(function() {
+  var MenuBar = function(element) {
+    this.element = element;
     this.items = Util.getChildrenByClassName(this.element, 'menu-bar__item');
     this.mobHideItems = this.element.getElementsByClassName('menu-bar__item--hide');
     this.moreItemsTrigger = this.element.getElementsByClassName('js-menu-bar__trigger');
@@ -12886,6 +13530,208 @@ Util.extend = function() {
   // more info on initialization options here: https://codyhouse.co/ds/components/info/markdown-editor
   var mdEditor = document.getElementsByClassName('md-editor'); // your markdown editor element
   if(mdEditor.length > 0) new MdEditor(mdEditor[0]);
+}());
+// File#: _3_interactive-table
+// Usage: codyhouse.co/license
+(function() {
+  var IntTable = function(element) {
+    this.element = element;
+    this.header = this.element.getElementsByClassName('js-int-table__header')[0];
+    this.headerCols = this.header.getElementsByTagName('tr')[0].children;
+    this.body = this.element.getElementsByClassName('js-int-table__body')[0];
+    this.sortingRows = this.element.getElementsByClassName('js-int-table__sort-row');
+    initIntTable(this);
+  };
+
+  function initIntTable(table) {
+    // check if table has actions
+    initIntTableActions(table);
+    // check if there are checkboxes to select/deselect a row/all rows
+    var selectAll = table.element.getElementsByClassName('js-int-table__select-all');
+    if(selectAll.length > 0) initIntTableSelection(table, selectAll);
+    // check if there are sortable columns
+    table.sortableCols = table.element.getElementsByClassName('js-int-table__cell--sort');
+    if(table.sortableCols.length > 0) {
+      // add a data-order attribute to all rows so that we can reset the order
+      setDataRowOrder(table);
+      // listen to the click event on a sortable column
+      table.header.addEventListener('click', function(event){
+        var selectedCol = event.target.closest('.js-int-table__cell--sort');
+        if(!selectedCol || event.target.tagName.toLowerCase() == 'input') return;
+        sortColumns(table, selectedCol);
+      });
+      table.header.addEventListener('change', function(event){ // detect change in selected checkbox (SR only)
+        var selectedCol = event.target.closest('.js-int-table__cell--sort');
+        if(!selectedCol) return;
+        sortColumns(table, selectedCol, event.target.value);
+      });
+      table.header.addEventListener('keydown', function(event){ // keyboard navigation - change sorting on enter
+        if( event.keyCode && event.keyCode == 13 || event.key && event.key.toLowerCase() == 'enter') {
+          var selectedCol = event.target.closest('.js-int-table__cell--sort');
+          if(!selectedCol) return;
+          sortColumns(table, selectedCol);
+        }
+      });
+
+      // change cell style when in focus
+      table.header.addEventListener('focusin', function(event){
+        var closestCell = document.activeElement.closest('.js-int-table__cell--sort');
+        if(closestCell) closestCell.classList.add('int-table__cell--focus');
+      });
+      table.header.addEventListener('focusout', function(event){
+        for(var i = 0; i < table.sortableCols.length; i++) {
+          table.sortableCols[i].classList.remove('int-table__cell--focus');
+        }
+      });
+    }
+  };
+
+  function initIntTableActions(table) {
+    // check if table has actions and store them
+    var tableId = table.element.getAttribute('id');
+    if(!tableId) return;
+    var tableActions = document.querySelector('[data-table-controls="'+tableId+'"]');
+    if(!tableActions) return;
+    table.actionsSelection = tableActions.getElementsByClassName('js-int-table-actions__items-selected');
+    table.actionsNoSelection = tableActions.getElementsByClassName('js-int-table-actions__no-items-selected');
+  };
+
+  function initIntTableSelection(table, select) { // checkboxes for rows selection
+    table.selectAll = select[0];
+    table.selectRow = table.element.getElementsByClassName('js-int-table__select-row');
+    // select/deselect all rows
+    table.selectAll.addEventListener('click', function(event){ // we cannot use the 'change' event as on IE/Edge the change from "indeterminate" to either "checked" or "unchecked"  does not trigger that event
+      toggleRowSelection(table);
+    });
+    // select/deselect single row - reset all row selector 
+    table.body.addEventListener('change', function(event){
+      if(!event.target.closest('.js-int-table__select-row')) return;
+      toggleAllSelection(table);
+    });
+    // toggle actions
+    toggleActions(table, table.element.getElementsByClassName('int-table__row--checked').length > 0);
+  };
+
+  function toggleRowSelection(table) { // 'Select All Rows' checkbox has been selected/deselected
+    var status = table.selectAll.checked;
+    for(var i = 0; i < table.selectRow.length; i++) {
+      table.selectRow[i].checked = status;
+      table.selectRow[i].closest('.int-table__row').classList.toggle('int-table__row--checked', status);
+    }
+    toggleActions(table, status);
+  };
+
+  function toggleAllSelection(table) { // Single row has been selected/deselected
+    var allChecked = true,
+      oneChecked = false;
+    for(var i = 0; i < table.selectRow.length; i++) {
+      if(!table.selectRow[i].checked) {allChecked = false;}
+      else {oneChecked = true;}
+      table.selectRow[i].closest('.int-table__row').classList.toggle('int-table__row--checked', table.selectRow[i].checked);
+    }
+    table.selectAll.checked = oneChecked;
+    // if status if false but one input is checked -> set an indeterminate state for the 'Select All' checkbox
+    if(!allChecked) {
+      table.selectAll.indeterminate = oneChecked;
+    } else if(allChecked && oneChecked) {
+      table.selectAll.indeterminate = false;
+    }
+    toggleActions(table, oneChecked);
+  };
+
+  function setDataRowOrder(table) { // add a data-order to rows element - will be used when resetting the sorting 
+    var rowsArray = table.body.getElementsByTagName('tr');
+    for(var i = 0; i < rowsArray.length; i++) {
+      rowsArray[i].setAttribute('data-order', i);
+    }
+  };
+
+  function sortColumns(table, selectedCol, customOrder) {
+    // determine sorting order (asc/desc/reset)
+    var order = customOrder || getSortingOrder(selectedCol),
+      colIndex = Array.prototype.indexOf.call(table.headerCols, selectedCol);
+
+    // sort table
+    sortTableContent(table, order, colIndex, selectedCol);
+    
+    // reset appearance of the th column that was previously sorted (if any) 
+    for(var i = 0; i < table.headerCols.length; i++) {
+      table.headerCols[i].classList.remove('int-table__cell--asc', 'int-table__cell--desc');
+    }
+    // reset appearance for the selected th column
+    if(order == 'asc') selectedCol.classList.add('int-table__cell--asc');
+    if(order == 'desc') selectedCol.classList.add('int-table__cell--desc');
+    // reset checkbox selection
+    if(!customOrder) selectedCol.querySelector('input[value="'+order+'"]').checked = true;
+  };
+
+  function getSortingOrder(selectedCol) { // determine sorting order
+    if( selectedCol.classList.contains('int-table__cell--asc') ) return 'desc';
+    if( selectedCol.classList.contains('int-table__cell--desc') ) return 'none';
+    return 'asc';
+  };
+
+  function sortTableContent(table, order, index, selctedCol) { // determine the new order of the rows
+    var rowsArray = table.body.getElementsByTagName('tr'),
+      switching = true,
+      i = 0,
+      shouldSwitch;
+    while (switching) {
+      switching = false;
+      for (i = 0; i < rowsArray.length - 1; i++) {
+        var contentOne = (order == 'none') ? rowsArray[i].getAttribute('data-order') : rowsArray[i].children[index].textContent.trim(),
+          contentTwo = (order == 'none') ? rowsArray[i+1].getAttribute('data-order') : rowsArray[i+1].children[index].textContent.trim();
+
+        shouldSwitch = compareValues(contentOne, contentTwo, order, selctedCol);
+        if(shouldSwitch) {
+          table.body.insertBefore(rowsArray[i+1], rowsArray[i]);
+          switching = true;
+          break;
+        }
+      }
+    }
+  };
+
+  function compareValues(val1, val2, order, selctedCol) {
+    var compare,
+      dateComparison = selctedCol.getAttribute('data-date-format');
+    if( dateComparison && order != 'none') { // comparing dates
+      compare =  (order == 'asc' || order == 'none') ? parseCustomDate(val1, dateComparison) > parseCustomDate(val2, dateComparison) : parseCustomDate(val2, dateComparison) > parseCustomDate(val1, dateComparison);
+    } else if( !isNaN(val1) && !isNaN(val2) ) { // comparing numbers
+      compare =  (order == 'asc' || order == 'none') ? Number(val1) > Number(val2) : Number(val2) > Number(val1);
+    } else { // comparing strings
+      compare =  (order == 'asc' || order == 'none') 
+        ? val2.toString().localeCompare(val1) < 0
+        : val1.toString().localeCompare(val2) < 0;
+    }
+    return compare;
+  };
+
+  function parseCustomDate(date, format) {
+    var parts = date.match(/(\d+)/g), 
+      i = 0, fmt = {};
+    // extract date-part indexes from the format
+    format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
+
+    return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
+  };
+
+  function toggleActions(table, selection) {
+    if(table.actionsSelection && table.actionsSelection.length > 0) {
+      table.actionsSelection[0].classList.toggle('hide', !selection);
+    }
+    if(table.actionsNoSelection && table.actionsNoSelection.length > 0) {
+      table.actionsSelection[0].classList.toggle('hide', selection);
+    }
+  };
+
+  //initialize the IntTable objects
+	var intTable = document.getElementsByClassName('js-int-table');
+	if( intTable.length > 0 ) {
+		for( var i = 0; i < intTable.length; i++) {
+			(function(i){new IntTable(intTable[i]);})(i);
+    }
+  }
 }());
 // File#: _3_interactive-table
 // Usage: codyhouse.co/license

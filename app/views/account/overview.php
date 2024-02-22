@@ -99,7 +99,7 @@
                                         <tr class="int-table__row">
                                             <td class="int-table__cell text-truncate max-width-xxxxs text-left">
                                                 <?= $transaction->transactionName ?></td>
-                                            <td class="int-table__cell text-center"><?= $transaction->transactionAmount ?></td>
+                                            <td class="int-table__cell text-center">$<?= $transaction->transactionAmount ?></td>
                                             <td class="int-table__cell text-center"><?= $transaction->categoryName ?></td>
                                             <td style="display:none"><?= $transaction->categoryId ?></td>
                                             <td class="int-table__cell text-center">
@@ -160,23 +160,26 @@
                         </table>
                     </div>
                 </div>
-                <div class="flex items-end justify-between padding-top-sm">
-                <a href="<?= URLROOT . 'account/allTransactions/' . $transaction->transactionAccountId ?>" class="text-sm">See all transactions -></a>
+                <div class="flex items-center justify-between padding-top-sm">
+                    <a href="<?= URLROOT . 'account/allTransactions/' . $transaction->transactionAccountId ?>" class="text-sm">See all transactions -></a>
                 </div>
             </div>
         </li>
 
         <div>
-        <button class="btn btn--primary" style="margin: 1rem; " aria-controls="modal-budget-form">Create a new budget</button>
+            <button class="btn btn--primary" style="margin: 1rem; " aria-controls="modal-budget-form">Create a new budget</button>
         </div>
 
         <?php if (!empty($data['budget'])) : ?>
-            <?php foreach ($data['budget'] as $budget) : ?>
+            <?php foreach (['budget'] as $budget) : ?>
                 <div class="bg-light radius-md padding-md inner-glow shadow-xs">
-                    <p class="color-contrast-low margin-bottom-md"><?= $budget->budgetName ?></p>
+                    <p class="color-contrast-low margin-bottom-md">Pie Chart</p>
+
                     <div class="pie-chart flex flex-column gap-md js-pie-chart">
                         <div class="flex-shrink-0 flex justify-center">
                             <div class="pie-chart__area js-pie-chart__area">
+                                <!-- svg will be created here using javascript -->
+                                <!-- tooltip element -->
                                 <div class="pie-chart__tooltip is-hidden js-pie-chart__tooltip"></div>
                             </div>
                         </div>
@@ -185,22 +188,12 @@
                             <ul class="grid gap-xs">
                                 <li class="flex items-center col-6">
                                     <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Income (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);">43%</i>)</span>
+                                    <span class="text-sm">Budget amount (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-success);">43%</i>)</span>
                                 </li>
 
                                 <li class="flex items-center col-6">
                                     <span class="pie-chart__bullet bg-contrast-low margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Expense (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-low);">28%</i>)</span>
-                                </li>
-
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-contrast-higher margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 3 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-higher);">17%</i>)</span>
-                                </li>
-
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-accent margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 4 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);">12%</i>)</span>
+                                    <span class="text-sm">budget spent (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);">28%</i>)</span>
                                 </li>
                             </ul>
                         </div>
@@ -208,21 +201,18 @@
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
-            <div class="bg-light radius-md padding-md inner-glow shadow-xs">
-                <div class="alert alert--is-visible js-alert" role="alert">
-                    <div class="cd-flex cd-items-center cd-justify-between">
-                        <div class="cd-flex cd-items-center">
-                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                <g fill="currentColor">
-                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
-                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
-                                    </path>
-                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
-                                </g>
-                            </svg>
-                            <p><strong class="alert__label">Info:</strong> You have no budgets yet.</p>
-                            </p>
-                        </div>
+            <div class="alert alert--is-visible js-alert" role="alert">
+                <div class="cd-flex cd-items-center cd-justify-between">
+                    <div class="cd-flex cd-items-center">
+                        <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <g fill="currentColor">
+                                <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
+                                <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
+                                </path>
+                                <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
+                            </g>
+                        </svg>
+                        <p><strong class="alert__label">Info:</strong> You have no budget yet. </p>
                     </div>
                 </div>
             </div>
@@ -499,8 +489,8 @@
             </div>
 
             <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="transactionCategoryId">Category</label>
-                <select class="form-control width-100" name="transactionCategoryId" id="transactionCategoryId" required>
+                <label class="form-label margin-bottom-xxs" for="budgetCategoryId">Category</label>
+                <select class="form-control width-100" name="budgetCategoryId" id="budgetCategoryId" required>
                     <?php foreach ($data['category'] as $category) : ?>
                         <option value="<?= $category->categoryId ?>">
                             <?= $category->categoryName ?></option>

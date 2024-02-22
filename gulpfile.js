@@ -9,7 +9,7 @@ var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var cleanCSS = require("gulp-clean-css");
 var connect = require("gulp-connect-php");
-var projectPath = "localhost:80/dev"; // 👈 make sure to replace 'projectName' with the name of your project folder
+var projectPath = "localhost:80/financebuddydev"; // 👈 make sure to replace 'projectName' with the name of your project folder
 var purgecss = require("gulp-purgecss");
 
 // js file paths

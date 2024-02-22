@@ -4,7 +4,7 @@
 <div class="container max-width-lg padding-y-lg">
     <header class="margin-bottom-sm">
         <h1 class="text-lg">Edit selected account</h1>
-        <a class="btn btn--accent" aria-controls="dialog-delete-account-confirmation">Delete</a>
+        <a class="btn btn--accent flex-end float-right" aria-controls="dialog-delete-account-confirmation">Delete</a>
     </header>
 
     <form action="<?= URLROOT ?>account/update/<?= $data['account']->accountId ?>" method="post">

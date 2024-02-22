@@ -35,12 +35,10 @@ class transactionModel
                                                INNER JOIN categories as c ON t.transactionCategoryId = c.categoryId
                                                WHERE t.transactionIsActive = 1 AND t.transactionAccountId = :transactionAccountId ";
 
-            // Append category filter condition if a specific category is selected
             if (!empty($categoryFilter)) {
                 $getTransactionByAccountIdQuery .= " AND t.transactionCategoryId = :categoryFilter";
             }
 
-            // Append transaction type condition if a specific type is selected
             if ($transactionType === 'income') {
                 $getTransactionByAccountIdQuery .= " AND t.transactionAmount > 0";
             } elseif ($transactionType === 'expense') {
