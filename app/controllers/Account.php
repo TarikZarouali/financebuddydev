@@ -41,6 +41,8 @@ class Account extends Controller
         $activeCategories = $this->categoryModel->getActiveCategories();
         $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
         $getActiveBudgets = $this->budgetModel->getActiveBudgetsByAccountId($accountId);
+        $getAllTransactions = $this->transactionModel->getAllTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
+
 
         // Fetch the latest account balance from the database
         $accountBalance = $this->accountModel->getAccountBalance($accountId);
@@ -59,13 +61,21 @@ class Account extends Controller
         // Ensure $getTransactionsByAccount is always an array
         $getTransactionsByAccount = is_array($getTransactionsByAccount) ? $getTransactionsByAccount : [];
 
-        $dataArray = [];
+        $budgetSpentPercentage = 0;
+        $budgetAmount = 0;
 
-        foreach ($getTransactionsByAccount as $transaction) {
-            $category = $transaction->transactionCategory;
-            $amount = $transaction->transactionAmount;
+        foreach ($getActiveBudgets as $budget) {
+            $budgetAmount = isset($budget->budgetAmount) ? $budget->budgetAmount : 0;
+            $budgetSpent = 0;            
 
-            $dataArray[$category][] = $amount;
+            foreach ($getAllTransactions as $transaction) {
+                if ($transaction->transactionCategoryId == $budget->budgetCategoryId) {
+                    $budgetSpent += $transaction->transactionAmount;
+                }
+            }
+
+            $budgetSpentPercentage = ($budgetAmount != 0) ? min(100, round(($budgetSpent / $budgetAmount) * 100)) : 0;
+            $budgetAmount = min(100, round($budgetAmount));
         }
 
 
@@ -76,8 +86,11 @@ class Account extends Controller
             'category' => $activeCategories,
             'goal' => $activeGoals,
             'progress' => $progress,
-            'budget' => $getActiveBudgets
+            'budget' => $getActiveBudgets,
+            'budgetPercentage' => $budgetSpentPercentage,
+            'budgetAmount' => $budgetAmount,
         ];
+
 
 
         // Load the view

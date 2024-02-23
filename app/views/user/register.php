@@ -20,7 +20,7 @@
 
     <div class="text-component text-center margin-bottom-md">
             <h1>Get started</h1>
-            <p>Already have an account? <a href="<?= URLROOT ?>users/login/">Login</a></p>
+            <p>Already have an account? <a href="<?= URLROOT ?>user/login/">Login</a></p>
         </div>
       <div class="text-center margin-bottom-md">
         <a class="inline-block size-50 hover:reduce-opacity" href="index.html">

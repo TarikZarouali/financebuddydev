@@ -120,8 +120,12 @@ function initAlertEvent(element) {
   });
 }
 
-new PieChart({
-  element: pieCharts,
-  type: 'pie',
-  animate: 'off'
-});
+var budgetPieCharts = document.querySelectorAll(".js-pie-chart");
+for (var i = 0; i < budgetPieCharts.length; i++) {
+  console.log(budgetPieCharts[i].getElementsByClassName('js-pie-chart__area')[0]);
+  new PieChart({
+    element: budgetPieCharts[i],
+    type: "pie",
+    animate: "off",
+  });
+}

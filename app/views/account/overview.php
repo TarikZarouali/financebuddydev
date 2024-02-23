@@ -88,9 +88,6 @@
                                             </li>
                                         </ul>
                                     </th>
-                                    <th class="int-table__cell int-table__cell--th text-center">
-                                        Action
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="int-table__body js-int-table__body">
@@ -111,10 +108,6 @@
                                             </td>
                                             <td class="int-table__cell text-center">
                                                 <?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
-                                            <td class="int-table__cell text-center">
-                                                <a class="btn btn--primary" href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/">Edit
-                                                    transaction</a>
-                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>
@@ -171,7 +164,7 @@
         </div>
 
         <?php if (!empty($data['budget'])) : ?>
-            <?php foreach (['budget'] as $budget) : ?>
+            <?php foreach ($data['budget'] as $budget) : ?>
                 <div class="bg-light radius-md padding-md inner-glow shadow-xs">
                     <p class="color-contrast-low margin-bottom-md">Pie Chart</p>
 
@@ -188,12 +181,22 @@
                             <ul class="grid gap-xs">
                                 <li class="flex items-center col-6">
                                     <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Budget amount (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-success);">43%</i>)</span>
+                                    <span class="text-sm">Label 1 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);">43%</i>)</span>
                                 </li>
 
                                 <li class="flex items-center col-6">
                                     <span class="pie-chart__bullet bg-contrast-low margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">budget spent (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);">28%</i>)</span>
+                                    <span class="text-sm">Label 2 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-low);">28%</i>)</span>
+                                </li>
+
+                                <li class="flex items-center col-6">
+                                    <span class="pie-chart__bullet bg-contrast-higher margin-right-xxs" aria-hidden="true"></span>
+                                    <span class="text-sm">Label 3 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-higher);">17%</i>)</span>
+                                </li>
+
+                                <li class="flex items-center col-6">
+                                    <span class="pie-chart__bullet bg-accent margin-right-xxs" aria-hidden="true"></span>
+                                    <span class="text-sm">Label 4 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);">12%</i>)</span>
                                 </li>
                             </ul>
                         </div>

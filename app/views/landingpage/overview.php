@@ -52,7 +52,7 @@
         <ul class="f-header__list margin-left-auto@md">
           <li class="f-header__item"><a href="<?= URLROOT ?>user/login/" class="f-header__link">Login</a>
           </li>
-          <li class="f-header__item"><a href="<?= URLROOT ?>user/register/" class="f-header__btn btn btn--primary">Registor now!</a></li>
+          <li class="f-header__item"><a href="<?= URLROOT ?>user/register/" class="f-header__btn btn btn--primary">Registr now!</a></li>
         </ul>
       </div>
     </div>
