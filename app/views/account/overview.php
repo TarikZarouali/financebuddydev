@@ -4,8 +4,9 @@
     <ul class="grid gap-lg">
         <!-- connected apps -->
         <li>
-            <header class="margin-bottom-sm">
+            <header class="margin-bottom-xl">
                 <h2 class="text-lg">Overview account</h2>
+                <a href="<?= URLROOT . 'user/overview' ?>" class="btn btn--primary float-right">Go back</a>
             </header>
 
             <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
@@ -27,7 +28,7 @@
                     </div>
                 <?php else : ?>
                     <!-- Show Add a goal button if no goal exists -->
-                    <button class="btn btn--subtle" style="margin-bottom: 2rem;" aria-controls="modal-goal-form">Add a
+                    <button class="btn btn--primary" style="margin-bottom: 2rem;" aria-controls="modal-goal-form">Add a
                         goal</button>
                 <?php endif; ?>
             </div>
@@ -43,7 +44,7 @@
             <div class="bg-light radius-md padding-md inner-glow shadow-xs">
                 <nav class="s-tabs text-sm">
                     <ul class="s-tabs__list">
-                        <li><a class="s-tabs__link s-tabs__link--current" href="#0"><strong>Recent transactions</strong></a></li>
+                        <li><a class="s-tabs__link s-tabs__link--current"><strong>Recent transactions</strong></a></li>
                     </ul>
                 </nav>
                 <div id="table-id" class="int-table text-sm js-int-table">
@@ -166,13 +167,12 @@
         <?php if (!empty($data['budget'])) : ?>
             <?php foreach ($data['budget'] as $budget) : ?>
                 <div class="bg-light radius-md padding-md inner-glow shadow-xs">
-                    <p class="color-contrast-low margin-bottom-md">Pie Chart</p>
+                    <p class="color-contrast-high margin-bottom-md"><strong><?=$budget->categoryName?></strong></p>
+                    <a href="<?=URLROOT . 'account/updateBudget/' . $budget->budgetId?>" class="btn btn--primary">Update budget</a>
 
                     <div class="pie-chart flex flex-column gap-md js-pie-chart">
                         <div class="flex-shrink-0 flex justify-center">
                             <div class="pie-chart__area js-pie-chart__area">
-                                <!-- svg will be created here using javascript -->
-                                <!-- tooltip element -->
                                 <div class="pie-chart__tooltip is-hidden js-pie-chart__tooltip"></div>
                             </div>
                         </div>
@@ -181,17 +181,7 @@
                             <ul class="grid gap-xs">
                                 <li class="flex items-center col-6">
                                     <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 1 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);">43%</i>)</span>
-                                </li>
-
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-contrast-low margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 2 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-low);">28%</i>)</span>
-                                </li>
-
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-contrast-higher margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 3 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-contrast-higher);">17%</i>)</span>
+                                    <span class="text-sm">Label 1 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);"><?=$data['budgetAmount']?>%</i>)</span>
                                 </li>
 
                                 <li class="flex items-center col-6">

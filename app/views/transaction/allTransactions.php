@@ -11,7 +11,7 @@
             <div class="bg-light radius-md padding-md inner-glow shadow-xs">
                 <nav class="s-tabs text-sm">
                     <ul class="s-tabs__list">
-                        <li><a class="s-tabs__link s-tabs__link--current" href="#0">All transactions</a></li>
+                        <li><a class="s-tabs__link s-tabs__link--current">All transactions</a></li>
                     </ul>
                 </nav>
 

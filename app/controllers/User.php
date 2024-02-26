@@ -225,9 +225,12 @@ class User extends Controller
             session_start();
             $userId = $_SESSION['user']->userId;
             $getAccountByUserId = $this->userModel->getAccountsByUserId($userId);
+            $getAllAccounts = $this->userModel->getAllAccounts($userId);
+
             session_write_close();
             $data = [
                 'account' => $getAccountByUserId,
+                'accounts' => $getAllAccounts
             ];
         }
         $this->view('user/overview', $data);

@@ -1,7 +1,7 @@
 <?php require APPROOT . '/views/includes/head.php'; ?>
 <!-- start container -->
 <div class="container max-width-lg padding-y-lg">
-    <ul class="grid gap-lg">
+    <ul class="grid gap-lg" style="margin-bottom:5rem;">
         <!-- connected apps -->
         <li>
             <header class="margin-bottom-sm" style="margin-bottom: 5rem;">
@@ -38,7 +38,7 @@
                                         <div class="flex items-center">
 
                                             <div class="line-height-xs">
-                                            <a class="link-fx-5" href="<?= URLROOT . 'account/overview/' . $account->accountId ?>"><?= $account->accountName ?></a>
+                                                <a class="link-fx-5" href="<?= URLROOT . 'account/overview/' . $account->accountId ?>"><?= $account->accountName ?></a>
                                             </div>
                                         </div>
                                     </td>
@@ -86,9 +86,9 @@
                     </table>
                 </div>
         </li>
-
-        <!-- connected apps -->
-
+    </ul>
+    <!-- connected apps -->
+    <ul>
         <li>
             <ul class="grid gap-lg gap-md@lg">
                 <!-- quick links -->
@@ -216,32 +216,12 @@
             </ul>
         </li>
     </ul>
+    <!-- end connected apps -->
+
+
 </div>
 <!-- end container -->
 
-<!-- end main content -->
-</main>
-</div>
-
-
-<!-- DELETE GOAL -->
-<div class="dialog dialog--sticky js-dialog" id="dialog-delete-goal-confirmation" data-animation="on">
-    <div class="dialog__content max-width-xxs" role="alertdialog" aria-labelledby="dialog-title-1" aria-describedby="dialog-description">
-        <div class="text-component">
-            <br>
-            <br>
-            <h4 id="dialog-title-1">Are you sure you want to delete this Goal?
-            </h4>
-            <p id="dialog-description">This action cannot be undone.</p>
-        </div>
-        <footer class="margin-top-md">
-            <div class="flex justify-end gap-xs flex-wrap">
-                <button class="btn btn--subtle js-dialog__close">Cancel</button>
-                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Confirm</a>
-            </div>
-        </footer>
-    </div>
-</div>
 
 
 

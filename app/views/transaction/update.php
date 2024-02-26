@@ -2,7 +2,9 @@
 
 
 <div class="container max-width-lg padding-y-lg">
+<a href="<?= URLROOT . 'account/overview/' . $data['transaction']->transactionAccountId ?>" class="btn btn--primary ">Go back</a>
 <button style="margin-bottom:2rem;" class="btn btn--accent" aria-controls="dialog-delete-transaction-confirmation">Delete transaction</button>
+
 
     <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
         <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $data['transaction']->transactionId ?>">
@@ -12,7 +14,6 @@
                     <h3 id="modal-form-title">Edit selected transaction</h3>
                 </div>
 
-                <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $data['transaction']->transactionId ?>/" class="margin-bottom-sm">
                     <div class="grid gap-sm">
                         <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction name</label>
                         <input class="form-control width-100% margin-bottom-xxs" type="text" name="transactionName" id="modal-transaction-transactionName" value="<?= $data['transaction']->transactionName ?>">
@@ -40,7 +41,6 @@
 
 
                     <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
-                </form>
             </div>
         </form>
 
