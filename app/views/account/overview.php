@@ -181,19 +181,27 @@
 
                         <div>
                             <ul class="grid gap-xs">
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Budget left: (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);"><?= $data['budgetPercentage'] ?>%</i>)</span>
-                                </li>
+                                <?php if (empty($data['budgetAmount'])) : ?>
+                                    <li class="text-lg">Budget fully stocked!</li>
+                                <?php elseif ($data['budgetAmount'] == 100) : ?>
+                                    <li class="text-lg">Budget completely used</li>
+                                <?php else : ?>
+                                    <li class="flex items-center col-6">
+                                        <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
+                                        <span class="text-sm">Budget left: (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);"><?= $data['budgetPercentage'] ?>%</i>)</span>
+                                    </li>
 
-                                <li class="flex items-center col-6">
-                                    <span class="pie-chart__bullet bg-accent margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Budget spent: (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);"><?= $data['budgetAmount'] ?>%</i>)</span>
-                                </li>
+                                    <li class="flex items-center col-6">
+                                        <span class="pie-chart__bullet bg-accent margin-right-xxs" aria-hidden="true"></span>
+                                        <span class="text-sm">Budget spent: (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);"><?= $data['budgetAmount'] ?>%</i>)</span>
+                                    </li>
+                                <?php endif; ?>
                             </ul>
                         </div>
+
                     </div>
                 </div>
+
             <?php endforeach; ?>
         <?php else : ?>
             <div class="alert alert--is-visible js-alert" role="alert">

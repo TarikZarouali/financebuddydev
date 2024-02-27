@@ -75,11 +75,13 @@ class Account extends Controller
 
             $overallBudgetSpentPercentage += $budgetSpentPercentage;
 
-            // Move these outside of the loop
-            $budgetRemainingPercentage -= $budgetSpentPercentage;
         }
 
-        $overallBudgetSpentPercentage = min(100, round($overallBudgetSpentPercentage));
+        // Round up the overall percentage to the nearest whole number
+        $overallBudgetSpentPercentage = min(100, ceil($overallBudgetSpentPercentage));
+
+        // Round up the remaining percentage to the nearest whole number
+        $budgetRemainingPercentage = 100 - $overallBudgetSpentPercentage;
 
         $data = [
             'account' => $getAccountById,
