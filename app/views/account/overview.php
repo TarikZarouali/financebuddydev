@@ -10,6 +10,10 @@
             </header>
 
             <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
+                <h2>Your current balance is: <?= $data['account']->accountBalance ?></h2>
+            </div>
+
+            <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
 
                 <?php if ($data['goal']) : ?>
                     <!-- Show Edit and Delete buttons if a goal exists -->
@@ -33,9 +37,7 @@
                 <?php endif; ?>
             </div>
 
-            <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
-                <h2>Your current balance is: <?= $data['account']->accountBalance ?></h2>
-            </div>
+
             <div>
                 <button class="btn btn--primary" style="margin-bottom: 2rem; " aria-controls="modal-transaction-form">Create new transaction</button>
             </div>
@@ -167,8 +169,8 @@
         <?php if (!empty($data['budget'])) : ?>
             <?php foreach ($data['budget'] as $budget) : ?>
                 <div class="bg-light radius-md padding-md inner-glow shadow-xs">
-                    <p class="color-contrast-high margin-bottom-md"><strong><?=$budget->categoryName?></strong></p>
-                    <a href="<?=URLROOT . 'account/updateBudget/' . $budget->budgetId?>" class="btn btn--primary">Update budget</a>
+                    <p class="color-contrast-high margin-bottom-md"><strong><?= $budget->categoryName ?></strong></p>
+                    <a href="<?= URLROOT . 'account/updateBudget/' . $budget->budgetId ?>" class="btn btn--primary">Update budget</a>
 
                     <div class="pie-chart flex flex-column gap-md js-pie-chart">
                         <div class="flex-shrink-0 flex justify-center">
@@ -181,12 +183,12 @@
                             <ul class="grid gap-xs">
                                 <li class="flex items-center col-6">
                                     <span class="pie-chart__bullet bg-primary margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 1 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);"><?=$data['budgetAmount']?>%</i>)</span>
+                                    <span class="text-sm">Budget left: (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-primary);"><?= $data['budgetPercentage'] ?>%</i>)</span>
                                 </li>
 
                                 <li class="flex items-center col-6">
                                     <span class="pie-chart__bullet bg-accent margin-right-xxs" aria-hidden="true"></span>
-                                    <span class="text-sm">Label 4 (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);">12%</i>)</span>
+                                    <span class="text-sm">Budget spent: (<i class="js-pie-chart__value" data-pie-chart-style="fill: var(--color-accent);"><?= $data['budgetAmount'] ?>%</i>)</span>
                                 </li>
                             </ul>
                         </div>

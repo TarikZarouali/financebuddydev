@@ -28,19 +28,14 @@ class Account extends Controller
     // ACCOUNTS SECTION
     public function overview($accountId)
     {
-        // Check if the form is submitted
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $categoryFilter = isset($_POST['categoryFilter']) ? filter_var($_POST['categoryFilter'], FILTER_SANITIZE_STRING) : '';
-            $transactionType = isset($_POST['transactionType']) ? filter_var($_POST['transactionType'], FILTER_SANITIZE_STRING) : '';
-        } else {
-            // If not submitted, show an empty string (All categories)
-            $categoryFilter = '';
-            $transactionType = '';
-        }
+
+        $categoryFilter = '';
+        $transactionType = '';
+
 
         // Account details, transactions, categories, and goals
         $getAccountById = $this->accountModel->getAccountById($accountId);
-        $getTransactionsByAccount = $this->transactionModel->getLimitedTransactionsByAccountId($accountId, $categoryFilter, $transactionType);
+        $getTransactionsByAccount = $this->transactionModel->getLimitedTransactionsByAccountId($accountId);
         $activeCategories = $this->categoryModel->getActiveCategories();
         $activeGoals = $this->goalModel->getGoalsByAccountId($accountId);
         $getActiveBudgets = $this->budgetModel->getActiveBudgetsByAccountId($accountId);
@@ -61,29 +56,30 @@ class Account extends Controller
             $progress = 0;
         }
 
-        // Ensure $getTransactionsByAccount is always an array
         $getTransactionsByAccount = is_array($getTransactionsByAccount) ? $getTransactionsByAccount : [];
 
         $overallBudgetSpentPercentage = 0;
-        $overallBudgetAmount = 0;
+        $budgetRemainingPercentage = 100;
 
         foreach ($getActiveBudgets as $budget) {
             $budgetAmount = isset($budget->budgetAmount) ? $budget->budgetAmount : 0;
-
             $budgetSpent = 0;
 
             foreach ($getAllTransactions as $transaction) {
-                if ($transaction->transactionAmount < 0 && $transaction->transactionCategoryId == $budget->budgetCategoryId) {
-                    $budgetSpent += $transaction->transactionAmount;
+                if ($transaction->transactionAmount < 0 && $transaction->transactionIsActive == 1 && $transaction->transactionCategoryId == $budget->budgetCategoryId) {
+                    $budgetSpent += abs($transaction->transactionAmount);
                 }
             }
-            
-            $budgetSpentPercentage = ($budgetAmount != 0) ? min(100, round(($budgetSpent / $budgetAmount) * 100)) : 0;
-            $overallBudgetAmount += $budgetAmount; 
-            $overallBudgetSpentPercentage += $budgetSpentPercentage;  // Accumulate percentages
+
+            $budgetSpentPercentage = ($budgetAmount != 0) ? (($budgetSpent / $budgetAmount) * 100) : 0;
+
+            $overallBudgetSpentPercentage += $budgetSpentPercentage;
+
+            // Move these outside of the loop
+            $budgetRemainingPercentage -= $budgetSpentPercentage;
         }
-        
-        $overallBudgetSpentPercentage = min(100, round($overallBudgetSpentPercentage));  
+
+        $overallBudgetSpentPercentage = min(100, round($overallBudgetSpentPercentage));
 
         $data = [
             'account' => $getAccountById,
@@ -92,11 +88,9 @@ class Account extends Controller
             'goal' => $activeGoals,
             'progress' => $progress,
             'budget' => $getActiveBudgets,
-            'budgetPercentage' => $overallBudgetSpentPercentage,
-            'budgetAmount' => $overallBudgetAmount,
+            'budgetPercentage' => $budgetRemainingPercentage,
+            'budgetAmount' => 100 - $budgetRemainingPercentage,
         ];
-
-
 
         // Load the view
         $this->view('account/overview', $data);
@@ -125,7 +119,6 @@ class Account extends Controller
 
         $this->view('account/update', $data);
     }
-
 
     public function create()
     {

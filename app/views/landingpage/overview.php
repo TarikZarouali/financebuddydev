@@ -72,7 +72,7 @@
         <div class="col-6@md">
           <figure class="td-card js-td-card">
             <div class="inner-glow-top shadow-md radius-lg overflow-hidden backdrop-blur-10">
-              <img class="block width-100% dark:display" src="assets/img/landingpage.png" alt="Image description">
+              <img class="block width-100% dark:display" src="assets/img/financebuddy.png" alt="Image description">
             </div>
           </figure>
           </a>

@@ -1,7 +1,7 @@
 <?php require APPROOT . '/views/includes/head.php'; ?>
 <!-- start container -->
 <div class="container max-width-lg padding-y-lg">
-    
+
     <ul class="grid gap-lg">
         <!-- connected apps -->
         <li>
@@ -13,6 +13,7 @@
                     <ul class="s-tabs__list">
                         <li><a class="s-tabs__link s-tabs__link--current">All transactions</a></li>
                     </ul>
+
                 </nav>
 
                 <div class="padding-y-xs border-bottom" data-table-controls="table-id">
@@ -163,9 +164,14 @@
                     </div>
                 </div>
             </div>
-        </li>
 
-        
+            
+        </li>
+        <div>
+            <a href="<?= URLROOT . 'account/overview/' . $transaction->transactionAccountId ?>" class="btn btn--primary ">Go back</a>
+        </div>
+
+
 
         <!-- connected apps -->
 
