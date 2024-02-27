@@ -12,6 +12,7 @@ class Core
 
         //get the current url
         $url = $this->getUrl();
+        $urlSlug = $url;
 
 
         //check if the controller exists for the current url
@@ -29,11 +30,13 @@ class Core
         $this->currentController = new $this->currentController();
 
 
-        //Check if the second part of the url is set and if the method exists
         if (isset($url[1])) {
             if (method_exists($this->currentController, $url[1])) {
                 $this->currentMethod = $url[1];
-                // unset($url[1]);
+                unset($urlSlug[1]);
+            } else if (!empty($url[1])) {
+                require APPROOT . '/views/includes/404.php';
+                exit;
             }
         }
         

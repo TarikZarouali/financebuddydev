@@ -12,7 +12,7 @@
   <!-- end - Google font -->
   <script src="assets/js/color-theme.js"></script>
   <link rel="stylesheet" href="assets/css/style.css">
-  <title>FinanceBuddy</title>
+  <title>Finance Buddy</title>
 </head>
 
 <body>
@@ -52,7 +52,7 @@
         <ul class="f-header__list margin-left-auto@md">
           <li class="f-header__item"><a href="<?= URLROOT ?>user/login/" class="f-header__link">Login</a>
           </li>
-          <li class="f-header__item"><a href="<?= URLROOT ?>user/register/" class="f-header__btn btn btn--primary">Registr now!</a></li>
+          <li class="f-header__item"><a href="<?= URLROOT ?>user/register/" class="f-header__btn btn btn--primary">Register now!</a></li>
         </ul>
       </div>
     </div>
