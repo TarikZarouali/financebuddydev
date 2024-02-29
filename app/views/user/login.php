@@ -51,10 +51,14 @@
       </div>
     
       <div class="text-center">
-        <p class="text-sm color-contrast-medium">Don't have an account? <a class="color-contrast-higher" href="<?=URLROOT?>user/register">Get started</a></p>
+        <p class="text-sm color-contrast-medium">Don't have an account? <a class="color-contrast-higher" href="<?=URLROOT?>user/register/">Get started</a></p>
       </div>
     </form>
   </div>
+
+  <div class="toast toast--hidden toast--top-right js-toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast-5">
+                
+                </div>
 <script src="<?=URLROOT?>assets/js/scripts.js"></script>
 <script src="<?= URLROOT; ?>public/js/app.js"> </script>
 

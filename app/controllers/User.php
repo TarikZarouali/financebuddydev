@@ -136,12 +136,14 @@ class User extends Controller
             // Form data is valid; proceed with creating the customer
             if (!empty($ajaxResponse['success']) && empty($ajaxResponse['userFirstName']) && empty($ajaxResponse['userLastName']) && empty($ajaxResponse['userUserName']) && empty($ajaxResponse['userEmail']) && empty($ajaxResponse['userPassword']) && empty($ajaxResponse['userConfirmPassword'])) {
                 $createUser = $this->userModel->register($post);
-
                 // Check if the customer creation was successful
                 if (!isset($createUser) && empty($createUser)) {
-                    // Log the error using Helper
-                    Helper::log('error', 'User creation failed. Error: ' . json_encode($createUser));
+
+                    helper::log('error', 'could not create user');
+                    return;
                 }
+                  
+                
             }
 
             echo json_encode($ajaxResponse);

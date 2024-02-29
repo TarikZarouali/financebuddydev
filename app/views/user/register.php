@@ -56,7 +56,7 @@
 
       <div class="margin-bottom-sm">
         <label class="form-label margin-bottom-xxxs" for="userUserName">Username</label>
-        <input class="form-control width-100%" type="text" name="userUserName" id="userUserName" placeholder="email@myemail.com">
+        <input class="form-control width-100%" type="text" name="userUserName" id="userUserName">
       </div>
     
       <div class="margin-bottom-sm">
@@ -173,6 +173,12 @@
 
     </form>
   </div>
+
+  <div class="toast toast--hidden toast--top-right js-toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast-2">
+               
+            </div>
+
+          
 
 <script src="<?=URLROOT?>public/js/passwordchecker.js"></script>
 <script src="<?=URLROOT?>assets/js/scripts.js"></script>

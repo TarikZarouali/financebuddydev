@@ -25,6 +25,10 @@
                                     <span class="text-xs text-uppercase letter-spacing-lg font-semibold"><strong>Account Balance</strong></span>
                                 </th>
 
+                                <th class="tbl__cell text-left" scope="col">
+                                    <span class="text-xs text-uppercase letter-spacing-lg font-semibold"><strong>Account create date</strong></span>
+                                </th>
+
 
                                 <th class="tbl__cell text-left" scope="col">
                                     <span class="text-xs text-uppercase letter-spacing-lg font-semibold"><strong>Action</strong></span>
@@ -38,7 +42,7 @@
                                         <div class="flex items-center">
 
                                             <div class="line-height-xs">
-                                                <a class="link-fx-5" href="<?= URLROOT . 'account/overview/' . $account->accountId ?>"><?= $account->accountName ?></a>
+                                                <a class="link-fx-5" href="<?= URLROOT . 'account/overview/' . $account->accountId ?>/"><?= $account->accountName ?></a>
                                             </div>
                                         </div>
                                     </td>
@@ -51,6 +55,8 @@
                                         <?php endif; ?>
                                     </td>
                                     <td class="tbl__cell" role="cell">$<?= $account->accountBalance ?></td>
+                                    <td class="tbl__cell" role="cell"><?= date('d F Y', strtotime($account->accountCreateDate)) ?></td>
+
                                     <td class="tbl__cell text-right" role="cell">
                                         <div class="flex items-center">
 
@@ -63,22 +69,29 @@
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <div class="bg-light radius-md padding-md inner-glow shadow-xs">
-                                <div class="alert alert--is-visible js-alert" role="alert">
-                                    <div class="cd-flex cd-items-center cd-justify-between">
-                                        <div class="cd-flex cd-items-center">
-                                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                                <g fill="currentColor">
-                                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
-                                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
-                                                    </path>
-                                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
-                                                </g>
-                                            </svg>
-                                            <p><strong class="alert__label">Info:</strong> You have no accounts yet.</p>
-                                            </p>
-                                        </div>
+                            <div class="alert alert--is-visible js-alert" role="alert">
+                                <div class="cd-flex cd-items-center cd-justify-between">
+                                    <div class="cd-flex cd-items-center">
+                                        <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <g fill="currentColor">
+                                                <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
+                                                <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z"></path>
+                                                <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
+                                            </g>
+                                        </svg>
+
+                                        <p><strong class="alert__label">Info:</strong> You have no accounts yet.</p>
                                     </div>
+
+                                    <button class="alert__close-btn js-alert__close-btn">
+                                        <svg class="cd-icon" viewBox="0 0 16 16">
+                                            <title>Close alert</title>
+                                            <g fill="currentColor">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l10 10"></path>
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L3 13"></path>
+                                            </g>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -94,13 +107,13 @@
 
 
 <!-- MODAL FORM -->
-<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-account-form">
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal js-create" id="modal-account-form">
     <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
         <div class="text-component margin-bottom-md">
             <h3 id="modal-form-title">Create new account</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/create" class="margin-bottom-sm">
+        <form method="POST" action="<?= URLROOT ?>account/create" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
 
             <div class="grid gap-sm">
                 <label class="form-label" for="modal-account-accountName">Account Name</label>
