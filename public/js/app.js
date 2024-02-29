@@ -257,7 +257,49 @@ function openToast(toastData) {
 // END TOAST HANDLING
 
 
-function handleToastOnCRUD(scope,action)
-{
-  
+function handleToastOnCrud(action, isSuccess) {
+  let toastData;
+
+  if (isSuccess) {
+    // Handle the cases
+    switch(action){
+      case 'createEntity':
+        toastData = {
+          title: "Entity created",
+          message: "Successfully created",
+          success: true,
+        };
+        break;
+
+      case 'updateEntity':
+        toastData = {
+          title: "Entity updated",
+          message: "Successfully updated",
+          success: true,
+        };
+        break;
+
+      case 'deleteEntity':
+        toastData = {
+          title: "Entity deleted",
+          message: "Successfully deleted",
+          success: true,
+        };
+        break;
+
+      default:
+        toastData = {
+          title: "Operation Completed",
+          message: "Successfully completed",
+          success: true,
+        };
+    }
+  } else {
+    toastData = {
+      title: "Error",
+      message: "There was an error processing your request. Please try again.",
+      success: false,
+    };
+  }
+  openToast(JSON.stringify(toastData));
 }

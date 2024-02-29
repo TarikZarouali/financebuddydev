@@ -79,19 +79,8 @@
                                                 <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
                                             </g>
                                         </svg>
-
                                         <p><strong class="alert__label">Info:</strong> You have no accounts yet.</p>
                                     </div>
-
-                                    <button class="alert__close-btn js-alert__close-btn">
-                                        <svg class="cd-icon" viewBox="0 0 16 16">
-                                            <title>Close alert</title>
-                                            <g fill="currentColor">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l10 10"></path>
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 3L3 13"></path>
-                                            </g>
-                                        </svg>
-                                    </button>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -113,7 +102,7 @@
             <h3 id="modal-form-title">Create new account</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/create" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
+        <form method="POST" action="<?= URLROOT ?>account/create" class="margin-bottom-sm" onsubmit="handleToastOnCrud('createEntity', true)">
 
             <div class="grid gap-sm">
                 <label class="form-label" for="modal-account-accountName">Account Name</label>
