@@ -99,7 +99,6 @@ async function signIn(event) {
 }
 
 // WARNING SHOWING
-
 // File#: _1_alert
 // Usage: codyhouse.co/license
 (function () {
@@ -119,6 +118,3 @@ function initAlertEvent(element) {
     element.closest(".js-alert").classList.remove("alert--is-visible");
   });
 }
-
-
-
