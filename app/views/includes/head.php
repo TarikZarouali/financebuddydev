@@ -8,13 +8,14 @@
         document.getElementsByTagName("html")[0].className += " js";
     </script>
     <!-- favicon -->
-    <link rel="icon" type="image/svg+xml" href="<?=URLROOT?>assets/img/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="<?= URLROOT ?>assets/img/favicon.svg">
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= URLROOT ?>assets/css/style.css">
-    <script src="<?=URLROOT?>assets/js/color-theme.js"></script>
+    <link rel="stylesheet" href="<?=URLROOT?>public/css/style.css">
+    <script src="<?= URLROOT ?>assets/js/color-theme.js"></script>
     <title>Finance Buddy!</title>
 </head>
 
@@ -73,7 +74,7 @@
                     <nav class="sidenav-v4 padding-x-xs padding-bottom-xs js-sidenav-v4">
                         <ul>
                             <li class="sidenav-v4__item">
-                                <a class="sidenav-v4__link js-sidenav-v4__link" href="index.html">
+                                <a class="sidenav-v4__link js-sidenav-v4__link" href="<?=URLROOT . 'user/overview/'?>">
                                     <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
                                         <g fill="currentColor">
                                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12v7H4v-7"></path>
@@ -110,25 +111,7 @@
                 <!-- end sidenav content -->
 
                 <!-- start sidenav footer -->
-                <footer class="sidebar__footer border-top border-alpha padding-xs margin-top-auto position-sticky bottom-0 z-index-1">
-                    <div class="padding-x-xs flex items-center justify-between">
-                        <label class="colorTheme" for="select-theme">Theme:</label>
-
-                        <div class="select text-sm" style="--select-icon-right-margin: var(--space-xxs); --select-icon-size: 12px;">
-                            <select class="select__input btn btn--subtle padding-x-xxs padding-y-xxxs" name="select-theme" id="select-theme">
-                                <option value="light">Light</option>
-                                <option value="dark">Dark</option>
-                                <option value="floral">Floral</option>
-                                <option value="woody">Woody</option>
-                                <option value="water">Water</option>
-                            </select>
-
-                            <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 12 12">
-                                <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                            </svg>
-                        </div>
-                    </div>
-                </footer>
+                
                 <!-- end sidenav footer -->
             </div>
         </aside>
@@ -139,19 +122,8 @@
             <header class="position-sticky top-0 z-index-header bg bg-opacity-80% border-bottom border-alpha backdrop-blur-10 display@md">
                 <div class="height-60 flex items-center justify-between padding-x-component">
                     <div class="search-input search-input--icon-left position-relative width-100% max-width-xxxxs autocomplete js-autocomplete" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
-                        <form action="search-results.html">
-                            <input autocomplete="off" class="search-input__input form-control js-autocomplete__input js-search-input" type="search" name="search-input" id="search-input" placeholder="Search..." aria-label="Search">
+                        
 
-                            <button class="search-input__btn">
-                                <svg class="icon" viewBox="0 0 16 16">
-                                    <title>Submit</title>
-                                    <circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                    <line x1="14" y1="14" x2="10" y2="10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                                </svg>
-                            </button>
-                        </form>
-
-                        <span class="search-input__shortcut" aria-hidden="true">/</span>
 
                         <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-xxs height-100% flex items-center" aria-hidden="true">
                             <div class="circle-loader circle-loader--v1">
@@ -201,3 +173,7 @@
             </header>
             <!-- end desktop main header -->
 
+
+            <div class="toast toast--hidden toast--top-right js-toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast-5">
+                
+            </div>

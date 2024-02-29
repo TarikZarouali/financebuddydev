@@ -1,22 +1,5 @@
-#modal-button {
-  max-width: 1px;
-  max-height: 2px;
-}
-/* 
-WARNING ERROR */
-/* -------------------------------- 
-
-File#: _1_alert
-Title: Alert
-Descr: Feedback message
-Usage: codyhouse.co/license
-
--------------------------------- */
-
 /* reset */
-*,
-*::after,
-*::before {
+*, *::after, *::before {
   box-sizing: border-box;
 }
 
@@ -40,10 +23,7 @@ body {
   line-height: 1.4;
 }
 
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   line-height: 1.2;
   color: hsl(230, 13%, 9%);
   font-weight: 700;
@@ -65,22 +45,17 @@ h4 {
   font-size: 1.375rem; /* 22px */
 }
 
-ol,
-ul,
-menu {
+ol, ul, menu {
   list-style: none;
 }
 
-button,
-input,
-textarea,
-select {
+button, input, textarea, select {
   background-color: transparent;
   border-radius: 0;
   color: inherit;
   line-height: inherit;
   -webkit-appearance: none;
-  appearance: none;
+          appearance: none;
 }
 
 textarea {
@@ -98,9 +73,7 @@ table {
   border-spacing: 0;
 }
 
-img,
-video,
-svg {
+img, video, svg {
   display: block;
   max-width: 100%;
 }
@@ -124,8 +97,7 @@ Icons
   max-width: initial;
 }
 
-.cd-icon use {
-  /* SVG symbols - enable icon color corrections */
+.cd-icon use { /* SVG symbols - enable icon color corrections */
   color: inherit;
   fill: currentColor;
 }
@@ -143,7 +115,7 @@ Component
   padding: 1rem;
   position: absolute;
   -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
+          clip-path: inset(50%);
   font-size: 0.9375rem;
 }
 
@@ -205,7 +177,7 @@ Component
 .alert--is-visible {
   position: static;
   -webkit-clip-path: none;
-  clip-path: none;
+          clip-path: none;
 }
 
 /* -------------------------------- 

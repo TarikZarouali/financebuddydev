@@ -6,7 +6,7 @@
         <li>
             <header class="margin-bottom-xl">
                 <h2 class="text-lg">Overview account</h2>
-                <a href="<?= URLROOT . 'user/overview' ?>" class="btn btn--primary float-right">Go back</a>
+                <a href="<?= URLROOT . 'user/overview/' ?>" class="btn btn--primary float-right">Go back</a>
             </header>
 
             <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
@@ -68,28 +68,8 @@
                                     <th class="int-table__cell int-table__cell--th text-center">
                                         Transaction Type
                                     </th>
-                                    <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort text-center" data-date-format="dd-mm-yyyy">
-                                        <div class="flex items-center justify-center">
-                                            <span>Create date</span>
-                                            <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
-                                                <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
-                                                <polygon class="arrow-down" points="6 12 2 7 10 7 6 12" />
-                                            </svg>
-                                        </div>
-                                        <ul class="sr-only js-int-table__sort-list">
-                                            <li>
-                                                <input type="radio" name="sorting-date" id="sorting-date-none" value="none" checked>
-                                                <label for="sorting-date-none">No sorting</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="sorting-date" id="sorting-date-asc" value="asc">
-                                                <label for="sorting-date-asc">Sort in ascending order</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="sorting-date" id="sorting-date-des" value="desc">
-                                                <label for="sorting-date-des">Sort in descending order</label>
-                                            </li>
-                                        </ul>
+                                    <th class="int-table__cell int-table__cell--th text-center">
+                                        Transaction Create date
                                     </th>
                                 </tr>
                             </thead>
@@ -109,29 +89,10 @@
                                                     <span class="inline-block bg-error-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-error-darker text-xs ws-nowrap">Expense</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td class="int-table__cell text-center">
-                                                <?= date('Y-m-d', $transaction->transactionCreateDate); ?></td>
+                                            <td class="tbl__cell text-center" role="cell"><?= date('d F Y', strtotime($transaction->transactionCreateDate)) ?></td>
+
                                         </tr>
                                     <?php endforeach; ?>
-                                <?php else : ?>
-                                    <tr class="int-table__row">
-                                        <td class="text-center" colspan="7">
-                                            <?php if ($data['transactions'] && empty($data['transaction']->categoryName)) : ?>
-                                                <div class="alert alert--warning alert--is-visible js-alert" role="alert">
-                                                    <div class="cd-flex cd-items-center cd-justify-between">
-                                                        <div class="cd-flex cd-items-center">
-                                                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                                                <g fill="currentColor">
-                                                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
-                                                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
-                                                                    </path>
-                                                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
-                                                                </g>
-                                                            </svg>
-                                                            <p><strong class="alert__label">Info:</strong> No transactions found for the selected category. </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             <?php else : ?>
                                                 <div class="alert alert--is-visible js-alert" role="alert">
                                                     <div class="cd-flex cd-items-center cd-justify-between">
@@ -148,7 +109,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endif; ?>
@@ -156,9 +116,11 @@
                         </table>
                     </div>
                 </div>
+                <?php if ($data['transactions']) :?>
                 <div class="flex items-center justify-between padding-top-sm">
-                    <a href="<?= URLROOT . 'account/allTransactions/' . $transaction->transactionAccountId ?>" class="text-sm">See all transactions -></a>
+                    <a href="<?= URLROOT . 'account/allTransactions/' . $transaction->transactionAccountId . '/' ?>" class="text-sm">See all transactions -></a>
                 </div>
+                <?php endif?>
             </div>
         </li>
 
@@ -170,7 +132,7 @@
             <?php foreach ($data['budget'] as $budget) : ?>
                 <div class="bg-light radius-md padding-md inner-glow shadow-xs">
                     <p class="color-contrast-high margin-bottom-md"><strong><?= $budget->categoryName ?></strong></p>
-                    <a href="<?= URLROOT . 'account/updateBudget/' . $budget->budgetId ?>" class="btn btn--primary">Update budget</a>
+                    <a href="<?= URLROOT . 'account/updateBudget/' . $budget->budgetId . '/'?>" class="btn btn--primary">Update budget</a>
 
                     <div class="pie-chart flex flex-column gap-md js-pie-chart">
                         <div class="flex-shrink-0 flex justify-center">
@@ -181,9 +143,9 @@
 
                         <div>
                             <ul class="grid gap-xs">
-                                <?php if (empty($data['budgetAmount'])) : ?>
+                                <?php if ($data['budgetAmount'] == 100) : ?>
                                     <li class="text-lg">Budget fully stocked!</li>
-                                <?php elseif ($data['budgetAmount'] == 100) : ?>
+                                <?php elseif (empty($data['budgetAmount'])) : ?>
                                     <li class="text-lg">Budget completely used</li>
                                 <?php else : ?>
                                     <li class="flex items-center col-6">
@@ -242,7 +204,7 @@
         <footer class="margin-top-md">
             <div class="flex justify-end gap-xs flex-wrap">
                 <button class="btn btn--subtle js-dialog__close">Cancel</button>
-                <a class="btn btn--accent" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Confirm</a>
+                <a class="btn btn--accent" onclick="deleteEntity(scope,action)" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Confirm</a>
             </div>
         </footer>
     </div>
@@ -257,7 +219,7 @@
             <h3 id="modal-form-title">Create new transaction</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/createTransaction/<?= $data['account']->accountId ?>/" class="margin-bottom-sm">
+        <form method="POST" action="<?= URLROOT ?>account/createTransaction/<?= $data['account']->accountId ?>/" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction
                     name</label>
@@ -307,7 +269,7 @@
             <h3 id="modal-form-title">Create new Goal</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/createGoal/<?= $data['account']->accountId ?>" class="margin-bottom-sm">
+        <form method="POST" action="<?= URLROOT ?>account/createGoal/<?= $data['account']->accountId ?>" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-goal-goalName">
@@ -349,7 +311,7 @@
             <h3 id="modal-form-title">Create a new budget</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/createBudget/<?= $data['account']->accountId ?>/" class="margin-bottom-sm">
+        <form method="POST" action="<?= URLROOT ?>account/createBudget/<?= $data['account']->accountId ?>/" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-budget-budgetName">Budget
                     name</label>
@@ -399,7 +361,7 @@
             <h3 id="modal-form-title">Edit selected Goal</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/updateGoal/<?= $data['goal']->goalId ?>/" class="margin-bottom-sm">
+        <form method="POST" action="<?= URLROOT ?>account/updateGoal/<?= $data['goal']->goalId ?>/" class="margin-bottom-sm" onsubmit="editEntity(scope,action)">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-transaction-goalName" value="<?= $data['goal']->goalName ?>">
@@ -438,7 +400,7 @@
             <h3 id="modal-form-title">Edit selected transaction</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/" class="margin-bottom-sm">
+        <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/" class="margin-bottom-sm" onsubmit="editEntity(scope,action)">
 
             <input type="hidden" name="transactionId" value="<?= $transaction->transactionId ?>">
 

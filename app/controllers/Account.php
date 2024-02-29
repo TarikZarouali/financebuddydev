@@ -111,7 +111,7 @@ class Account extends Controller
                 return;
             } else {
                 helper::log('error', 'could not update the budget');
-                header("Location:" . URLROOT . 'account/update/' . $accountId);
+                header("Location:" . URLROOT . 'account/update/' . $accountId . '/');
                 return;
             }
         }
@@ -135,7 +135,7 @@ class Account extends Controller
             $createAccount = $this->accountModel->createAccount($post, $userId);
 
             if ($createAccount) {
-                header('Location: ' . URLROOT . 'user/overview');
+                header('Location: ' . URLROOT . 'user/overview/');
             } else {
                 echo 'Account not created successfully';
                 helper::log('error', 'Could not create account on user');
@@ -149,7 +149,7 @@ class Account extends Controller
         $deleteAccount = $this->accountModel->deleteAccount($accountId);
 
         if ($deleteAccount) {
-            header('Location: ' . URLROOT . 'user/overview');
+            header('Location: ' . URLROOT . 'user/overview/');
         } else {
             echo 'Account not deleted successfully';
             helper::log('error', 'Could not delete account on user');
@@ -165,11 +165,11 @@ class Account extends Controller
             $createGoal = $this->goalModel->createGoalByAccountId($post, $accountId);
 
             if ($createGoal) {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
                 return;
             } else {
 
-                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
                 return;
             }
         }
@@ -195,10 +195,10 @@ class Account extends Controller
             $updateGoal = $this->goalModel->updateGoal($goalId, $post);
 
             if ($updateGoal) {
-                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId);
+                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId . '/');
                 return;
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId);
+                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId . '/');
                 return;
             }
         }
@@ -230,10 +230,10 @@ class Account extends Controller
             $createTransaction = $this->transactionModel->createTransactionByAccountId($post, $accountId);
 
             if ($createTransaction) {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
                 return;
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
                 return;
             }
         }
@@ -261,7 +261,7 @@ class Account extends Controller
 
         // Delete the transaction
         if ($this->transactionModel->deleteTransaction($transactionId)) {
-            header('Location: ' . URLROOT . 'account/overview/' . $accountId);
+            header('Location: ' . URLROOT . 'account/overview/' . $accountId . '/');
         } else {
             echo 'Transaction not deleted successfully';
             helper::log('error', 'Could not delete transaction on user');
@@ -288,10 +288,10 @@ class Account extends Controller
             $updateTransaction = $this->transactionModel->updateTransaction($transactionId, $post);
 
             if ($updateTransaction) {
-                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId);
+                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId . '/');
                 return;
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId);
+                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId . '/');
                 return;
             }
         }
@@ -341,10 +341,10 @@ class Account extends Controller
             $createBudget = $this->budgetModel->createBudgetByAccountId($accountId, $post);
 
             if ($createBudget) {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
                 return;
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId);
+                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
                 return;
             }
         }
@@ -363,11 +363,11 @@ class Account extends Controller
             $updateBudget = $this->budgetModel->updateBudget($budgetId, $post);
 
             if ($updateBudget) {
-                header("Location:" . URLROOT . 'account/overview/' . $budget->budgetAccountId);
+                header("Location:" . URLROOT . 'account/overview/' . $budget->budgetAccountId . '/');
                 return;
             } else {
                 helper::log('error', 'could not update the budget');
-                header("Location:" . URLROOT . 'budget/update/' . $budget->budgetId);
+                header("Location:" . URLROOT . 'budget/update/' . $budget->budgetId . '/');
                 return;
             }
         }
@@ -385,11 +385,11 @@ class Account extends Controller
         $deleteBudget = $this->budgetModel->deleteBudget($budgetId);
 
         if ($deleteBudget) {
-            header('Location:' . URLROOT . 'account/overview/' . $budget->budgetAccountId);
+            header('Location:' . URLROOT . 'account/overview/' . $budget->budgetAccountId . '/');
             return;
         } else {
             helper::log('error', 'could not delete budget in budgetController');
-            header('Location:' . URLROOT . 'budget/update/' . $budget->budgetId);
+            header('Location:' . URLROOT . 'budget/update/' . $budget->budgetId . '/');
             return;
         }
     }
