@@ -92,7 +92,7 @@
                                                     <span class="inline-block bg-error-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-error-darker text-xs ws-nowrap">Expense</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td class="tbl__cell text-center" role="cell"><?= date('d F Y', strtotime($transaction->transactionCreateDate)) ?></td>
+                                            <td class="int-table__cell"><?= date('d/m/y', $transaction->transactionCreateDate) ?></td>
                                             <td class="int-table__cell text-center">
                                                 <a class="btn btn--primary" href="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/">Edit
                                                     transaction</a>

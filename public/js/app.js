@@ -157,27 +157,383 @@ async function signIn(event) {
   }
 }
 
-//ALERT HANDLING
+// CREATE ACCOUNT SECTION
+async function createAccount(event) {
+  event.preventDefault();
 
-(function () {
-  var alertClose = document.getElementsByClassName("js-alert__close-btn");
-  if (alertClose.length > 0) {
-    for (var i = 0; i < alertClose.length; i++) {
-      (function (i) {
-        initAlertEvent(alertClose[i]);
-      })(i);
+  const form = document.querySelector("form");
+
+  try {
+    const ajaxFetch = await fetch(
+      "http://localhost/financebuddydev/account/create",
+      {
+        method: "POST",
+        body: new FormData(form),
+      }
+    );
+
+    if (!ajaxFetch.ok) {
+      throw new Error("Network response was not ok");
     }
+
+    const response = await ajaxFetch.json();
+
+    if (response.success) {
+      // Show success toast
+      const successToastData = {
+        title: "Success",
+        message: response.success.message,
+        success: true,
+      };
+      window.location.href = "http://localhost/financebuddydev/user/overview/";
+      localStorage.setItem("toastData", JSON.stringify(successToastData));
+    } else {
+      // Show error toast with PHP message
+      const failureToastData = {
+        title: "Error",
+        message: response.message,
+        success: false,
+      };
+      window.location.href = "http://localhost/financebuddydev/user/overview/";
+      localStorage.setItem("toastData", JSON.stringify(failureToastData));
+    }
+  } catch (error) {
+    console.error("Error during fetch:", error);
+    // Handle fetch errors here
   }
-})();
-
-function initAlertEvent(element) {
-  element.addEventListener("click", function (event) {
-    event.preventDefault();
-    element.closest(".js-alert").classList.remove("alert--is-visible");
-  });
 }
+// END CREATE ACCOUNT SECTION
 
-//END ALERT HANDLING
+// START UPDATE ACCOUNT FUNCTION
+async function updateAccount(event, accountId) {
+  event.preventDefault();
+
+  const form = document.querySelector("form");
+
+  const ajaxFetch = await fetch(
+    `http://localhost/financebuddydev/account/update/${accountId}`,
+    {
+      method: "POST",
+      body: new FormData(form),
+    }
+  );
+
+  if (!ajaxFetch.ok) {
+    throw new Error("Network response was not ok");
+  }
+
+  const response = await ajaxFetch.json();
+
+  if (response.status === 200) {
+    // Show success toast
+    const successToastData = {
+      title: "Success!",
+      message: response.message,
+      success: true,
+    };
+    window.location.href = "http://localhost/financebuddydev/user/overview/";
+    localStorage.setItem("toastData", JSON.stringify(successToastData));
+  } else if (response.status === 500) {
+    // Show error toast with PHP message
+    const failureToastData = {
+      title: "Failed",
+      message: response.message,
+      success: false,
+    };
+    window.location.href = "http://localhost/financebuddydev/user/overview/";
+    localStorage.setItem("toastData", JSON.stringify(failureToastData));
+  }
+}
+// END UPDATE ACCOUNT FUNCTION
+
+// START CREATE GOAL FUNCTION
+async function createGoal(event, accountId) {
+  event.preventDefault();
+
+  const form = document.querySelector(".js-goal-form");
+
+  try {
+    const ajaxFetch = await fetch(
+      `http://localhost/financebuddydev/account/createGoal/${accountId}`,
+      {
+        method: "POST",
+        body: new FormData(form),
+      }
+    );
+
+    if (!ajaxFetch.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const response = await ajaxFetch.json();
+
+    if (response.status === 200) {
+      // Show success toast
+      const successToastData = {
+        title: "Success!",
+        message: response.message,
+        success: true,
+      };
+      window.location.href = `http://localhost/financebuddydev/account/overview/${accountId}`;
+      localStorage.setItem("toastData", JSON.stringify(successToastData));
+    } else if (response.status === 500) {
+      // Show error toast with PHP message
+      const failureToastData = {
+        title: "Failed",
+        message: response.message,
+        success: false,
+      };
+      localStorage.setItem("toastData", JSON.stringify(failureToastData));
+
+      var toastData = localStorage.getItem("toastData");
+      openToast(toastData);
+    }
+  } catch (error) {
+    console.error("Error during fetch:", error);
+    // Handle fetch errors here
+  }
+}
+// END CREATE GOAL FUNCTION
+
+// START UPDATE GOAL FUNCTION
+async function updateGoal(event, goalId, accountId) {
+  event.preventDefault();
+
+  const form = document.querySelector(".js-update-goal");
+
+  try {
+    const ajaxFetch = await fetch(
+      `http://localhost/financebuddydev/account/updateGoal/${goalId}`,
+      {
+        method: "POST",
+        body: new FormData(form),
+      }
+    );
+
+    if (!ajaxFetch.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const response = await ajaxFetch.json();
+
+    if (response.status === 200) {
+      // Show success toast
+      const successToastData = {
+        title: "Success!",
+        message: response.message,
+        success: true,
+      };
+      window.location.href = `http://localhost/financebuddydev/account/overview/${accountId}`;
+      localStorage.setItem("toastData", JSON.stringify(successToastData));
+    } else if (response.status === 500) {
+      // Show error toast with PHP message
+      const failureToastData = {
+        title: "Failed",
+        message: response.message,
+        success: false,
+      };
+      localStorage.setItem("toastData", JSON.stringify(failureToastData));
+      window.location.href = `http://localhost/financebuddydev/account/overview/${accountId}`;
+    }
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+  }
+}
+// END UPDATE GOAL FUNCTION
+
+// START CREATING TRANSACTION
+async function createTransaction(event, accountId) {
+  event.preventDefault();
+
+  const form = document.querySelector(".js-transaction-form");
+
+  try {
+    const ajaxFetch = await fetch(
+      `http://localhost/financebuddydev/account/createTransaction/${accountId}`,
+      {
+        method: "POST",
+        body: new FormData(form),
+      }
+    );
+
+    if (!ajaxFetch.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const response = await ajaxFetch.json();
+
+    if (response.status === 200) {
+      // Show success toast
+      const successToastData = {
+        title: "Success!",
+        message: response.message,
+        success: true,
+      };
+      localStorage.setItem("toastData", JSON.stringify(successToastData));
+      window.location.href = `http://localhost/financebuddydev/account/overview/${accountId}`;
+    } else if (response.status === 500) {
+      // Show error toast with PHP message
+      const failureToastData = {
+        title: "Failed",
+        message: response.message,
+        success: false,
+      };
+      localStorage.setItem("toastData", JSON.stringify(failureToastData));
+
+      // Assuming openToast is a valid function
+      var toastData = localStorage.getItem("toastData");
+      openToast(toastData);
+    }
+  } catch (error) {
+    console.error("Error during fetch:", error);
+    // Handle fetch errors here
+  }
+}
+// END CREATING TRANSACTION
+
+// START UPDATING UPDATE TRANSACTION
+async function updateTransaction(event, transactionId, accountId) {
+  event.preventDefault();
+
+  const form = document.querySelector("form");
+
+  try {
+    const ajaxFetch = await fetch(
+      `http://localhost/financebuddydev/account/updateTransaction/${transactionId}`,
+      {
+        method: "POST",
+        body: new FormData(form),
+      }
+    );
+
+    if (!ajaxFetch.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const response = await ajaxFetch.json();
+
+    if (response.status === 200) {
+      // Show success toast
+      const successToastData = {
+        title: "Success!",
+        message: response.message,
+        success: true,
+      };
+      localStorage.setItem("toastData", JSON.stringify(successToastData));
+      // Redirect to allTransactions page with the correct accountId
+      window.location.href = `http://localhost/financebuddydev/transaction/allTransactions/${accountId}`;
+    } else if (response.status === 500) {
+      // Show error toast with PHP message
+      const failureToastData = {
+        title: "Failed",
+        message: response.message,
+        success: false,
+      };
+      localStorage.setItem("toastData", JSON.stringify(failureToastData));
+      // Redirect to the update page with transactionId
+      window.location.href = `http://localhost/financebuddydev/transaction/update/${transactionId}`;
+    }
+  } catch (error) {
+    console.error("Error during fetch:", error);
+    // Handle fetch errors here
+  }
+}
+// END UPDATE TRANSACTION
+
+// START CREATING BUDGET
+async function createBudget(event, accountId) {
+  event.preventDefault();
+
+  const form = document.querySelector(".js-budget-form");
+
+  try {
+    const ajaxFetch = await fetch(
+      `http://localhost/financebuddydev/account/createBudget/${accountId}`,
+      {
+        method: "POST",
+        body: new FormData(form),
+      }
+    );
+
+    if (!ajaxFetch.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const response = await ajaxFetch.json();
+
+    if (response.status === 200) {
+      // Show success toast
+      const successToastData = {
+        title: "Success!",
+        message: response.message,
+        success: true,
+      };
+      window.location.href = `http://localhost/financebuddydev/account/overview/${accountId}`;
+      localStorage.setItem("toastData", JSON.stringify(successToastData));
+    } else if (response.status === 500) {
+      // Show error toast with PHP message
+      const failureToastData = {
+        title: "Failed",
+        message: response.message,
+        success: false,
+      };
+      localStorage.setItem("toastData", JSON.stringify(failureToastData));
+
+      var toastData = localStorage.getItem("toastData");
+      openToast(toastData);
+    }
+  } catch (error) {
+    console.error("Error during fetch:", error);
+    // Handle fetch errors here
+  }
+}
+// END CREATING BUDGET
+
+// START UPDATE BUDGET
+async function updateBudget(event, budgetId, accountId) {
+  event.preventDefault();
+
+  const form = document.querySelector(".js-update-goal");
+
+  try {
+    const ajaxFetch = await fetch(
+      `http://localhost/financebuddydev/account/updateBudget/${budgetId}`,
+      {
+        method: "POST",
+        body: new FormData(form),
+      }
+    );
+
+    if (!ajaxFetch.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const response = await ajaxFetch.json();
+
+    if (response.status === 200) {
+      // Show success toast
+      const successToastData = {
+        title: "Success!",
+        message: response.message,
+        success: true,
+      };
+      window.location.href = `http://localhost/financebuddydev/account/overview/${accountId}`;
+      localStorage.setItem("toastData", JSON.stringify(successToastData));
+    } else if (response.status === 500) {
+      // Show error toast with PHP message
+      const failureToastData = {
+        title: "Failed",
+        message: response.message,
+        success: false,
+      };
+      localStorage.setItem("toastData", JSON.stringify(failureToastData));
+      window.location.href = `http://localhost/financebuddydev/account/overview/${accountId}`;
+    }
+  } catch (error) {
+    console.error("An error occurred:", error.message);
+  }
+}
+// END UPDATE BUDGET
 
 // TOAST HANDLING
 function openToast(toastData) {
@@ -256,33 +612,24 @@ function openToast(toastData) {
 }
 // END TOAST HANDLING
 
-
 function handleToastOnCrud(action, isSuccess) {
   let toastData;
 
   if (isSuccess) {
     // Handle the cases
-    switch(action){
-      case 'createEntity':
-        toastData = {
-          title: "Entity created",
-          message: "Successfully created",
-          success: true,
-        };
-        break;
-
-      case 'updateEntity':
-        toastData = {
-          title: "Entity updated",
-          message: "Successfully updated",
-          success: true,
-        };
-        break;
-
-      case 'deleteEntity':
+    switch (action) {
+      case "deleteEntity":
         toastData = {
           title: "Entity deleted",
           message: "Successfully deleted",
+          success: true,
+        };
+        break;
+
+      case "logout":
+        toastData = {
+          title: "Logged out",
+          message: "Successfully logged out",
           success: true,
         };
         break;
@@ -294,12 +641,40 @@ function handleToastOnCrud(action, isSuccess) {
           success: true,
         };
     }
+
+    // Store toastData in localStorage
+    localStorage.setItem("toastData", JSON.stringify(toastData));
   } else {
-    toastData = {
+    // Define toast data for failure
+    const failureToastData = {
       title: "Error",
       message: "There was an error processing your request. Please try again.",
       success: false,
     };
+
+    // Call openToast with failure toast data
+    openToast(JSON.stringify(failureToastData));
+
+    // Use "js-toast" as the consistent key
+    localStorage.setItem("js-toast", JSON.stringify(failureToastData));
   }
-  openToast(JSON.stringify(toastData));
+}
+
+//ALERT HANDLING
+(function () {
+  var alertClose = document.getElementsByClassName("js-alert__close-btn");
+  if (alertClose.length > 0) {
+    for (var i = 0; i < alertClose.length; i++) {
+      (function (i) {
+        initAlertEvent(alertClose[i]);
+      })(i);
+    }
+  }
+})();
+
+function initAlertEvent(element) {
+  element.addEventListener("click", function (event) {
+    event.preventDefault();
+    element.closest(".js-alert").classList.remove("alert--is-visible");
+  });
 }

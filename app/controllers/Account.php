@@ -24,7 +24,6 @@ class Account extends Controller
     }
 
 
-
     // ACCOUNTS SECTION
     public function overview($accountId)
     {
@@ -74,7 +73,6 @@ class Account extends Controller
             $budgetSpentPercentage = ($budgetAmount != 0) ? (($budgetSpent / $budgetAmount) * 100) : 0;
 
             $overallBudgetSpentPercentage += $budgetSpentPercentage;
-
         }
 
         // Round up the overall percentage to the nearest whole number
@@ -101,19 +99,34 @@ class Account extends Controller
     public function update($accountId)
     {
         $account = $this->accountModel->getAccountById($accountId);
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $updateAccount = $this->accountModel->updateAccount($accountId, $post);
 
-            if ($updateAccount) {
-                header("Location:" . URLROOT . 'user/overview/');
-                return;
+            // Check if any required fields are empty
+            if (empty($post['accountName']) || empty($post['accountBalance']) || empty($post['accountType'])) {
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Required fields cannot be empty!',
+                ];
             } else {
-                helper::log('error', 'could not update the budget');
-                header("Location:" . URLROOT . 'account/update/' . $accountId . '/');
-                return;
+                // Update the account and check for success
+                $updateAccount = $this->accountModel->updateAccount($accountId, $post);
+
+                if (empty($updateAccount)) {
+                    $ajaxResponse = [
+                        'status' => 500,
+                        'message' => 'Account not updated successfully',
+                    ];
+                } else {
+                    $ajaxResponse = [
+                        'status' => 200,
+                        'message' => 'account updated successfully!',
+                    ];
+                }
             }
+            // Move the view-related code after the JSON response
+            echo json_encode($ajaxResponse);
+            return;
         }
         $data = [
             'account' => $account
@@ -122,27 +135,46 @@ class Account extends Controller
         $this->view('account/update', $data);
     }
 
+
     public function create()
     {
+        $ajaxResponse = [
+            'status' => 200,
+            'message' => 'OK',
+        ];
+
+        // Handle the form submission
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         session_start();
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Handle the form submission
-            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $userId = isset($_SESSION['user']->userId) ? $_SESSION['user']->userId : null;
+        session_write_close();
 
-            $userId = isset($_SESSION['user']->userId) ? $_SESSION['user']->userId : null;
-
-
+        if (empty($post['accountName']) || empty($post['accountBalance']) || empty($post['accountType'])) {
+            $ajaxResponse = [
+                'status' => 500,
+                'message' => 'Required fields cannot be empty!',
+            ];
+        } else {
             $createAccount = $this->accountModel->createAccount($post, $userId);
 
-            if ($createAccount) {
-                header('Location: ' . URLROOT . 'user/overview/');
+            if (empty($createAccount)) {
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Account not created successfully',
+                ];
             } else {
-                echo 'Account not created successfully';
-                helper::log('error', 'Could not create account on user');
+                $ajaxResponse['success'] = [
+                    'state' => 200,
+                    'message' => 'account created successfully!',
+                ];
             }
         }
-        session_write_close();
+
+        echo json_encode($ajaxResponse);
+        return;
     }
+
 
     public function delete($accountId)
     {
@@ -160,20 +192,34 @@ class Account extends Controller
     // GOALS SECTION
     public function createGoal($accountId)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $ajaxResponse = [];
+
+        if (empty($post['goalName']) || empty($post['goalAmount'])) {
+            $ajaxResponse = [
+                'status' => 500,
+                'message' => 'Required fields cannot be empty!',
+            ];
+        } else {
             $createGoal = $this->goalModel->createGoalByAccountId($post, $accountId);
 
-            if ($createGoal) {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
-                return;
+            if (empty($createGoal)) {
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Goal not created successfully',
+                ];
             } else {
-
-                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
-                return;
+                $ajaxResponse = [
+                    'status' => 200,
+                    'message' => 'Goal created successfully!',
+                ];
             }
         }
+
+        echo json_encode($ajaxResponse);
+        return;
     }
+
 
     public function deleteGoal($goalId)
     {
@@ -189,39 +235,68 @@ class Account extends Controller
 
     public function updateGoal($goalId)
     {
+        $goal = $this->goalModel->getGoalsById($goalId);
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $goal = $this->goalModel->getGoalsById($goalId);
-            $updateGoal = $this->goalModel->updateGoal($goalId, $post);
 
-            if ($updateGoal) {
-                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId . '/');
-                return;
+            // Check if any required fields are empty
+            if (empty($post['goalName']) || empty($post['goalAmount'])) {
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Required fields cannot be empty!',
+                ];
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $goal->goalAccountId . '/');
-                return;
+                // Update the account and check for success
+                $updateGoal = $this->goalModel->updateGoal($goalId, $post);
+
+                if (empty($updateGoal)) {
+                    $ajaxResponse = [
+                        'status' => 500,
+                        'message' => 'Goal not updated successfully',
+                    ];
+                } else {
+                    $ajaxResponse = [
+                        'status' => 200,
+                        'message' => 'Goal updated successfully!',
+                    ];
+                }
             }
+
+            // Move the view-related code after the JSON response
+            echo json_encode($ajaxResponse);
+            return;
         }
+
+        $data = [
+            'goal' => $goal,
+        ];
+
+        $this->view('account/update', $data);
     }
+
     // END GOAL SECTION
 
     // TRANSACTIONS SECTION
     public function createTransaction($accountId)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Handle the form submission
-            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $ajaxResponse = [];
+        $transactionAmount = floatval($post['transactionAmount']);
 
-            // Get the transaction amount
-            $transactionAmount = floatval($post['transactionAmount']);
 
+        if (empty($post['transactionName']) || empty($post['transactionAmount']) || empty($post['transactionCategoryId'])) {
+            $ajaxResponse = [
+                'status' => 500,
+                'message' => 'Required fields cannot be empty!',
+            ];
+        } else {
             // check for transaction amount
             if ($transactionAmount > 0) {
                 $newBalance = $this->accountModel->getAccountBalance($accountId) + $transactionAmount;
             } else {
                 $newBalance = $this->accountModel->getAccountBalance($accountId) - abs($transactionAmount);
             }
-
 
             // Update the account balance
             $this->accountModel->updateAccountBalance($accountId, $newBalance);
@@ -230,14 +305,21 @@ class Account extends Controller
             $createTransaction = $this->transactionModel->createTransactionByAccountId($post, $accountId);
 
             if ($createTransaction) {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
-                return;
+                $ajaxResponse = [
+                    'status' => 200,
+                    'message' => 'Transaction created successfully',
+                ];
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
-                return;
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Transaction not created successfully',
+                ];
             }
         }
+        echo json_encode($ajaxResponse);
+        return;
     }
+
 
     public function deleteTransaction($transactionId)
     {
@@ -277,30 +359,42 @@ class Account extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $originalAmount = $transaction->transactionAmount;
-            $updatedAmount = floatval($post['transactionAmount']);
-            $amountDifference = $updatedAmount - $originalAmount;
-
-            $newBalance = $this->accountModel->getAccountBalance($transaction->transactionAccountId) + $amountDifference;
-            $this->accountModel->updateAccountBalance($transaction->transactionAccountId, $newBalance);
-
-            // Update the transaction
-            $updateTransaction = $this->transactionModel->updateTransaction($transactionId, $post);
-
-            if ($updateTransaction) {
-                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId . '/');
-                return;
+            if (empty($post['transactionName']) || empty($post['transactionAmount']) || empty($post['transactionCategoryId'])) {
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Required fields cannot be empty!',
+                ];
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $transaction->transactionAccountId . '/');
-                return;
+                $originalAmount = $transaction->transactionAmount;
+                $updatedAmount = floatval($post['transactionAmount']);
+                $amountDifference = $updatedAmount - $originalAmount;
+
+                $newBalance = $this->accountModel->getAccountBalance($transaction->transactionAccountId) + $amountDifference;
+                $this->accountModel->updateAccountBalance($transaction->transactionAccountId, $newBalance);
+
+                // Update the transaction
+                $updateTransaction = $this->transactionModel->updateTransaction($transactionId, $post);
+
+                if (empty($updateTransaction)) {
+                    $ajaxResponse = [
+                        'status' => 500,
+                        'message' => 'transaction not updated successfully',
+                    ];
+                } else {
+                    $ajaxResponse = [
+                        'status' => 200,
+                        'message' => 'transaction updated successfully!',
+                    ];
+                }
             }
+            echo json_encode($ajaxResponse);
+            return;
         }
 
         $data = [
             'transaction' => $transaction,
             'category' => $activeCategories
         ];
-        // helper::dump($transaction);exit;
 
         $this->view('transaction/update', $data);
     }
@@ -336,21 +430,33 @@ class Account extends Controller
     // START BUDGET SECTION
     public function createBudget($accountId)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $ajaxResponse = [];
+
+        if (empty($post['budgetName']) || empty($post['budgetAmount']) || empty($post['budgetCategoryId'])) {
+            $ajaxResponse = [
+                'status' => 500,
+                'message' => 'Required fields cannot be empty!',
+            ];
+        } else {
+
             $createBudget = $this->budgetModel->createBudgetByAccountId($accountId, $post);
 
-            if ($createBudget) {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
-                return;
+            if (empty($createBudget)) {
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Budget not created successfully',
+                ];
             } else {
-                header("Location:" . URLROOT . 'account/overview/' . $accountId . '/');
-                return;
+                $ajaxResponse = [
+                    'status' => 200,
+                    'message' => 'Budget created successfully!',
+                ];
             }
         }
 
-        // If the execution reaches here, there was an error creating the budget
-        header("Location:" . URLROOT . 'account/overview/' . $accountId);
+        echo json_encode($ajaxResponse);
+        return;
     }
 
     public function updateBudget($budgetId)
@@ -360,16 +466,29 @@ class Account extends Controller
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $updateBudget = $this->budgetModel->updateBudget($budgetId, $post);
-
-            if ($updateBudget) {
-                header("Location:" . URLROOT . 'account/overview/' . $budget->budgetAccountId . '/');
-                return;
+            if (empty($post['budgetName']) || empty($post['budgetAmount']) || empty($post['budgetCategoryId'])) {
+                $ajaxResponse = [
+                    'status' => 500,
+                    'message' => 'Required fields cannot be empty!',
+                ];
             } else {
-                helper::log('error', 'could not update the budget');
-                header("Location:" . URLROOT . 'budget/update/' . $budget->budgetId . '/');
-                return;
+
+                $updateBudget = $this->budgetModel->updateBudget($budgetId, $post);
+
+                if (empty($updateBudget)) {
+                    $ajaxResponse = [
+                        'status' => 500,
+                        'message' => 'Budget not updated successfully',
+                    ];
+                } else {
+                    $ajaxResponse = [
+                        'status' => 200,
+                        'message' => 'Budget updated successfully!',
+                    ];
+                }
             }
+            echo json_encode($ajaxResponse);
+            return;
         }
         $data = [
             'category' => $activeCategories,

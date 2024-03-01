@@ -55,7 +55,7 @@
                                         <?php endif; ?>
                                     </td>
                                     <td class="tbl__cell" role="cell">$<?= $account->accountBalance ?></td>
-                                    <td class="tbl__cell" role="cell"><?= date('d F Y', strtotime($account->accountCreateDate)) ?></td>
+                                    <td class="int-table__cell"><?= date('d/m/y', $account->accountCreateDate) ?></td>
 
                                     <td class="tbl__cell text-right" role="cell">
                                         <div class="flex items-center">
@@ -102,7 +102,7 @@
             <h3 id="modal-form-title">Create new account</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/create" class="margin-bottom-sm" onsubmit="handleToastOnCrud('createEntity', true)">
+        <form method="POST" action="<?= URLROOT ?>account/create" class="margin-bottom-sm" onsubmit="createAccount(event)">
 
             <div class="grid gap-sm">
                 <label class="form-label" for="modal-account-accountName">Account Name</label>

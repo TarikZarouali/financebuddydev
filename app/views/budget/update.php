@@ -7,7 +7,7 @@
 
 
     <div class="bg-light radius-md padding-md inner-glow shadow-xs" style="margin-bottom:2rem;">
-        <form  method="POST" action="<?= URLROOT ?>account/updateBudget/<?= $data['budget']->budgetId ?>" onsubmit="editEntity(scope,action)">
+        <form  method="POST" action="<?= URLROOT ?>account/updateBudget/<?= $data['budget']->budgetId ?>" onsubmit="updateBudget(event,'<?=$data['budget']->budgetId?>','<?=$data['account']->accountId?>')">
 
             <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
                 <div class="text-component margin-bottom-md">
@@ -64,7 +64,7 @@
         <footer class="margin-top-md">
             <div class="flex justify-end gap-xs flex-wrap">
                 <button class="btn btn--subtle js-dialog__close">Cancel</button>
-                <a class="btn btn--accent" onclick="deleteEntity(scope,action)" href="<?= URLROOT; ?>account/deleteBudget/<?= $data['budget']->budgetId ?>">Confirm</a>
+                <a class="btn btn--accent" onclick="handleToastOnCrud('deleteEntity',true)" href="<?= URLROOT; ?>account/deleteBudget/<?= $data['budget']->budgetId ?>">Confirm</a>
             </div>
         </footer>
     </div>

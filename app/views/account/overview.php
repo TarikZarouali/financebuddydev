@@ -54,10 +54,8 @@
                         <table class="int-table__table" aria-label="Interactive table example">
                             <thead class="int-table__header js-int-table__header">
                                 <tr class="int-table__row">
-                                    <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
-                                        <div class="flex items-center">
-                                            <span>Transaction name</span>
-                                        </div>
+                                    <th class="int-table__cell int-table__cell--th text-center">
+                                        Transaction name
                                     </th>
                                     <th class="int-table__cell int-table__cell--th text-center">
                                         Transaction Amount
@@ -89,26 +87,28 @@
                                                     <span class="inline-block bg-error-darker bg-opacity-20% radius-full padding-y-xxxs padding-x-xs color-error-darker text-xs ws-nowrap">Expense</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td class="tbl__cell text-center" role="cell"><?= date('d F Y', strtotime($transaction->transactionCreateDate)) ?></td>
+                                            <td class="int-table__cell text-center"><?= date('d/m/y', $transaction->transactionCreateDate) ?></td>
 
                                         </tr>
                                     <?php endforeach; ?>
-                                            <?php else : ?>
-                                                <div class="alert alert--is-visible js-alert" role="alert">
-                                                    <div class="cd-flex cd-items-center cd-justify-between">
-                                                        <div class="cd-flex cd-items-center">
-                                                            <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                                                <g fill="currentColor">
-                                                                    <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
-                                                                    <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
-                                                                    </path>
-                                                                    <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
-                                                                </g>
-                                                            </svg>
-                                                            <p><strong class="alert__label">Info:</strong> You have no transactions yet. </p>
-                                                        </div>
+                                <?php else : ?>
+                                    <tr class="int-table__row">
+                                    <td colspan="5">
+                                            <div class="alert alert--is-visible js-alert" role="alert">
+                                                <div class="cd-flex cd-items-center cd-justify-between">
+                                                    <div class="cd-flex cd-items-center">
+                                                        <svg class="alert__icon cd-icon" viewBox="0 0 24 24" aria-hidden="true">
+                                                            <g fill="currentColor">
+                                                                <path fill-opacity=".2" d="M12 24a12 12 0 1 0 0-24 12 12 0 1 0 0 24z"></path>
+                                                                <path d="M12 9a1 1 0 0 1 1 1l0 9a1 1 0 0 1-2 0l0-9a1 1 0 0 1 1-1z">
+                                                                </path>
+                                                                <path d="M12 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 1 0 0 3z"></path>
+                                                            </g>
+                                                        </svg>
+                                                        <p><strong class="alert__label">Info:</strong> You have no transactions yet. </p>
                                                     </div>
                                                 </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endif; ?>
@@ -116,11 +116,11 @@
                         </table>
                     </div>
                 </div>
-                <?php if ($data['transactions']) :?>
-                <div class="flex items-center justify-between padding-top-sm">
-                    <a href="<?= URLROOT . 'account/allTransactions/' . $transaction->transactionAccountId . '/' ?>" class="text-sm">See all transactions -></a>
-                </div>
-                <?php endif?>
+                <?php if ($data['transactions']) : ?>
+                    <div class="flex items-center justify-between padding-top-sm">
+                        <a href="<?= URLROOT . 'account/allTransactions/' . $transaction->transactionAccountId . '/' ?>" class="text-sm">See all transactions -></a>
+                    </div>
+                <?php endif ?>
             </div>
         </li>
 
@@ -132,7 +132,7 @@
             <?php foreach ($data['budget'] as $budget) : ?>
                 <div class="bg-light radius-md padding-md inner-glow shadow-xs">
                     <p class="color-contrast-high margin-bottom-md"><strong><?= $budget->categoryName ?></strong></p>
-                    <a href="<?= URLROOT . 'account/updateBudget/' . $budget->budgetId . '/'?>" class="btn btn--primary">Update budget</a>
+                    <a href="<?= URLROOT . 'account/updateBudget/' . $budget->budgetId . '/' ?>" class="btn btn--primary">Update budget</a>
 
                     <div class="pie-chart flex flex-column gap-md js-pie-chart">
                         <div class="flex-shrink-0 flex justify-center">
@@ -181,7 +181,7 @@
                     </div>
                 </div>
             </div>
-        <?php endif; ?> 
+        <?php endif; ?>
     </ul>
 </div>
 <!-- end container -->
@@ -204,7 +204,7 @@
         <footer class="margin-top-md">
             <div class="flex justify-end gap-xs flex-wrap">
                 <button class="btn btn--subtle js-dialog__close">Cancel</button>
-                <a class="btn btn--accent" onclick="deleteEntity(scope,action)" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Confirm</a>
+                <a class="btn btn--accent" onclick="handleToastOnCrud('deleteEntity',true)" href="<?= URLROOT; ?>account/deleteGoal/<?= $data['goal']->goalId ?>">Confirm</a>
             </div>
         </footer>
     </div>
@@ -219,7 +219,7 @@
             <h3 id="modal-form-title">Create new transaction</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/createTransaction/<?= $data['account']->accountId ?>/" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
+        <form method="POST" class="margin-bottom-sm js-transaction-form" onsubmit="createTransaction(event,'<?= $data['account']->accountId ?>')">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction
                     name</label>
@@ -269,7 +269,7 @@
             <h3 id="modal-form-title">Create new Goal</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/createGoal/<?= $data['account']->accountId ?>" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
+        <form method="POST" class="margin-bottom-sm js-goal-form" onsubmit="createGoal(event,'<?= $data['account']->accountId ?>')">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
                 <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-goal-goalName">
@@ -304,6 +304,45 @@
     </button>
 </div>
 
+<!-- MODAL FOR EDITING GOAL -->
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-goal-edit-form">
+    <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
+        <div class="text-component margin-bottom-md">
+            <h3 id="modal-form-title">Edit selected Goal</h3>
+        </div>
+
+        <form method="POST" class="margin-bottom-sm js-update-goal" onsubmit="updateGoal(event, '<?= $data['goal']->goalId ?>', '<?= $data['account']->accountId ?>')">
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-transaction-goalName" value="<?= $data['goal']->goalName ?>">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalAmount">Goal amount</label>
+                <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="goalAmount" id="modal-goal-goalAmount" value="<?= $data['goal']->goalAmount ?>">
+            </div>
+
+            <div class="grid gap-sm">
+                <label class="form-label margin-bottom-xxs" for="modal-goal-goalDescription">Goal description</label>
+                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="goalDescription" id="modal-goal-goalDescription" value="<?= $data['goal']->goalDescription ?>"></textarea>
+            </div>
+
+            <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
+        </form>
+    </div>
+
+    <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
+        <svg class="icon icon--sm" viewBox="0 0 24 24">
+            <title>Close modal window</title>
+            <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="3" x2="21" y2="21" />
+                <line x1="21" y1="3" x2="3" y2="21" />
+            </g>
+        </svg>
+    </button>
+</div>
+
+
 <!-- MODAL FOR CREATING A BUDGET -->
 <div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-budget-form">
     <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
@@ -311,7 +350,7 @@
             <h3 id="modal-form-title">Create a new budget</h3>
         </div>
 
-        <form method="POST" action="<?= URLROOT ?>account/createBudget/<?= $data['account']->accountId ?>/" class="margin-bottom-sm" onsubmit="createEntity(scope,action)">
+        <form method="POST" class="margin-bottom-sm js-budget-form" onsubmit="createBudget(event,'<?=$data['account']->accountId?>')">
             <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="modal-budget-budgetName">Budget
                     name</label>
@@ -354,97 +393,4 @@
 </div>
 
 
-<!-- MODAL FOR EDITING GOAL -->
-<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-goal-edit-form">
-    <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
-        <div class="text-component margin-bottom-md">
-            <h3 id="modal-form-title">Edit selected Goal</h3>
-        </div>
-
-        <form method="POST" action="<?= URLROOT ?>account/updateGoal/<?= $data['goal']->goalId ?>/" class="margin-bottom-sm" onsubmit="editEntity(scope,action)">
-            <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-goal-goalName">Goal name</label>
-                <input class="form-control width-100% margin-bottom-xxs" type="text" name="goalName" id="modal-transaction-goalName" value="<?= $data['goal']->goalName ?>">
-            </div>
-
-            <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-goal-goalAmount">Goal amount</label>
-                <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="goalAmount" id="modal-goal-goalAmount" value="<?= $data['goal']->goalAmount ?>">
-            </div>
-
-            <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-goal-goalDescription">Goal description</label>
-                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="goalDescription" id="modal-goal-goalDescription" value="<?= $data['goal']->goalDescription ?>"></textarea>
-            </div>
-
-            <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
-        </form>
-    </div>
-
-    <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
-        <svg class="icon icon--sm" viewBox="0 0 24 24">
-            <title>Close modal window</title>
-            <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="3" x2="21" y2="21" />
-                <line x1="21" y1="3" x2="3" y2="21" />
-            </g>
-        </svg>
-    </button>
-</div>
-
-
-<!-- MODAL FOR EDITING TRANSACTION -->
-<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-90% padding-md js-modal" id="modal-transaction-edit-form">
-    <div class="modal__content width-100% max-width-xs max-height-100% overflow-auto padding-md bg radius-md inner-glow shadow-md" role="alertdialog" aria-labelledby="modal-form-title" aria-describedby="modal-form-description">
-        <div class="text-component margin-bottom-md">
-            <h3 id="modal-form-title">Edit selected transaction</h3>
-        </div>
-
-        <form method="POST" action="<?= URLROOT ?>account/updateTransaction/<?= $transaction->transactionId ?>/" class="margin-bottom-sm" onsubmit="editEntity(scope,action)">
-
-            <input type="hidden" name="transactionId" value="<?= $transaction->transactionId ?>">
-
-            <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionName">Transaction
-                    name</label>
-                <input class="form-control width-100% margin-bottom-xxs" type="text" name="transactionName" id="modal-transaction-transactionName" value="<?= $transaction->transactionName ?>">
-            </div>
-
-            <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionAmount">Transaction
-                    amount</label>
-                <input class="form-control width-100% margin-bottom-xxs" type="number" step="0.01" name="transactionAmount" id="modal-transaction-transactionAmount" value="<?= $transaction->transactionAmount ?>">
-            </div>
-
-            <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="modal-transaction-transactionDescription">Transaction
-                    description</label>
-                <textarea class="form-control width-100% margin-bottom-xxs" type="text" name="transactionDescription" id="modal-transaction-transactionDescription" value="<?= $transaction->transactionDescription ?>"></textarea>
-            </div>
-
-            <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="transactionCategoryId">Category</label>
-                <select class="form-control width-100" name="transactionCategoryId" id="transactionCategoryId" value="<?= $transaction->categoryName ?>" required>
-                    <?php foreach ($data['category'] as $category) : ?>
-                        <option value="<?= $category->categoryId ?>">
-                            <?= $category->categoryName ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-
-            <button class="btn btn--primary" style="margin-top:2rem;">Submit</button>
-        </form>
-    </div>
-
-    <button class="reset modal__close-btn modal__close-btn--outer js-modal__close js-tab-focus">
-        <svg class="icon icon--sm" viewBox="0 0 24 24">
-            <title>Close modal window</title>
-            <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="3" y1="3" x2="21" y2="21" />
-                <line x1="21" y1="3" x2="3" y2="21" />
-            </g>
-        </svg>
-    </button>
-</div>
 <?php require APPROOT . '/views/includes/footer.php'; ?>

@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?= URLROOT ?>assets/css/style.css">
-    <link rel="stylesheet" href="<?=URLROOT?>public/css/style.css">
+    <link rel="stylesheet" href="<?= URLROOT ?>public/css/style.css">
     <script src="<?= URLROOT ?>assets/js/color-theme.js"></script>
     <title>Finance Buddy!</title>
 </head>
@@ -74,7 +74,7 @@
                     <nav class="sidenav-v4 padding-x-xs padding-bottom-xs js-sidenav-v4">
                         <ul>
                             <li class="sidenav-v4__item">
-                                <a class="sidenav-v4__link js-sidenav-v4__link" href="<?=URLROOT . 'user/overview/'?>">
+                                <a class="sidenav-v4__link js-sidenav-v4__link" href="<?= URLROOT . 'user/overview/' ?>">
                                     <svg class="sidenav-v4__icon icon" viewBox="0 0 20 20">
                                         <g fill="currentColor">
                                             <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12v7H4v-7"></path>
@@ -111,45 +111,9 @@
                 <!-- end sidenav content -->
 
                 <!-- start sidenav footer -->
-                
-                <!-- end sidenav footer -->
-            </div>
-        </aside>
-
-        <main class="position-relative z-index-1 flex-grow min-height-100vh position-sticky@md top-0@md height-100vh@md overflow-auto@md sidebar-loaded:show">
-
-            <!-- start desktop main header -->
-            <header class="position-sticky top-0 z-index-header bg bg-opacity-80% border-bottom border-alpha backdrop-blur-10 display@md">
-                <div class="height-60 flex items-center justify-between padding-x-component">
-                    <div class="search-input search-input--icon-left position-relative width-100% max-width-xxxxs autocomplete js-autocomplete" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
-                        
-
-
-                        <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-xxs height-100% flex items-center" aria-hidden="true">
-                            <div class="circle-loader circle-loader--v1">
-                                <div class="circle-loader__circle"></div>
-                            </div>
-                        </div>
-
-                        <div class="autocomplete__results js-autocomplete__results">
-                            <ul id="autocomplete1" class="autocomplete__list js-autocomplete__list">
-                                <li class="autocomplete__item js-autocomplete__item is-hidden">
-                                    <a data-autocomplete-url class="text-decoration-none color-contrast-higher block padding-y-xs padding-x-sm autocomplete__link">
-                                        <span class="block" data-autocomplete-label></span>
-                                        <span class="block text-xs color-contrast-medium margin-top-xxxxs" data-autocomplete-category></span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <p class="sr-only" aria-live="polite" aria-atomic="true"><span class="js-autocomplete__aria-results">0</span> results found.</p>
-                    </div>
-
-                    <button class="reset user-menu-control" aria-controls="user-menu" aria-label="Toggle user menu">
-                        <figure class="user-menu-control__img-wrapper radius-50%">
-                        </figure>
-
-                        <div class="margin-x-xs user-menu__meta">
+                <footer class="sidebar__footer border-top border-alpha padding-xs margin-top-auto position-sticky bottom-0 z-index-1">
+                    <div class="padding-x-xs flex items-center justify-between">
+                    <div class="margin-x-xs user-menu__meta">
                             <p class="user-menu__meta-title text-sm line-height-1 padding-y-xxxxs font-semibold color-contrast-higher text-truncate">
                                 <?= $_SESSION['user']->userUserName ?></p>
                             <?php if ($_SESSION['user']->userType == 'admin') : ?>
@@ -158,22 +122,14 @@
                                 <p class="text-xs color-contrast-medium line-height-1 padding-bottom-xxxxs">User</p>
                             <?php endif; ?>
                         </div>
+                        <a class="menu__content js-menu__content" onclick="handleToastOnCrud('logout',true)" href="<?= URLROOT . 'user/logout' ?>">Logout</a>
+                    </div>
+                </footer>
+                <!-- end sidenav footer -->
+            </div>
+        </aside>
 
-                        <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
-                            <polyline points="1 4 6 9 11 4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                        </svg>
-                    </button>
-
-                    <menu id="user-menu" class="menu js-menu">
-                        <li role="menuitem">
-                            <a class="menu__content js-menu__content" href="<?= URLROOT . 'user/logout' ?>">Logout</a>
-                        </li>
-                    </menu>
-                </div>
-            </header>
-            <!-- end desktop main header -->
-
-
+        <main class="position-relative z-index-1 flex-grow min-height-100vh position-sticky@md top-0@md height-100vh@md overflow-auto@md sidebar-loaded:show">
             <div class="toast toast--hidden toast--top-right js-toast" role="alert" aria-live="assertive" aria-atomic="true" id="toast-5">
-                
+
             </div>
