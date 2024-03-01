@@ -64,7 +64,7 @@
         <footer class="margin-top-md">
             <div class="flex justify-end gap-xs flex-wrap">
                 <button class="btn btn--subtle js-dialog__close">Cancel</button>
-                <a class="btn btn--accent" onclick="handleToastOnCrud('deleteEntity',true)" href="<?= URLROOT; ?>account/deleteBudget/<?= $data['budget']->budgetId ?>">Confirm</a>
+                <a class="btn btn--accent" onclick="handleToastOnCrud('deleteBudget',true)" href="<?= URLROOT; ?>account/deleteBudget/<?= $data['budget']->budgetId ?>">Confirm</a>
             </div>
         </footer>
     </div>

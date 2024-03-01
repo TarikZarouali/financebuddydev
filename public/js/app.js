@@ -618,10 +618,31 @@ function handleToastOnCrud(action, isSuccess) {
   if (isSuccess) {
     // Handle the cases
     switch (action) {
-      case "deleteEntity":
+      case "deleteAccount":
         toastData = {
-          title: "Entity deleted",
-          message: "Successfully deleted",
+          title: "Successful deleted",
+          message: "Account successfully deleted!",
+          success: true,
+        };
+        break;
+      case "deleteTransaction":
+        toastData = {
+          title: "Successful deleted",
+          message: "Transaction successfully deleted!",
+          success: true,
+        };
+        break;
+      case "deleteGoal":
+        toastData = {
+          title: "Successful deleted",
+          message: "Goal successfully deleted!",
+          success: true,
+        };
+        break;
+      case "deleteBudget":
+        toastData = {
+          title: "Successful deleted",
+          message: "Budget successfully deleted!",
           success: true,
         };
         break;
