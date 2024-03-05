@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2024 at 05:38 PM
+-- Generation Time: Mar 05, 2024 at 10:17 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 7.4.30
 
@@ -43,11 +43,52 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`accountId`, `accountUserId`, `accountName`, `accountBalance`, `accountType`, `accountIsActive`, `accountCreateDate`, `accountDescription`) VALUES
-('AsgEUsAsQLss0iV', 'twTYXKTK2bEMbtP', 'Moneys', '50.00', 'personal', 1, 1707314186, 'This account is for my personal use'),
-('C18erto9a6hp0EY', 'twTYXKTK2bEMbtP', 'asdas', '213.00', 'personal', 1, 1708077960, 'as'),
-('cHVzk4HY4oa4QHa', 'twTYXKTK2bEMbtP', 'Saving', '0.00', 'personal', 0, 1707998032, ''),
-('cRz9jHOiOKHJrf6', 'twTYXKTK2bEMbtP', 'sad', '23.00', 'personal', 0, 1708078017, ''),
-('IWAq1YceS89nfMi', 'twTYXKTK2bEMbtP', 'Saving', '0.00', 'personal', 0, 1708007976, '');
+('1cyRhrnJsdgkZLO', 'aPVzuXiJZk7Hmjg', '', '0.00', 'personal', 0, 1709297093, ''),
+('2A1D2zLYHDns8KV', 'twTYXKTK2bEMbtP', 'main account', '500.00', 'personal', 0, 1708953257, ''),
+('5fMshSCQXMcpdTW', 'aPVzuXiJZk7Hmjg', 'asdas', '213.00', 'personal', 0, 1709284889, ''),
+('6kHwjv6tcaAcRX7', 'aPVzuXiJZk7Hmjg', '', '0.00', 'personal', 0, 1709296699, ''),
+('80Za4DABYHDXmAp', 'twTYXKTK2bEMbtP', 'Zakelijk', '700.00', 'personal', 0, 1708953401, ''),
+('8CJbmVkhyGg1l7Y', 'aPVzuXiJZk7Hmjg', 'asd', '123.00', 'personal', 0, 1709222821, ''),
+('99qFmkPDAG1QFtS', 'aPVzuXiJZk7Hmjg', 'asda', '0.00', 'personal', 0, 1709298210, ''),
+('9UT1tFuaYFOhUVU', 'aPVzuXiJZk7Hmjg', 'asdas', '21.00', 'personal', 0, 1709223699, ''),
+('CtaFX2UFDReSwAi', 'aPVzuXiJZk7Hmjg', '', '0.00', 'personal', 0, 1709296761, ''),
+('cvN6Jt5xVi0Zsnh', 'aPVzuXiJZk7Hmjg', 'business', '300.00', 'business', 0, 1709292863, ''),
+('d1BAb76gq2Rw5IG', 'aPVzuXiJZk7Hmjg', 'asda', '123.00', 'personal', 0, 1709298373, ''),
+('ePN0imV3BeAUvWK', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709223523, ''),
+('euAzObeOfYOiZIO', 'aPVzuXiJZk7Hmjg', 'asdas', '123.00', 'personal', 0, 1709216545, 'asd'),
+('eYdotr8Axxxbuaa', 'aPVzuXiJZk7Hmjg', 'user', '600.00', 'personal', 0, 1709289326, ''),
+('f0w90Gg9rOg4JHo', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709298134, ''),
+('fJRg9kPi9zVY54Q', 'aPVzuXiJZk7Hmjg', 'Business', '213.00', 'business', 0, 1709285745, ''),
+('g6nnhv2SVF4WoWQ', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709298383, ''),
+('HbCvJggTQL43c1n', 'aPVzuXiJZk7Hmjg', '', '300.00', 'personal', 0, 1709286169, ''),
+('HfJvnD6peFKwboG', 'aPVzuXiJZk7Hmjg', 'Hellos', '0.00', 'personal', 0, 1709285729, ''),
+('jApEfmPJHyZIABg', 'aPVzuXiJZk7Hmjg', '', '0.00', 'personal', 0, 1709292885, ''),
+('JBZBg3G9W4GTPje', 'aPVzuXiJZk7Hmjg', 'asda', '1231.00', 'personal', 0, 1709219045, 'asd'),
+('JJzFCX2h0dConty', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709298330, ''),
+('JVcMrTbLKwaWiGq', 'aPVzuXiJZk7Hmjg', 'asdas', '213.00', 'personal', 0, 1709223595, ''),
+('KhfWOvngbnF1uy9', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709223643, ''),
+('kiAvRXx3NJIDHX4', 'aPVzuXiJZk7Hmjg', 'jkkj', '20.00', 'personal', 0, 1709215142, ''),
+('kYmI83gtdRAeEe2', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709284838, ''),
+('LxJlwJDvwwLtByD', 'aPVzuXiJZk7Hmjg', 'asad', '213.00', 'personal', 0, 1709219246, 'asd'),
+('MgxXFFIQOhmUHFq', 'aPVzuXiJZk7Hmjg', 'dsa', '213.00', 'personal', 0, 1709223690, ''),
+('NSpU1lcELSaWCo5', 'aL8AFCkzlVnehJl', '456546', '4564564.00', 'personal', 1, 1709047943, ''),
+('nSr2jEsHG4KT583', 'aL8AFCkzlVnehJl', 'zaken', '1300.00', 'personal', 1, 1709047831, ''),
+('NySWD9CWuwJ0Raw', 'aPVzuXiJZk7Hmjg', 'asda', '213.00', 'personal', 0, 1709298408, ''),
+('OqOUoh84VLiB2rb', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709298128, ''),
+('PqB56GLopdqQmll', 'aPVzuXiJZk7Hmjg', 'asdsa', '213.00', 'personal', 0, 1709284882, ''),
+('rmpwTTYS8w6xK04', 'aPVzuXiJZk7Hmjg', 'asdas', '213.00', 'personal', 0, 1709289071, ''),
+('rXRsoORLbdnVNKV', 'aPVzuXiJZk7Hmjg', 'asdas', '213.00', 'personal', 0, 1709285207, ''),
+('sDfkLHKhLZcOprt', 'aPVzuXiJZk7Hmjg', '', '0.00', 'personal', 0, 1709296848, ''),
+('sfoWshmSydcy9uo', 'aPVzuXiJZk7Hmjg', 'asd', '21.00', 'personal', 0, 1709285044, ''),
+('TqnWkkL0EEyepk3', 'aPVzuXiJZk7Hmjg', 'asdas', '213.00', 'personal', 0, 1709223652, ''),
+('TvlmykXn8xLRXWS', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709222847, ''),
+('udd22T0RXUWFXzv', 'aPVzuXiJZk7Hmjg', 'asdas', '213.00', 'personal', 0, 1709298254, ''),
+('UdIElBNOitMFf3A', 'twTYXKTK2bEMbtP', 'asda', '513.00', 'business', 1, 1709204791, ''),
+('UgbJ9QtiuC5EYIw', 'aPVzuXiJZk7Hmjg', 'asdas', '215.00', 'personal', 0, 1709285518, ''),
+('UvTGL3wTejbS3Es', 'aPVzuXiJZk7Hmjg', 'sadaasdsa', '73.00', 'personal', 1, 1709299428, ''),
+('wXwsWYuZPZXocQe', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'business', 0, 1709298005, ''),
+('XijwrazrgBDkVgS', 'aPVzuXiJZk7Hmjg', '', '0.00', 'personal', 0, 1709286814, ''),
+('yAepRR1xMOPzYyZ', 'aPVzuXiJZk7Hmjg', 'asd', '213.00', 'personal', 0, 1709298486, '');
 
 -- --------------------------------------------------------
 
@@ -65,6 +106,22 @@ CREATE TABLE `budgets` (
   `budgetDescription` text DEFAULT NULL,
   `budgetCreateDate` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `budgets`
+--
+
+INSERT INTO `budgets` (`budgetId`, `budgetAccountId`, `budgetCategoryId`, `budgetName`, `budgetAmount`, `budgetIsActive`, `budgetDescription`, `budgetCreateDate`) VALUES
+('8y6vkMlrYQ3f7JO', 'nSr2jEsHG4KT583', 'jWLg4VeULgOOsrK', 'food', '70.00', 1, '', 1709048108),
+('bN9JCTCjFYP6Nrq', 'kiAvRXx3NJIDHX4', 'jWLg4VeULgOOsrK', 'food', '30.00', 1, '', 1709215157),
+('gH76TDx4sKuS9Qc', 'HbCvJggTQL43c1n', 'h7XrUkZZp1TRn4f', 'tyjty', '7567567.00', 1, 'kyukyukyukyu', 1709286732),
+('HEAqN964btzYJI7', 'HbCvJggTQL43c1n', 'h7XrUkZZp1TRn4f', 'luiluilui', '50000.00', 1, '', 1709286346),
+('jueSEwHpHAsl5ru', 'UvTGL3wTejbS3Es', 'h7XrUkZZp1TRn4f', 'sda', '21.00', 0, '', 1709318046),
+('KXxZ1EAzG01cfGR', 'UvTGL3wTejbS3Es', 'jWLg4VeULgOOsrK', 'food', '100.00', 1, '', 1709630184),
+('Nw1m3l4IaHfaT4h', 'fJRg9kPi9zVY54Q', 'jWLg4VeULgOOsrK', 'food', '100.00', 0, '', 1709285778),
+('TxZjYCQfhytN7J9', '80Za4DABYHDXmAp', 'jWLg4VeULgOOsrK', 'eten', '300.00', 1, '', 1708953521),
+('VpN7lZSH6NoTl5f', 'UvTGL3wTejbS3Es', '7AoQS1tlg05WUc4', 'asd', '213.00', 0, '', 1709317816),
+('ZhVfOVHecUUJfYn', 'UvTGL3wTejbS3Es', 'nUhSg7XGGl2d45p', 'asd', '213.00', 0, '', 1709315351);
 
 -- --------------------------------------------------------
 
@@ -84,7 +141,6 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`categoryId`, `categoryName`, `categoryDescription`, `categoryIsActive`) VALUES
-('16Zk1dvkbXxCfjc', 'Petty cash', '', 0),
 ('4wuGUpB6b0e9e31', 'Healthcare', '', 1),
 ('7AoQS1tlg05WUc4', 'Education', '', 1),
 ('Env8LPBHUUvcv5F', 'Household', '', 1),
@@ -98,7 +154,6 @@ INSERT INTO `categories` (`categoryId`, `categoryName`, `categoryDescription`, `
 ('xhRVH7naEbrcQtJ', 'Gift', '', 1),
 ('Y3JL6NB8OWSE4vy', 'Social life', '', 1),
 ('YdQuJEuRywKcqP0', 'Pets', '', 1),
-('YQLK95c0YhqEXsq', 'Beauty', '', 1),
 ('z2RAKIoebHzbKeY', 'Salary', '', 1);
 
 -- --------------------------------------------------------
@@ -122,20 +177,56 @@ CREATE TABLE `goals` (
 --
 
 INSERT INTO `goals` (`goalId`, `goalAccountId`, `goalName`, `goalAmount`, `goalIsActive`, `goalDescription`, `goalCreateDate`) VALUES
-('0DQirTELV6ipfhV', 'AsgEUsAsQLss0iV', 'asd', '21.00', 0, '', 1708084333),
-('SLGNdfZEy7fVrnb', 'C18erto9a6hp0EY', 'asdas', '1.00', 0, '', 1708082879);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `screens`
---
-
-CREATE TABLE `screens` (
-  `screenId` varchar(15) NOT NULL,
-  `screenEntityId` varchar(15) NOT NULL,
-  `screenCreateDate` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+('0BlSC3N89dy5TtU', 'HbCvJggTQL43c1n', '', '10.00', 0, '', 1709286380),
+('0Ojur3mEfdC5JIB', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709304788),
+('28K6ra2Yq7BKLVv', 'nSr2jEsHG4KT583', 'Vacation', '1500.00', 0, '', 1709048063),
+('2FUhRpnTruwloMv', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709304784),
+('6BWw2X2Ma03V3ka', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709306833),
+('7Jnb1YuyHW8zbUJ', 'UvTGL3wTejbS3Es', 'asdas', '213.00', 0, '', 1709306760),
+('7MfWgHtVP4s0oOY', 'UvTGL3wTejbS3Es', 'Goals', '123.00', 0, '', 1709307171),
+('82jr1sPuRdcFQVk', 'nSr2jEsHG4KT583', 'Vacation', '100.00', 0, '', 1709048016),
+('8K1nL68gWIaMJsO', 'UvTGL3wTejbS3Es', 'asdas', '213.00', 0, '', 1709306863),
+('AV5paYEK32Sby5Q', 'UvTGL3wTejbS3Es', 'asdsa', '213.00', 0, '', 1709304625),
+('B16VRzEVHiHF36m', 'UvTGL3wTejbS3Es', 'asd', '213.00', 0, '', 1709309548),
+('c0bZlKtmjsUPjyb', 'UdIElBNOitMFf3A', 'sada', '1321.00', 1, '', 1709207673),
+('CE6V1BQke2mTdZy', 'UvTGL3wTejbS3Es', 'asdas', '21.00', 0, '', 1709306269),
+('EBpkZUvaH9ZajZt', 'UvTGL3wTejbS3Es', 'asdas', '213.00', 0, '', 1709305652),
+('eJ0FKjgnYNkJInA', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709304576),
+('evphdtv6Kg6ddfK', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709304760),
+('EXTlejWCwQhoBo4', 'UvTGL3wTejbS3Es', 'asds', '123.00', 0, '', 1709306963),
+('fzV4tPNBbT4R59D', 'UvTGL3wTejbS3Es', 'kyukyu', '575675.00', 0, '', 1709306520),
+('GgaDkDiiRLZhbCh', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709306699),
+('gmfS0btxJcaOucI', 'nSr2jEsHG4KT583', 'fds', '1100.00', 0, '', 1709048516),
+('HiNtzYHvSHiZnm7', 'HbCvJggTQL43c1n', 'Vacation', '500.00', 0, '', 1709286482),
+('hTh5uXA4TrbuA1N', 'UvTGL3wTejbS3Es', 'asds', '123.00', 0, '', 1709306963),
+('jDphr5O6PvkVeV3', 'UvTGL3wTejbS3Es', 'asds', '123.00', 0, '', 1709306962),
+('k6OamrgDugwhvOZ', 'UvTGL3wTejbS3Es', 'asda', '213.00', 0, '', 1709306057),
+('kV5E7LrAEmzLhS9', 'UvTGL3wTejbS3Es', 'ad', '213.00', 0, '', 1709318035),
+('o4JUbnuFUiqKGub', 'UvTGL3wTejbS3Es', 'das', '12.00', 0, '', 1709306086),
+('oJLkiLUN24Wtgk0', 'nSr2jEsHG4KT583', '', '1500.00', 1, '', 1709048523),
+('PEwwfqYJHWjQgWg', 'UvTGL3wTejbS3Es', 'asd', '213.00', 0, '', 1709305994),
+('PHBvyZ3me1XfhzL', 'UvTGL3wTejbS3Es', 'asdsa', '213.00', 0, '', 1709306673),
+('puCv965rRWrPMSQ', 'UvTGL3wTejbS3Es', 'asdsa', '213.00', 0, '', 1709306622),
+('QSwrNyCkaerlIlb', 'UvTGL3wTejbS3Es', 'asd', '123.00', 0, '', 1709306580),
+('qzhgQVco0eRwZvr', 'UvTGL3wTejbS3Es', 'asdas', '500.00', 1, '', 1709630157),
+('s7dugE8MZIkyRJS', 'UvTGL3wTejbS3Es', 'asdas', '213.00', 0, '', 1709305618),
+('t5Ha2DhxHAeXeeP', 'UvTGL3wTejbS3Es', 'das', '123.00', 0, '', 1709306633),
+('tbmiO19vg65i5eO', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709304787),
+('tbXanBjreh3Zzl0', 'UvTGL3wTejbS3Es', 'das', '213.00', 0, '', 1709306651),
+('tu2KKGZkGABOdDb', 'UvTGL3wTejbS3Es', 'asdas', '213.00', 0, '', 1709307092),
+('u7MQjr9xOhCDK7H', 'UgbJ9QtiuC5EYIw', 'hehe', '213.00', 1, '', 1709285549),
+('uceiH1mizDCmSd1', 'UgbJ9QtiuC5EYIw', 'asd', '213.00', 0, '', 1709285543),
+('uwGDxi64kmWHSAh', 'UvTGL3wTejbS3Es', 'asd', '213.00', 0, '', 1709304694),
+('vIpKV5fMKODBRPn', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709304858),
+('w34YtuzzchoXvjb', 'UvTGL3wTejbS3Es', 'asds', '123.00', 0, '', 1709306963),
+('wPi4INSeeYwUZHJ', 'UvTGL3wTejbS3Es', 'asds', '123.00', 0, '', 1709306961),
+('X6E2SNZJvvJ5oSn', 'UvTGL3wTejbS3Es', 'asda', '213.00', 0, '', 1709307041),
+('y6yETQmdh0KI5TG', 'UvTGL3wTejbS3Es', 'asdas', '123.00', 0, '', 1709306834),
+('YUPBPquOMplLC8m', 'fJRg9kPi9zVY54Q', 'vacay', '2000.00', 0, '', 1709285753),
+('zCMgP7IoUkDy7Ed', '80Za4DABYHDXmAp', 'vacay', '800.00', 1, '', 1709034024),
+('ZJBck4pbNejMQuA', 'UvTGL3wTejbS3Es', 'asdsa', '213.00', 0, '', 1709306570),
+('ZVyUaS7g32GqRmG', 'UvTGL3wTejbS3Es', 'asd', '213.00', 0, '', 1709305594),
+('ZXz7vIZCmA600ei', 'UvTGL3wTejbS3Es', 'asds', '213.00', 0, '', 1709304538);
 
 -- --------------------------------------------------------
 
@@ -159,28 +250,23 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`transactionId`, `transactionName`, `transactionAccountId`, `transactionCategoryId`, `transactionAmount`, `transactionDescription`, `transactionCreateDate`, `transactionIsActive`) VALUES
-('0lMUOzrdh61DbUC', 'work', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '400.00', '', 1708010973, 0),
-('144guMsIml3vFPu', 'Netflix', 'AsgEUsAsQLss0iV', 'MmdkbJUJgztWGUY', '-12.00', '', 1708010420, 0),
-('6katqrlJzUzNlGd', 'asd', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-21.00', '', 1708085730, 0),
-('Cn7lR90yGsgaP6a', 'DUO', 'AsgEUsAsQLss0iV', 'z2RAKIoebHzbKeY', '508.00', '', 1708010269, 0),
-('GjbNgxa5zIZrnLo', 'amazon', 'AsgEUsAsQLss0iV', 'MmdkbJUJgztWGUY', '-5.00', '', 1708010443, 0),
-('gwgfcV6kYcKQ13x', 'School', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '-150.00', '', 1708084864, 1),
-('htpJcz5wPoV8vXG', 'sada', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '314234.00', 'asd', 1708077001, 0),
-('hUFOwUbbrE9CPCQ', 'internship', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '200.00', '', 1708010300, 0),
-('HWzNQHtWKTzMZsE', 'asd', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '213.00', '', 1708080193, 0),
-('Ic9qOUiMDFq5T1O', 'phone bill', 'AsgEUsAsQLss0iV', 'MmdkbJUJgztWGUY', '-20.00', '', 1708010485, 0),
-('krOjJ4PEZU3XfV0', 'school', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-150.00', '', 1708010308, 0),
-('lbc0D3afxCoJpSD', 'insurance money', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '123.00', '', 1708010292, 0),
-('m5NUNurmwwU1L48', 'asd', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '2.00', '', 1708082885, 0),
-('nQfhhAozZD0s53g', 'school', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '-150.00', '', 1708008711, 0),
-('o3ritCSjicfB8MS', 'health insurance', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '-140.00', '', 1708010383, 0),
-('Owt6j2CTppeOTnD', 'duo', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '510.00', '', 1708008720, 0),
-('pO5LEDC3aRgMrRb', 'DUO', 'AsgEUsAsQLss0iV', '7AoQS1tlg05WUc4', '508.00', '', 1708075661, 0),
-('r3CtSBmnXps8AS1', 'Spotify', 'AsgEUsAsQLss0iV', 'Ikt3cJPouB0lmkG', '-11.99', '', 1708010407, 0),
-('rMWJLVLLKKPsjVU', 'internship', 'AsgEUsAsQLss0iV', 'nUhSg7XGGl2d45p', '200.00', '', 1708084874, 1),
-('touWsjfT2qhQ7Jv', '21', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '123.00', '', 1708080198, 0),
-('TvuifcQ2GY762Bx', 'sad', 'C18erto9a6hp0EY', '4wuGUpB6b0e9e31', '123.00', '', 1708080213, 0),
-('zcMSqOOIM6lsQw6', 'SADA', 'AsgEUsAsQLss0iV', '4wuGUpB6b0e9e31', '2131.00', '', 1708077227, 0);
+('6LvUKONVqdIxIIN', 'food', 'fJRg9kPi9zVY54Q', 'jWLg4VeULgOOsrK', '-100.00', '', 1709285768, 0),
+('9NutpF6UKOJmukq', 'asdas', 'UvTGL3wTejbS3Es', '7AoQS1tlg05WUc4', '213.00', '', 1709311712, 0),
+('aS8LHzwIqRwro2Y', 'food', '80Za4DABYHDXmAp', 'jWLg4VeULgOOsrK', '-20.00', '', 1709035703, 0),
+('b01LJ9m0hXAS2o5', 'food', '80Za4DABYHDXmAp', 'jWLg4VeULgOOsrK', '-20.00', '', 1709034130, 0),
+('BtFCL6LuLuIdaLk', 'food', '80Za4DABYHDXmAp', 'jWLg4VeULgOOsrK', '-20.00', '', 1709043153, 0),
+('eBNeqFdmpx571gf', 'asda', 'UdIElBNOitMFf3A', 'h7XrUkZZp1TRn4f', '300.00', 'asd', 1709204807, 0),
+('EDnG00vw7WV2LPE', 'school', 'nSr2jEsHG4KT583', '7AoQS1tlg05WUc4', '300.00', '', 1709048092, 1),
+('GBpckIcli9OXqQF', '', 'HbCvJggTQL43c1n', 'h7XrUkZZp1TRn4f', '0.00', '', 1709286394, 0),
+('hI2DX5PpQQ6bc9O', 'food', '80Za4DABYHDXmAp', 'jWLg4VeULgOOsrK', '-20.00', '', 1709038141, 0),
+('LbH9hJs1uzP9Aix', '', '80Za4DABYHDXmAp', 'jWLg4VeULgOOsrK', '-20.00', '', 1709043882, 0),
+('oFcNSO788Uid7aN', 'food', 'kiAvRXx3NJIDHX4', 'jWLg4VeULgOOsrK', '-10.00', '', 1709215225, 1),
+('rZxiol248n8p78G', 'Salary', '80Za4DABYHDXmAp', 'z2RAKIoebHzbKeY', '700.00', '', 1709034080, 1),
+('ta5fIFzLocQP6ey', 'food', 'UvTGL3wTejbS3Es', 'jWLg4VeULgOOsrK', '-50.00', '', 1709630171, 1),
+('Uy10br044FLkdwi', 'asd', 'UdIElBNOitMFf3A', 'h7XrUkZZp1TRn4f', '300.00', '', 1709204896, 1),
+('vEz7A2JEItPbx4Q', 'helloaas', 'UvTGL3wTejbS3Es', 'h7XrUkZZp1TRn4f', '123.00', '', 1709312014, 0),
+('XwznlZWPCqQ0Kgl', 'school', 'HbCvJggTQL43c1n', 'Ikt3cJPouB0lmkG', '300.00', 'jytjty', 1709286418, 1),
+('ZGkWee3HnpbYemB', 'food', '80Za4DABYHDXmAp', 'jWLg4VeULgOOsrK', '-20.00', '', 1709042000, 0);
 
 -- --------------------------------------------------------
 
@@ -205,6 +291,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userId`, `userFirstName`, `userLastName`, `userUserName`, `userPassword`, `userEmail`, `userType`, `userIsActive`, `userCreateDate`) VALUES
+('95A6X2yGidRoLnK', 'Ouassim', 'Philip', 'Ouasim0343', 'Ouassim0343!', 'Ouassim@gmail.com', 'user', 1, 1709217267),
+('aL8AFCkzlVnehJl', 'rewwerew', 'werwerewr', '12345678', '1q@W3e$R', '12345678@12345678.com', 'user', 1, 1709047615),
+('aPVzuXiJZk7Hmjg', 'Ouassim', 'Philip', 'johndoe2', 'John123!', 'Ouassim@gmail.com', 'user', 1, 1709214374),
 ('B1EnzNRTbyKxBV8', 'Tarik', 'Zarouali', 'Financeadmin01!', 'ThisIsAPassword007!', 'tarikzarouali15@gmail.com', 'admin', 1, 1707126055),
 ('twTYXKTK2bEMbtP', 'John', 'Doe', 'JohnDoe2', 'John123!', 'JohnDoe2@gmail.com', 'user', 1, 1707228201);
 
@@ -239,12 +328,6 @@ ALTER TABLE `categories`
 ALTER TABLE `goals`
   ADD PRIMARY KEY (`goalId`),
   ADD KEY `goalAccountId` (`goalAccountId`);
-
---
--- Indexes for table `screens`
---
-ALTER TABLE `screens`
-  ADD PRIMARY KEY (`screenId`);
 
 --
 -- Indexes for table `transactions`
